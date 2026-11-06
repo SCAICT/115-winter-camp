@@ -23,7 +23,7 @@ function Header() {
 function Hero() {
   return (
     <section className="hero wrap" aria-labelledby="hero-title">
-      <h1 id="hero-title">2027<br />聯合寒訓</h1>
+      <h1 id="hero-title"><span className="hero__year">2027</span><br />聯合寒訓</h1>
       <p className="hero__description">主視覺與課程內容準備中。<br />盲鳥票價已公布，開賣消息待公布。</p>
       <a className="button" href="#ticket">查看盲鳥票 <span aria-hidden="true">↓</span></a>
     </section>
