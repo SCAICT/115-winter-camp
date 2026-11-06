@@ -92,7 +92,8 @@ function About() {
     <section id="about" className="section about-section" aria-labelledby="about-title">
       <div className="wrap">
         <h2 id="about-title">關於 SCAICT</h2>
-        <p>SCAICT 中部高中電資社團聯合會議，是由學生串連的資訊社群。透過跨校交流與技術活動，讓對電資有興趣的人一起學習、一起實作。</p>
+        <p>SCAICT 中部高中電資社團聯合會議，是由學生自主營運的資訊社群。自 2021 年發起、2022 年正式成立以來，我們致力於串連中部的電資社團，整合學習資源，讓不同學校的夥伴能夠交流與合作。</p>
+        <p>我們關注資訊教育的扎根，透過課程、實作和開源精神，讓對技術有熱忱的學子找到學習的起點。除了跨校交流，也與北部、南部的學生社群協辦大型營隊，打破地域限制，讓更多人一起學習、分享與成長。</p>
         <a href="https://scaict.org/" target="_blank" rel="noopener noreferrer">認識 SCAICT ↗</a>
       </div>
     </section>
