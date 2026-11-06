@@ -9,7 +9,12 @@ function Header() {
         <a href="#top" aria-label="SCAICT 2027 聯合寒訓，回到頂端">
           <img src="/img/LOGO/white_logo_nobg.webp" alt="SCAICT" width="125" height="35" />
         </a>
-        <a href="#ticket">盲鳥票 <span aria-hidden="true">↗</span></a>
+        <div className="site-header__links">
+          <a href="#ticket">盲鳥票</a>
+          <a href="#details">活動資訊</a>
+          <a href="#about">關於 SCAICT</a>
+          <a href="#organizers">主辦與協辦</a>
+        </div>
       </nav>
     </header>
   );
