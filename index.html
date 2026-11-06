@@ -24,6 +24,23 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>SCAICT 2027 聯合寒訓｜盲鳥票即將開放</title>
 
+    <style>
+      html, body { background: #050505; }
+      #root { visibility: hidden; }
+      #font-loading {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: #aaa;
+        background: #050505;
+        font: 12px system-ui, sans-serif;
+        letter-spacing: .12em;
+      }
+      html.fonts-ready #root { visibility: visible; }
+      html.fonts-ready #font-loading { display: none; }
+    </style>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -41,6 +58,7 @@
     </script>
   </head>
   <body>
+    <div id="font-loading" role="status">字形載入中…</div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
