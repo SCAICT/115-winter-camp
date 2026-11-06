@@ -144,7 +144,7 @@ export default function WinterLanding() {
     <>
       <a className="skip-link" href="#ticket">跳到盲鳥票資訊</a>
       <Header />
-      <main id="top"><Hero /><Ticket /><Details /><About /><Organizers /></main>
+      <main id="top"><Hero /><About /><Ticket /><Details /><Organizers /></main>
       <Footer />
     </>
   );
