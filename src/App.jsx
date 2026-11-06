@@ -3,7 +3,8 @@ import WinterLanding from './components/WinterLanding';
 
 const legacySections = {
   '報名': '#ticket',
-  '關於': '#details',
+  '關於': '#about',
+  '主協辦': '#organizers',
   'FAQ': '#details',
 };
 

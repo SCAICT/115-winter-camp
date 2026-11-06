@@ -21,3 +21,22 @@ export const winterCamp = {
     ],
   },
 };
+
+export const organizations = [
+  {
+    label: '主辦單位',
+    members: [
+      { shortName: 'SCAICT', name: '中部高中電資社團聯合會議', href: 'https://scaict.org/' },
+    ],
+  },
+  {
+    label: '協辦單位',
+    members: [
+      { shortName: 'SCINT', name: '北臺灣學生資訊社群', href: 'https://scint.org/' },
+      { shortName: 'SCIST', name: '南臺灣學生資訊社群', href: 'https://scist.org/' },
+      { shortName: 'NCSE', name: 'NCSE Network', href: 'https://ncse.tw/' },
+      { shortName: 'OCF', name: '開放文化基金會', href: 'https://ocf.tw/' },
+      { shortName: 'GOSCUP', name: '科斯高有限公司', href: 'https://goscup.com/' },
+    ],
+  },
+];

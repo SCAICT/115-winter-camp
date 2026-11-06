@@ -1,4 +1,4 @@
-import { winterCamp } from '../data/winterCamp';
+import { winterCamp, organizations } from '../data/winterCamp';
 
 const formatPrice = (value) => `$${value.toLocaleString('en-US')}`;
 
@@ -82,11 +82,48 @@ function Details() {
   );
 }
 
+function About() {
+  return (
+    <section id="about" className="section about-section" aria-labelledby="about-title">
+      <div className="wrap">
+        <h2 id="about-title">關於 SCAICT</h2>
+        <p>SCAICT 中部高中電資社團聯合會議，是由學生串連的資訊社群。透過跨校交流與技術活動，讓對電資有興趣的人一起學習、一起實作。</p>
+        <a href="https://scaict.org/" target="_blank" rel="noopener noreferrer">認識 SCAICT ↗</a>
+      </div>
+    </section>
+  );
+}
+
+function Organizers() {
+  return (
+    <section id="organizers" className="section organizers-section" aria-labelledby="organizers-title">
+      <div className="wrap">
+        <h2 id="organizers-title">主辦與協辦</h2>
+        {organizations.map(({ label, members }) => (
+          <div className="organizer-group" key={label}>
+            <h3>{label}</h3>
+            <ul>
+              {members.map(({ shortName, name, href }) => (
+                <li key={shortName}>
+                  <a href={href} target="_blank" rel="noopener noreferrer" aria-label={`${name}，開啟官方網站`}>
+                    <span>{shortName}</span>
+                    <strong>{name}</strong>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   return (
     <footer className="site-footer">
       <div className="wrap site-footer__inner">
-        <p>SCAICT 中部高中電資社團聯合會議</p>
+        <p>© 2027 SCAICT</p>
         <div>
           <a href={winterCamp.instagram} target="_blank" rel="noopener noreferrer">Instagram ↗</a>
           <a href={`mailto:${winterCamp.email}`}>Email ↗</a>
@@ -101,7 +138,7 @@ export default function WinterLanding() {
     <>
       <a className="skip-link" href="#ticket">跳到盲鳥票資訊</a>
       <Header />
-      <main id="top"><Hero /><Ticket /><Details /></main>
+      <main id="top"><Hero /><Ticket /><Details /><About /><Organizers /></main>
       <Footer />
     </>
   );

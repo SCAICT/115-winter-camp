@@ -73,6 +73,15 @@ a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .details-list > div { display: grid; grid-template-columns: 1fr 2fr; gap: 25px; border-bottom: 1px solid #ffffff2a; padding: 22px 0; }
 .details-list dt { color: #999; font-size: 13px; }
 .details-list dd { margin: 0; font-size: 15px; }
+.about-section p { max-width: 740px; margin: 0 0 24px; color: #c5c5c5; font-size: 17px; line-height: 1.9; }
+.about-section a { display: inline-block; border-bottom: 1px solid #aaa; padding-bottom: 5px; font-size: 13px; }
+.about-section a:hover, .organizer-group a:hover strong { color: #aaa; }
+.organizer-group { display: grid; grid-template-columns: 180px 1fr; gap: 24px; border-top: 1px solid #ffffff4d; padding: 25px 0 35px; }
+.organizer-group h3 { margin: 0; color: #aaa; font-size: 14px; font-weight: 400; }
+.organizer-group ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 30px; margin: 0; padding: 0; list-style: none; }
+.organizer-group a { display: flex; flex-direction: column; gap: 7px; width: fit-content; }
+.organizer-group a span { color: #999; font-size: 11px; letter-spacing: .07em; }
+.organizer-group a strong { font-size: 15px; font-weight: 400; line-height: 1.6; transition: color .2s; }
 .site-footer { border-top: 1px solid #ffffff2a; }
 .site-footer__inner { display: flex; justify-content: space-between; align-items: center; gap: 22px; padding-block: 35px; color: #aaa; font-size: 12px; }
 .site-footer p { margin: 0; }
@@ -93,6 +102,9 @@ a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
   .rates th, .rates td { padding: 16px 8px; }
   .rates tbody td { font-size: 14px; }
   .details-list > div { grid-template-columns: 80px 1fr; }
+  .about-section p { font-size: 15px; }
+  .organizer-group { grid-template-columns: 1fr; gap: 20px; padding: 23px 0 35px; }
+  .organizer-group ul { grid-template-columns: 1fr; gap: 20px; }
   .site-footer__inner { align-items: flex-start; flex-direction: column; }
 }
 
