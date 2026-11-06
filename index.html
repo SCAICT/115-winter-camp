@@ -26,7 +26,7 @@
 
     <style>
       html, body { background: #050505; }
-      #root { visibility: hidden; }
+      #root { visibility: hidden; opacity: 0; transition: opacity .6s ease; }
       #font-loading {
         position: fixed;
         inset: 0;
@@ -37,8 +37,11 @@
         font: 12px system-ui, sans-serif;
         letter-spacing: .12em;
       }
-      html.fonts-ready #root { visibility: visible; }
+      html.fonts-ready #root { visibility: visible; opacity: 1; }
       html.fonts-ready #font-loading { display: none; }
+      @media (prefers-reduced-motion: reduce) {
+        #root { transition: none; }
+      }
     </style>
 
     <script type="application/ld+json">
