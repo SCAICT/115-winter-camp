@@ -56,7 +56,6 @@ export default function SiteNavbar() {
           <span className="site-header__event"><span>2027</span>聯合寒訓</span>
         </a>
         <button ref={toggleRef} className="site-header__toggle" type="button" aria-label={menuOpen ? '關閉選單' : '開啟選單'} aria-expanded={menuOpen} aria-controls="site-navigation" onClick={() => setMenuOpen((open) => !open)}>
-          <span className="site-header__toggle-label">{menuOpen ? '關閉' : '選單'}</span>
           <span className="site-header__toggle-icon" aria-hidden="true"><span /><span /></span>
         </button>
         <div id="site-navigation" className={`site-header__menu${menuOpen ? ' is-open' : ''}`} inert={compact && !menuOpen}>

@@ -19,17 +19,17 @@ function Hero() {
         <p className="hero__description">主視覺與課程內容準備中</p>
         <a className="button" href="#ticket">查看盲鳥票 <span aria-hidden="true">↗</span></a>
       </div>
-      <div className="hero__visual" aria-hidden="true">
-        <div className="hero__visual-top">
-        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M32 2v60M2 32h60M11 11l42 42M53 11 11 53" stroke="currentColor" strokeWidth="1.5" /></svg>
+      {startsOn && endsOn && (
+        <div className="hero__dates" role="group" aria-label="活動日期">
+          <time dateTime={startsOn} aria-label={formatDate(startsOn)}>
+            <span className="hero__date-month">{Number(startsOn.split('-')[1])}</span><span className="hero__date-day">.{Number(startsOn.split('-')[2])}</span>
+          </time>
+          <span className="hero__date-separator" aria-hidden="true">−</span>
+          <time dateTime={endsOn} aria-label={formatDate(endsOn)}>
+            <span className="hero__date-month">{Number(endsOn.split('-')[1])}</span><span className="hero__date-day">.{Number(endsOn.split('-')[2])}</span>
+          </time>
         </div>
-        <div className="hero__visual-type">
-          <span className="hero__visual-outline">27</span>
-          <span className="hero__visual-wordmark">WINTER<br /><span>CAMP.</span></span>
-        </div>
-        <div className="hero__visual-bottom">
-        </div>
-      </div>
+      )}
     </section>
   );
 }
@@ -37,6 +37,8 @@ function Hero() {
 function Ticket() {
   const { ticket, instagram } = winterCamp;
   const blindBird = ticket.plans.find((plan) => plan.name === '盲鳥');
+  const regularPrice = ticket.plans.find((plan) => plan.name === '單人').price;
+  const savings = regularPrice - blindBird.price;
   const blindBirdRegistration = ticket.registrationPeriods.find((period) => period.name === '盲鳥');
 
   return (
@@ -44,9 +46,22 @@ function Ticket() {
       <div className="wrap">
         <h2 id="ticket-title">盲鳥票</h2>
         <div className="ticket-prices">
-          <div><span>含住宿 · 每位學員</span><strong>{formatPrice(blindBird.price)}</strong></div>
+          <div>
+            <div className="ticket-price-main">
+              <p className="ticket-price-meta">含住宿、餐食、場地、保險 · 每位學員</p>
+              <p className="ticket-original-price">原價 <del>{formatPrice(regularPrice)}</del></p>
+              <div className="ticket-price-row">
+                <span className="ticket-price-label">盲鳥價</span>
+                <strong className="ticket-current-price" aria-label={`盲鳥價 ${blindBird.price} 元`}>{formatPrice(blindBird.price)}</strong>
+              </div>
+            </div>
+            <div className="ticket-discount" aria-label={`現省 ${savings} 元`}>
+              <span className="ticket-discount__label">盲鳥直接折</span>
+              <p className="ticket-discount__amount"><span aria-hidden="true"></span><strong>{savings.toLocaleString('zh-TW')}</strong><span>元</span></p>
+            </div>
+          </div>
         </div>
-        <p className="ticket-note">盲鳥報名：<time dateTime={blindBirdRegistration.startsOn}>{formatDate(blindBirdRegistration.startsOn)}</time> ～ <time dateTime={blindBirdRegistration.endsOn}>{formatDate(blindBirdRegistration.endsOn)}</time>　／　名額：{ticket.quantity ?? '待公布'}</p>
+        <p className="ticket-note"></p>
         {ticket.url ? (
           <a className="button" href={ticket.url} target="_blank" rel="noopener noreferrer">前往售票頁面 <span aria-hidden="true">↗</span></a>
         ) : (
@@ -68,37 +83,31 @@ function Ticket() {
           </table>
         </div>
 
-        <div className="rates" aria-labelledby="rates-title">
-          <h3 id="rates-title">完整票價</h3>
-          <p>新臺幣／每位學員，所有票種皆含住宿。各票種的適用方式待公布。</p>
-          <table>
-            <thead><tr><th scope="col">票種</th><th scope="col">票價（含住宿）</th></tr></thead>
-            <tbody>
-              {ticket.plans.map((plan) => (
-                <tr key={plan.name} className={plan.name === '盲鳥' ? 'rates__highlight' : ''}>
-                  <th scope="row">{plan.name}</th>
-                  <td>{formatPrice(plan.price)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
       </div>
     </section>
   );
 }
 
 function Details() {
+  const venueQuery = encodeURIComponent(winterCamp.venue);
+
   return (
     <section id="details" className="section details-section" aria-labelledby="details-title">
       <div className="wrap">
         <h2 id="details-title">活動資訊</h2>
-        <dl className="details-list">
-          <div><dt>名稱</dt><dd>{winterCamp.name}</dd></div>
-          <div><dt>地點</dt><dd>{winterCamp.venue}</dd></div>
-          <div><dt>日期</dt><dd>{winterCamp.dates ?? '待公布'}</dd></div>
-          <div><dt>課程</dt><dd>規劃中</dd></div>
-        </dl>
+        <div className="details-layout">
+          <dl className="details-list">
+            <div><dt>名稱</dt><dd>{winterCamp.name}</dd></div>
+            <div><dt>地點</dt><dd>{winterCamp.venue}</dd></div>
+            <div><dt>日期</dt><dd>{winterCamp.dates ?? '待公布'}</dd></div>
+            <div><dt>住宿</dt><dd>旅巷自在輕旅 Loosha Hostel</dd></div>
+          </dl>
+          <div className="venue-map">
+            <div className="venue-map__frame">
+              <iframe src={`https://www.google.com/maps?q=${venueQuery}&hl=zh-TW&z=15&output=embed`} title={`${winterCamp.venue}位置地圖`} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -108,11 +117,23 @@ function About() {
   return (
     <section id="about" className="section about-section" aria-labelledby="about-title">
       <div className="wrap">
+        <div className="about__layout">
+          <div className="about__intro">
 
-        <h2 id="about-title">關於 SCAICT</h2>
-        <p>SCAICT 中部高中電資社團聯合會議，是由學生自主營運的資訊社群。自 2021 年發起、2022 年正式成立以來，我們致力於串連中部的電資社團，整合學習資源，讓不同學校的夥伴能夠交流與合作。</p>
-        <p>我們關注資訊教育的扎根，透過課程、實作和開源精神，讓對技術有熱忱的學子找到學習的起點。除了跨校交流，也與北部、南部的學生社群協辦大型營隊，打破地域限制，讓更多人一起學習、分享與成長。</p>
-        <a href="https://scaict.org/" target="_blank" rel="noopener noreferrer">認識 SCAICT ↗</a>
+            <h2 id="about-title">關於 SCAICT</h2>
+            <p className="about__name" lang="en">Student Club&apos;s Association of Information in Central Taiwan</p>
+          </div>
+          <div className="about__content">
+            <h3 className="about__lead">結合中部電資資源，<br />讓資訊教育持續傳承。</h3>
+            <p className="about__description">中部高中電資社團聯合會議（SCAICT），簡稱「中電會」。2021 年 12 月 7 日，在 AIS3 新型態資安實務主題課程中，臺灣科技大學資訊工程系鄭欣明教授與陽明交通大學資訊工程系黃俊穎教授，提出將中部所有資訊社團聯合起來，成為一個「大組織」的構想，發起「中部高中職電資聯合會議」。</p>
+            <p className="about__description">以結合中區電資資源為起點，積極辦理資訊教育、活動與比賽，讓各校社團彼此交流、共同成長，並將經驗與資源持續傳承下去。</p>
+          </div>
+        </div>
+        <dl className="about__stats">
+          <div><dt>深耕中部教育</dt><dd>5<span>+</span></dd></div>
+          <div><dt>聯合參與社團</dt><dd>23<span>+</span></dd></div>
+          <div><dt>熱愛資訊的夥伴</dt><dd>200<span>+</span></dd></div>
+        </dl>
       </div>
     </section>
   );
@@ -183,7 +204,7 @@ export default function WinterLanding() {
     <div id="top">
       <a className="skip-link" href="#ticket">跳到盲鳥票資訊</a>
       <SiteNavbar />
-      <main><Hero /><About /><Ticket /><Details /><CampMemories /><Organizers /></main>
+      <main><Hero /><About /><Details /><Ticket /><CampMemories /><Organizers /></main>
       <SiteFooter />
     </div>
   );

@@ -1,7 +1,7 @@
 // 2027 聯合寒訓已確認的資訊集中在這裡；未公布的欄位維持 null。
 export const winterCamp = {
   name: 'SCAICT 2027 聯合寒訓',
-  venue: '國立中興大學',
+  venue: '國立中興大學 資訊科學大樓',
   dates: '2027-01-21 ~ 2027-01-24',
   instagram: 'https://www.instagram.com/scaict.tw/',
   email: 'contact@scaict.org',
