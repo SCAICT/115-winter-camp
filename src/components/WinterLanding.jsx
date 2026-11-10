@@ -16,7 +16,7 @@ function Hero() {
         <p className="hero__eyebrow">SCAICT 中部高中電資社團聯合會議</p>
         <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span></h1>
         <span className="hero__divider" aria-hidden="true" />
-        <p className="hero__description">主視覺與課程內容準備中</p>
+        <p className="hero__description">盲鳥票現正報名中</p>
         <a className="button" href="#ticket">查看盲鳥票 <span aria-hidden="true">↗</span></a>
       </div>
       {startsOn && endsOn && (

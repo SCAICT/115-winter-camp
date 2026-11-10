@@ -1,6 +1,6 @@
 # SCAICT 2027 聯合寒訓
 
-2027 聯合寒訓盲鳥票預告網站，使用 Vite + React 製作。正式網址：<https://wc.scaict.org/>。
+2027 聯合寒訓官方網站。使用 Vite + React 製作。正式網址：<https://wc.scaict.org/>。
 
 ## 本機開發
 
