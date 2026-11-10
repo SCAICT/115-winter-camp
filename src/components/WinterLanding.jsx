@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { winterCamp, organizations } from '../data/winterCamp';
 
 const formatPrice = (value) => `$${value.toLocaleString('en-US')}`;
+const formatDate = (value) => value.replaceAll('-', '/');
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -56,7 +57,7 @@ function Hero() {
         <p className="hero__eyebrow">SCAICT 中部高中電資社團聯合會議</p>
         <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span></h1>
         <span className="hero__divider" aria-hidden="true" />
-        <p className="hero__description">主視覺與課程內容準備中。<br />盲鳥票價已公布，開賣消息待公布。</p>
+        <p className="hero__description">主視覺與課程內容準備中。</p>
         <a className="button" href="#ticket">查看盲鳥票 <span aria-hidden="true">↗</span></a>
       </div>
       <div className="hero__visual" aria-hidden="true">
@@ -77,6 +78,7 @@ function Hero() {
 function Ticket() {
   const { ticket, instagram } = winterCamp;
   const blindBird = ticket.plans.find((plan) => plan.name === '盲鳥');
+  const blindBirdRegistration = ticket.registrationPeriods.find((period) => period.name === '盲鳥');
 
   return (
     <section id="ticket" className="section ticket-section" aria-labelledby="ticket-title">
@@ -85,16 +87,31 @@ function Ticket() {
         <div className="ticket-prices">
           <div><span>含住宿 · 每位學員</span><strong>{formatPrice(blindBird.price)}</strong></div>
         </div>
-        <p className="ticket-note">開賣時間：{ticket.salesStart ?? '待公布'}　／　名額：{ticket.quantity ?? '待公布'}{ticket.salesEnd && `　／　截止時間：${ticket.salesEnd}`}</p>
+        <p className="ticket-note">盲鳥報名：<time dateTime={blindBirdRegistration.startsOn}>{formatDate(blindBirdRegistration.startsOn)}</time> ～ <time dateTime={blindBirdRegistration.endsOn}>{formatDate(blindBirdRegistration.endsOn)}</time>　／　名額：{ticket.quantity ?? '待公布'}</p>
         {ticket.url ? (
           <a className="button" href={ticket.url} target="_blank" rel="noopener noreferrer">前往售票頁面 <span aria-hidden="true">↗</span></a>
         ) : (
           <a className="button" href={instagram} target="_blank" rel="noopener noreferrer">追蹤開賣消息 <span aria-hidden="true">↗</span></a>
         )}
 
+        <div className="rates registration-schedule" aria-labelledby="registration-title">
+          <h3 id="registration-title">報名時程</h3>
+          <table>
+            <thead><tr><th scope="col">報名階段</th><th scope="col">報名期間</th></tr></thead>
+            <tbody>
+              {ticket.registrationPeriods.map((period) => (
+                <tr key={period.name}>
+                  <th scope="row">{period.name}報名</th>
+                  <td><time dateTime={period.startsOn}>{formatDate(period.startsOn)}</time> ～ <time dateTime={period.endsOn}>{formatDate(period.endsOn)}</time></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
         <div className="rates" aria-labelledby="rates-title">
           <h3 id="rates-title">完整票價</h3>
-          <p>新臺幣／每位學員，所有票種皆含住宿。各票種的開賣時間與適用方式待公布。</p>
+          <p>新臺幣／每位學員，所有票種皆含住宿。各票種的適用方式待公布。</p>
           <table>
             <thead><tr><th scope="col">票種</th><th scope="col">票價（含住宿）</th></tr></thead>
             <tbody>

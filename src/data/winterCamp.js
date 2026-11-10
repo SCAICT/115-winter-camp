@@ -7,17 +7,20 @@ export const winterCamp = {
   email: 'contact@scaict.org',
   ticket: {
     url: null,
-    salesStart: null,
-    salesEnd: null,
-    quantity: null,
+    quantity: '不限',
+    registrationPeriods: [
+      { name: '盲鳥', startsOn: '2026-11-15', endsOn: '2026-11-30' },
+      { name: '早鳥', startsOn: '2026-12-01', endsOn: '2026-12-20' },
+      { name: '學員', startsOn: '2026-12-21', endsOn: '2027-01-10' },
+    ],
     // 所有票種皆含住宿；金額單位：新臺幣／每位學員。
     plans: [
       { name: '單人', price: 4599 },
       { name: '盲鳥', price: 3999 },
       { name: '早鳥', price: 4399 },
-      { name: '雙人', price: 4199 },
-      { name: '三人', price: 3999 },
-      { name: '四人', price: 3799 },
+      { name: '雙人', price: 4399 },
+      { name: '三人', price: 4199 },
+      { name: '四人', price: 4099 },
     ],
   },
 };
