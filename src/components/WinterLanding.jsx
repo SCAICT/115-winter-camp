@@ -1,52 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { winterCamp, organizations } from '../data/winterCamp';
+import CampMemories from './CampMemories';
+import SiteFooter from './SiteFooter';
+import SiteNavbar from './SiteNavbar';
 
 const formatPrice = (value) => `$${value.toLocaleString('en-US')}`;
 const formatDate = (value) => value.replaceAll('-', '/');
-
-function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const headerRef = useRef(null);
-  const toggleRef = useRef(null);
-
-  useEffect(() => {
-    if (!menuOpen) return undefined;
-    const onKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        setMenuOpen(false);
-        toggleRef.current?.focus();
-      }
-    };
-    const onPointerDown = (event) => {
-      if (!headerRef.current?.contains(event.target)) setMenuOpen(false);
-    };
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('pointerdown', onPointerDown);
-    return () => {
-      document.removeEventListener('keydown', onKeyDown);
-      document.removeEventListener('pointerdown', onPointerDown);
-    };
-  }, [menuOpen]);
-
-  return (
-    <header className="site-header" ref={headerRef}>
-      <nav className="wrap site-header__inner" aria-label="主選單">
-        <a className="site-header__brand" href="#top" aria-label="SCAICT 2027 聯合寒訓，回到頂端" onClick={() => setMenuOpen(false)}>
-          <img src="/img/LOGO/white_logo_nobg.webp" alt="SCAICT" width="125" height="35" />
-        </a>
-        <button ref={toggleRef} className={`site-header__toggle${menuOpen ? ' is-open' : ''}`} type="button" aria-label={menuOpen ? '關閉選單' : '開啟選單'} aria-expanded={menuOpen} aria-controls="site-navigation" onClick={() => setMenuOpen(!menuOpen)}>
-          <span /><span />
-        </button>
-        <div id="site-navigation" className={`site-header__links${menuOpen ? ' site-header__links--open' : ''}`}>
-          <a href="#about" onClick={() => setMenuOpen(false)}>關於 SCAICT</a>
-          <a href="#details" onClick={() => setMenuOpen(false)}>活動資訊</a>
-          <a href="#organizers" onClick={() => setMenuOpen(false)}>主辦與協辦</a>
-          <a className="site-header__cta" href="#ticket" onClick={() => setMenuOpen(false)}>盲鳥票</a>
-        </div>
-      </nav>
-    </header>
-  );
-}
 
 function Hero() {
   const [startsOn, endsOn] = winterCamp.dates?.split(' ~ ') ?? [];
@@ -57,7 +16,7 @@ function Hero() {
         <p className="hero__eyebrow">SCAICT 中部高中電資社團聯合會議</p>
         <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span></h1>
         <span className="hero__divider" aria-hidden="true" />
-        <p className="hero__description">主視覺與課程內容準備中。</p>
+        <p className="hero__description">主視覺與課程內容準備中</p>
         <a className="button" href="#ticket">查看盲鳥票 <span aria-hidden="true">↗</span></a>
       </div>
       <div className="hero__visual" aria-hidden="true">
@@ -188,12 +147,12 @@ function Organizers() {
       <div className="wrap">
         <h2 id="organizers-title">主辦與協辦</h2>
         {organizations.map(({ label, members }) => (
-          <div className={`organizer-group${members.length === 1 ? ' organizer-group--single' : ''}`} key={label}>
+          <div className="organizer-group" key={label}>
             <h3 className="organizer-group__heading"><span>{label}</span></h3>
             <ul>
-              {members.map((member, index) => (
+              {members.map((member) => (
                 <li key={member.shortName}>
-                  <button type="button" className={`organizer-card organizer-card--${members.length === 1 ? 'single' : index % 3 === 0 ? 'left' : index % 3 === 2 ? 'right' : 'middle'}`} onClick={(event) => openModal(member, label, event.currentTarget)} aria-haspopup="dialog" aria-label={`查看${label} ${member.name}詳細資訊`}>
+                  <button type="button" className="organizer-card" onClick={(event) => openModal(member, label, event.currentTarget)} aria-haspopup="dialog" aria-label={`查看${label} ${member.name}詳細資訊`}>
                     <span className="organizer-card__logo"><img src={member.logo} alt="" loading="lazy" /></span>
                     <strong>{member.name}</strong>
                   </button>
@@ -219,28 +178,13 @@ function Organizers() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="site-footer">
-      <div className="wrap site-footer__inner">
-        <div className="site-footer__columns">
-          <div><h2>2027 聯合寒訓</h2><a href="#ticket">盲鳥票</a><a href="#details">活動資訊</a></div>
-          <div><h2>關於我們</h2><a href="#about">關於 SCAICT</a><a href="#organizers">主辦與協辦</a></div>
-          <div><h2>聯絡我們</h2><a href={winterCamp.instagram} target="_blank" rel="noopener noreferrer">Instagram ↗</a><a href={`mailto:${winterCamp.email}`}>{winterCamp.email} ↗</a></div>
-        </div>
-        <div className="site-footer__bottom"><strong>SCAICT</strong><p>© 2027 SCAICT 中部高中電資社團聯合會議</p><a href="#top">回到頂端 ↑</a></div>
-      </div>
-    </footer>
-  );
-}
-
 export default function WinterLanding() {
   return (
-    <>
+    <div id="top">
       <a className="skip-link" href="#ticket">跳到盲鳥票資訊</a>
-      <Header />
-      <main id="top"><Hero /><About /><Ticket /><Details /><Organizers /></main>
-      <Footer />
-    </>
+      <SiteNavbar />
+      <main><Hero /><About /><Ticket /><Details /><CampMemories /><Organizers /></main>
+      <SiteFooter />
+    </div>
   );
 }

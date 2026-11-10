@@ -6,6 +6,9 @@ const legacySections = {
   '關於': '#about',
   '主協辦': '#organizers',
   'FAQ': '#details',
+  '學員回饋': '#testimonials',
+  '成果': '#photos',
+  '照片': '#photos',
 };
 
 export default function App() {
@@ -21,7 +24,8 @@ export default function App() {
         // Malformed or obsolete hashes should still land on the new homepage.
       }
 
-      const target = hash.startsWith('#/home/') ? legacySections[section] ?? '#top' : '#top';
+      const target = hash === '#/photos' ? '#photos'
+        : hash.startsWith('#/home/') ? legacySections[section] ?? '#top' : '#top';
       window.history.replaceState(null, '', `${pathname}${search}${target}`);
       const destination = document.querySelector(target);
       const top = target === '#top' ? 0 : destination?.getBoundingClientRect().top + window.scrollY;
