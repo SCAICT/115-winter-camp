@@ -19,4 +19,4 @@ npm run dev
 
 ## 部署
 
-`.github/workflows/deploy-pages.yml` 在推送至 `main` 後建置並部署 GitHub Pages；`public/CNAME` 會進入 Vite 的 `dist` 產物。開發站使用 `wcdev.scaict.org`。
+`.github/workflows/deploy-pages.yml` 在推送至 `main` 後建置並部署 GitHub Pages，也可手動觸發部署；`public/CNAME` 會進入 Vite 的 `dist` 產物。正式站使用 `wc.scaict.org`，GitHub Pages 的自訂網域也需設定為 `wc.scaict.org`。
