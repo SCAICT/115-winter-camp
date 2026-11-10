@@ -10,14 +10,14 @@ export const winterCamp = {
     salesStart: null,
     salesEnd: null,
     quantity: null,
-    // 金額單位：新臺幣／每位學員。
+    // 所有票種皆含住宿；金額單位：新臺幣／每位學員。
     plans: [
-      { name: '單人', withStay: 4599, withoutStay: 3599 },
-      { name: '盲鳥', withStay: 3999, withoutStay: 2999 },
-      { name: '早鳥', withStay: 4399, withoutStay: 3399 },
-      { name: '雙人', withStay: 4199, withoutStay: 3199 },
-      { name: '三人', withStay: 3999, withoutStay: 2999 },
-      { name: '四人', withStay: 3799, withoutStay: 2799 },
+      { name: '單人', price: 4599 },
+      { name: '盲鳥', price: 3999 },
+      { name: '早鳥', price: 4399 },
+      { name: '雙人', price: 4199 },
+      { name: '三人', price: 3999 },
+      { name: '四人', price: 3799 },
     ],
   },
 };

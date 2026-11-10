@@ -13,7 +13,7 @@ npm run dev
 
 ## 更新活動與售票資訊
 
-在 `src/data/winterCamp.js` 編輯活動日期、地點與票券資料。12 種住宿／不住宿票價已列於 `ticket.plans`，金額以新臺幣每位學員計；盲鳥主卡會讀取其中的盲鳥票價。尚未確定的欄位保持 `null`，網站會顯示「待公布」；售票網址 `ticket.url` 設定後，盲鳥票區塊才會顯示購票入口。開賣時間、截止時間及名額可填入要直接顯示的文字。
+在 `src/data/winterCamp.js` 編輯活動日期、地點與票券資料。6 種票價已列於 `ticket.plans`，所有票種皆含住宿，`price` 金額以新臺幣每位學員計；盲鳥主卡會讀取其中的盲鳥票價。尚未確定的欄位保持 `null`，網站會顯示「待公布」；售票網址 `ticket.url` 設定後，盲鳥票區塊才會顯示購票入口。開賣時間、截止時間及名額可填入要直接顯示的文字。
 
 活動資訊確認後，也要同步更新 `index.html` 的社群分享文案；若正式網址變更，需同步更新 `public/CNAME`、`CNAME`、`public/sitemap.xml`、`public/robots.txt` 與 `index.html`。
 

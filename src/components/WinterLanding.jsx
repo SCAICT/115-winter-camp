@@ -83,8 +83,7 @@ function Ticket() {
       <div className="wrap">
         <h2 id="ticket-title">盲鳥票</h2>
         <div className="ticket-prices">
-          <div><span>住宿 · 每位學員</span><strong>{formatPrice(blindBird.withStay)}</strong></div>
-          <div><span>不住宿 · 每位學員</span><strong>{formatPrice(blindBird.withoutStay)}</strong></div>
+          <div><span>含住宿 · 每位學員</span><strong>{formatPrice(blindBird.price)}</strong></div>
         </div>
         <p className="ticket-note">開賣時間：{ticket.salesStart ?? '待公布'}　／　名額：{ticket.quantity ?? '待公布'}{ticket.salesEnd && `　／　截止時間：${ticket.salesEnd}`}</p>
         {ticket.url ? (
@@ -95,15 +94,14 @@ function Ticket() {
 
         <div className="rates" aria-labelledby="rates-title">
           <h3 id="rates-title">完整票價</h3>
-          <p>新臺幣／每位學員。各票種的開賣時間與適用方式待公布。</p>
+          <p>新臺幣／每位學員，所有票種皆含住宿。各票種的開賣時間與適用方式待公布。</p>
           <table>
-            <thead><tr><th scope="col">票種</th><th scope="col">住宿</th><th scope="col">不住宿</th></tr></thead>
+            <thead><tr><th scope="col">票種</th><th scope="col">票價（含住宿）</th></tr></thead>
             <tbody>
               {ticket.plans.map((plan) => (
                 <tr key={plan.name} className={plan.name === '盲鳥' ? 'rates__highlight' : ''}>
                   <th scope="row">{plan.name}</th>
-                  <td>{formatPrice(plan.withStay)}</td>
-                  <td>{formatPrice(plan.withoutStay)}</td>
+                  <td>{formatPrice(plan.price)}</td>
                 </tr>
               ))}
             </tbody>
