@@ -8,7 +8,7 @@ export default function CampFaq() {
   return (
     <section id="faq" className="section camp-faq" aria-labelledby="faq-title">
       <div className="wrap">
-        <div className="guide-heading" data-reveal><div><h2 id="faq-title">常見問題</h2></div></div>
+        <div className="guide-heading" data-reveal><div><h2 id="faq-title">寒假營隊常見問題</h2></div></div>
         <div className="camp-faq__list" data-reveal>
           {campFaqs.map((item, index) => {
             const isOpen = expandedId === item.id;

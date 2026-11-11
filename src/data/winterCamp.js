@@ -2,6 +2,12 @@
 export const winterCamp = {
   name: 'SCAICT 2027 聯合寒訓',
   venue: '國立中興大學 資訊科學大樓',
+  // 校園地址依國立中興大學資訊工程學系官網；實際報到教室見課表。
+  venueAddress: {
+    streetAddress: '南區興大路 145 號',
+    addressLocality: '臺中市',
+    addressCountry: 'TW',
+  },
   dates: '2027-01-21 ~ 2027-01-24',
   instagram: 'https://www.instagram.com/scaict.tw/',
   email: 'contact@scaict.org',
@@ -17,7 +23,7 @@ export const winterCamp = {
       { src: '/img/loosha-cafe.jpg', alt: '旅巷自在公共空間的窗邊長桌與座椅', label: '窗邊休憩區', width: 800, height: 533 },
       { src: '/img/loosha-bathroom.jpg', alt: '旅巷自在共用衛浴的獨立淋浴間', label: '衛浴空間', width: 800, height: 1200 },
     ],
-    mapQuery: '旅巷自在輕旅 Loosha Hostel 台中',
+    mapQuery: '旅巷自在輕旅 Loosha Hostel 臺中',
     transfer: '會場與住宿地點之間由主辦單位安排計程車接送。',
     roomDetails: null,
   },
@@ -26,9 +32,9 @@ export const winterCamp = {
     includes: ['住宿', '餐食', '場地', '保險'],
     quantity: '不限',
     registrationPeriods: [
-      { name: '盲鳥', startsOn: '2026-11-15', endsOn: '2026-11-30' },
-      { name: '早鳥', startsOn: '2026-12-01', endsOn: '2026-12-20' },
-      { name: '學員', startsOn: '2026-12-21', endsOn: '2027-01-10' },
+      { name: '盲鳥', plan: '盲鳥', startsOn: '2026-11-15', endsOn: '2026-11-30' },
+      { name: '早鳥', plan: '早鳥', startsOn: '2026-12-01', endsOn: '2026-12-20' },
+      { name: '學員', plan: '單人', startsOn: '2026-12-21', endsOn: '2027-01-10' },
     ],
     // 所有票種皆含住宿；金額單位：新臺幣／每位學員。
     plans: [

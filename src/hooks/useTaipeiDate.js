@@ -13,7 +13,8 @@ export function getTaipeiDate(now = new Date()) {
 }
 
 export default function useTaipeiDate() {
-  const [today, setToday] = useState(getTaipeiDate);
+  // Keep the build-time HTML and the first browser render identical, even days after a build.
+  const [today, setToday] = useState(null);
 
   useEffect(() => {
     let timer;

@@ -68,13 +68,14 @@ export default function PhotoWall() {
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const scrollerRef = useRef(null);
   const copyRef = useRef(null);
   const { layerRef, onPointerOver, clear } = useSpotlight();
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(media.matches);
     const onChange = (event) => setReducedMotion(event.matches);
     media.addEventListener('change', onChange);
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));

@@ -1,4 +1,4 @@
-import { winterCamp } from './winterCamp';
+import { winterCamp } from './winterCamp.js';
 
 // 時段與場地依「營期時間場地表.xlsx／總表」；日期經確認採用本次 2027/1/21–24。
 const dayPlans = [
@@ -84,14 +84,20 @@ export const registrationSteps = [
 
 export const campFaqs = [
   {
+    id: 'winter-camp',
+    question: '想找寒假營隊或冬日營，SCAICT 聯合寒訓有哪些活動？',
+    answer: `${winterCamp.name}是以高中生為主的寒假資訊營隊。四天活動包含課程、講座、黑客松、成果發表與學員交流；課程主題與講者資訊將陸續公布。想在寒假接觸資訊、動手實作，或認識其他學校的夥伴，都歡迎參加。`,
+    link: { label: '查看四天營隊課表', href: '#schedule' },
+  },
+  {
     id: 'dates-venue',
-    question: '活動在哪裡、什麼時候舉辦？',
-    answer: `活動於 2027 年 1 月 21–24 日在${winterCamp.venue}舉辦。第一天「報到、開訓典禮」的時段為 ${campSchedule.days[0].events[0].start}–${campSchedule.days[0].events[0].end}，地點為${campSchedule.days[0].events[0].location}。`,
+    question: '2027 寒假營隊在哪裡、什麼時候舉辦？',
+    answer: `活動於 2027 年 1 月 21–24 日在臺中${winterCamp.venue}舉辦，為期四天。第一天「報到、開訓典禮」的時段為 ${campSchedule.days[0].events[0].start}–${campSchedule.days[0].events[0].end}，地點為${campSchedule.days[0].events[0].location}。`,
     link: { label: '查看活動資訊', href: '#details' },
   },
   {
     id: 'eligibility',
-    question: '誰可以參加？沒有程式基礎也能報名嗎？',
+    question: '高中生可以參加嗎？沒有程式基礎也能報名資訊營嗎？',
     answer: '活動以高中生為主，程度不限，沒有程式基礎的初學者也歡迎報名參加！',
     link: { label: '詢問主辦單位', href: `mailto:${winterCamp.email}` },
   },

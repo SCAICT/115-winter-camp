@@ -66,6 +66,7 @@ section[id] { scroll-margin-top: 130px; }
 .hero__eyebrow { margin: 0 0 26px; color: var(--muted); font-size: clamp(17px, 2.2vw, 28px); font-weight: 400; letter-spacing: .07em; }
 .hero h1 { display: flex; flex-direction: column; margin: 0; font-size: clamp(72px, 8vw, 120px); font-weight: 700; letter-spacing: -.06em; line-height: 1.15; white-space: nowrap; }
 .hero__year { font-size: .88em; letter-spacing: -.04em; }
+.hero h1 > .hero__camp-type { margin-top: 20px; font-size: clamp(20px, 2.2vw, 28px); font-weight: 400; letter-spacing: .04em; line-height: 1.6; white-space: normal; }
 .hero__subtitle { margin: 16px 0 0; color: var(--muted); font-size: clamp(18px, 2.1vw, 27px); }
 .hero__divider { display: block; width: min(350px, 80%); height: 2px; margin: 36px 0; border-radius: 999px; background: #f9f5ef4d; }
 .hero__description { margin: 0 0 28px; color: var(--muted); font-size: 18px; line-height: 1.9; }
@@ -86,6 +87,7 @@ section[id] { scroll-margin-top: 130px; }
 .about__name { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.8; }
 .about__content { min-width: 0; }
 .about__lead { margin: 0 0 24px; font-size: clamp(23px, 2.4vw, 32px); font-weight: 700; line-height: 1.65; letter-spacing: -.025em; }
+.about__lead--organization { margin-top: 40px; }
 .about__description { margin: 0; color: var(--muted); font-size: 18px; line-height: 1.9; }
 .about__description + .about__description { margin-top: 20px; }
 .about__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin: 64px 0 0; }

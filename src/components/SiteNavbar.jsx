@@ -11,7 +11,7 @@ const navigation = [
 
 export default function SiteNavbar({ progressRef }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [compact, setCompact] = useState(() => window.matchMedia(compactQuery).matches);
+  const [compact, setCompact] = useState(false);
   const headerRef = useRef(null);
   const navRef = useRef(null);
   const progressPathRef = useRef(null);
@@ -50,6 +50,7 @@ export default function SiteNavbar({ progressRef }) {
 
   useEffect(() => {
     const media = window.matchMedia(compactQuery);
+    setCompact(media.matches);
     const onChange = (event) => {
       setCompact(event.matches);
       setMenuOpen(false);
