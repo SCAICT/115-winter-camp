@@ -39,7 +39,7 @@ function Hero() {
           <p className="hero__eyebrow">SCAICT 中部高中電資社團聯合會議</p>
           <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span></h1>
           <span className="hero__divider" aria-hidden="true" />
-          <p className="hero__description">盲鳥票現正報名中</p>
+          <p className="hero__description">這個冬天，寫下屬於我們的故事</p>
           <a className="button" href="#ticket">查看盲鳥票 <span aria-hidden="true">↗</span></a>
         </div>
         {startsOn && endsOn && (
@@ -76,6 +76,7 @@ function Ticket() {
     <section id="ticket" className="section ticket-section" aria-labelledby="ticket-title">
       <div className="wrap">
         <h2 id="ticket-title" data-reveal>盲鳥票</h2>
+        <p className="ticket-tagline" data-reveal>早起的鳥兒有蟲吃，更早的鳥兒...</p>
         <div className="ticket-prices" data-reveal="scale">
           <div>
             <div className="ticket-price-main">
@@ -94,7 +95,7 @@ function Ticket() {
         </div>
         <p className="ticket-note"></p>
         {ticket.url ? (
-          <a className="button" href={ticket.url} target="_blank" rel="noopener noreferrer">前往售票表單 <span aria-hidden="true">↗</span></a>
+          <a className="button" href={ticket.url} target="_blank" rel="noopener noreferrer">前往報名表單 <span aria-hidden="true">↗</span></a>
         ) : (
           <a className="button" href={instagram} target="_blank" rel="noopener noreferrer">追蹤開賣消息 <span aria-hidden="true">↗</span></a>
         )}
@@ -136,14 +137,15 @@ function Details() {
   return (
     <section id="details" className="section details-section" aria-labelledby="details-title">
       <div className="wrap">
-        <h2 id="details-title" data-reveal>活動資訊</h2>
         <div className="details-layout">
-          <dl className="details-list">
-            <div data-reveal><dt>名稱</dt><dd>{winterCamp.name}</dd></div>
-            <div data-reveal style={{ '--reveal-delay': '80ms' }}><dt>地點</dt><dd>{winterCamp.venue}</dd></div>
-            <div data-reveal style={{ '--reveal-delay': '160ms' }}><dt>日期</dt><dd>{winterCamp.dates ?? '待公布'}</dd></div>
-            <div data-reveal style={{ '--reveal-delay': '240ms' }}><dt>住宿</dt><dd><a className="details-list__link" href="#stay">{winterCamp.accommodation.name} <span aria-hidden="true">↗</span></a></dd></div>
-          </dl>
+          <div className="details-intro">
+            <h2 id="details-title" data-reveal>活動資訊</h2>
+            <dl className="details-list">
+              <div data-reveal style={{ '--reveal-delay': '80ms' }}><dt>地點</dt><dd>{winterCamp.venue}</dd></div>
+              <div data-reveal style={{ '--reveal-delay': '160ms' }}><dt>日期</dt><dd>{winterCamp.dates ?? '待公布'}</dd></div>
+              <div data-reveal style={{ '--reveal-delay': '240ms' }}><dt>住宿</dt><dd><a className="details-list__link" href="#stay">{winterCamp.accommodation.name} <span aria-hidden="true">↗</span></a></dd></div>
+            </dl>
+          </div>
           <div className="venue-map" data-reveal="scale">
             <div className="venue-map__frame">
               <iframe src={`https://www.google.com/maps?q=${venueQuery}&hl=zh-TW&z=15&output=embed`} title={`${winterCamp.venue}位置地圖`} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" />

@@ -22,7 +22,7 @@ export const winterCamp = {
     roomDetails: null,
   },
   ticket: {
-    url: null,
+    url: 'https://docs.google.com/forms/d/e/1FAIpQLSe2_E_uJ3fPDUHF4w5PBSqRDzpPn6iYbFqGg5Sb2kC7JKvn6Q/viewform?usp=dialog',
     includes: ['住宿', '餐食', '場地', '保險'],
     quantity: '不限',
     registrationPeriods: [

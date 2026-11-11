@@ -19,7 +19,7 @@ npm run dev
 
 ## 活動指南與常見問題
 
-`src/data/campGuide.js` 集中管理四日活動概覽、報名步驟與 FAQ。課表參考 `115-summer-camp` 的四日時間軸與手機單日切換方式，目前使用預排資料；正式安排確認後再更新時段及活動。日期從 `winterCamp.dates` 的起始日產生。
+`src/data/campGuide.js` 集中管理四日活動概覽、報名步驟與 FAQ。課表互動參考 `115-summer-camp`，活動名稱、時段與場地採用使用者提供的「營期時間場地表.xlsx／總表」。原表日期為 2026 年，經確認採用網站本次的 2027/1/21–24；日期從 `winterCamp.dates` 的起始日產生。第二天 18:00–20:00 原表只填場地，暫顯示「活動待公布」。時間軸為 07:30–21:30，每半小時一格。
 
 課表活動可點擊開啟詳情視窗。共用活動說明放在 `eventDetails`；個別時段可在 `dayPlans[].events[]` 補上 `description`、`location`、`speaker`、`speakerBio` 或 `link`，會覆蓋共用說明並顯示於視窗。桌機與手機使用同一份資料。
 

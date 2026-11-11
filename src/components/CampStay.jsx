@@ -6,7 +6,7 @@ export default function CampStay() {
 
   return (
     <section id="stay" className="camp-stay guide-subsection" aria-labelledby="stay-title">
-      <div className="guide-heading" data-reveal><div><h3 id="stay-title">住宿與生活</h3></div></div>
+      <div className="guide-heading" data-reveal><div><h3 id="stay-title">營隊住宿</h3></div></div>
       <div className="camp-stay__intro" data-reveal>
         <h4>{accommodation.name}</h4>
         <div className="guide-links">

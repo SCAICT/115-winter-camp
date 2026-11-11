@@ -9,13 +9,23 @@ const toMinutes = (time) => {
 const weekday = new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei', weekday: 'short' });
 const dateLabel = (date) => `${Number(date.slice(5, 7))}/${Number(date.slice(8, 10))}`;
 
-function EventContent({ event }) {
-  return (
+function ScheduleEvent({ event, day, dayIndex, onOpen, mobile = false }) {
+  const hasDetails = Boolean(event.description || event.speaker || event.speakerBio || event.link);
+  const className = `camp-schedule__event-content${mobile ? ' camp-schedule__mobile-button' : ''}`;
+  const content = (
     <>
       <span className="camp-schedule__event-time"><time>{event.start}</time>–<time>{event.end}</time></span>
       <strong>{event.title}</strong>
-      <span className="camp-schedule__event-info" aria-hidden="true">↗</span>
+      {hasDetails && <span className="camp-schedule__event-info" aria-hidden="true">↗</span>}
     </>
+  );
+
+  if (!hasDetails) return <div className={className}>{content}</div>;
+
+  return (
+    <button className={`${className} camp-schedule__event-button`} type="button" data-event-key={`${day.date}-${event.start}`} aria-haspopup="dialog" aria-label={`查看第 ${dayIndex + 1} 天 ${event.start} 至 ${event.end} ${event.title}詳情`} onClick={(click) => onOpen(event, day, dayIndex, click.currentTarget)}>
+      {content}
+    </button>
   );
 }
 
@@ -28,7 +38,10 @@ export default function CampSchedule() {
   const firstMinute = toMinutes(startTime);
   const minutes = toMinutes(endTime) - firstMinute;
   const active = days[activeDay];
-  const hours = Array.from({ length: Math.ceil(minutes / 60) }, (_, index) => `${String(firstMinute / 60 + index).padStart(2, '0')}:00`);
+  const timeSlots = Array.from({ length: Math.ceil(minutes / 30) }, (_, index) => {
+    const minute = firstMinute + index * 30;
+    return `${String(Math.floor(minute / 60)).padStart(2, '0')}:${String(minute % 60).padStart(2, '0')}`;
+  });
 
   const openEvent = (event, day, index, trigger) => {
     triggerRef.current = trigger;
@@ -63,13 +76,13 @@ export default function CampSchedule() {
           <div><h2 id="schedule-title">四天活動概覽</h2></div>
         </div>
         <ul className="camp-schedule__legend" aria-label="活動分類" data-reveal>
-          <li data-kind="learning">學習與實作</li><li data-kind="activity">活動與交流</li><li data-kind="meal">用餐</li><li data-kind="project">團隊與成果</li>
+          <li data-kind="learning">課程與講座</li><li data-kind="activity">活動與交流</li><li data-kind="meal">用餐</li><li data-kind="project">黑客松與成果</li><li data-kind="logistics">交通與生活</li>
         </ul>
 
         <div className="camp-schedule__desktop" data-reveal style={{ '--schedule-minutes': minutes }}>
           <div className="camp-schedule__time-column" aria-hidden="true">
             <div className="camp-schedule__time-heading">TIME</div>
-            <div className="camp-schedule__hours">{hours.map((hour) => <span key={hour}>{hour}</span>)}</div>
+            <div className="camp-schedule__hours">{timeSlots.map((slot) => <span key={slot}>{slot}</span>)}</div>
           </div>
           {days.map((day, index) => (
             <article className="camp-schedule__day" key={day.date} aria-labelledby={`schedule-desktop-day-${index}`}>
@@ -80,8 +93,8 @@ export default function CampSchedule() {
               </header>
               <ol className="camp-schedule__events">
                 {day.events.map((event) => (
-                  <li className="camp-schedule__event" data-kind={event.kind} key={event.start} style={{ '--event-start': toMinutes(event.start) - firstMinute, '--event-duration': toMinutes(event.end) - toMinutes(event.start) }}>
-                    <button className="camp-schedule__event-button" type="button" data-event-key={`${day.date}-${event.start}`} aria-haspopup="dialog" aria-label={`查看第 ${index + 1} 天 ${event.start} ${event.title}詳情`} onClick={(click) => openEvent(event, day, index, click.currentTarget)}><EventContent event={event} /></button>
+                  <li className={`camp-schedule__event${toMinutes(event.end) - toMinutes(event.start) <= 30 ? ' camp-schedule__event--compact' : ''}`} data-kind={event.kind} key={event.start} style={{ '--event-start': toMinutes(event.start) - firstMinute, '--event-duration': toMinutes(event.end) - toMinutes(event.start) }}>
+                    <ScheduleEvent event={event} day={day} dayIndex={index} onOpen={openEvent} />
                   </li>
                 ))}
               </ol>
@@ -100,7 +113,7 @@ export default function CampSchedule() {
           <div id="schedule-day-panel" className="camp-schedule__panel" role="tabpanel" aria-labelledby={`schedule-tab-${activeDay}`} tabIndex={0}>
             <header><p>{weekday.format(new Date(`${active.date}T12:00:00+08:00`))}</p><h3>{active.title}</h3></header>
             <ol className="camp-schedule__mobile-events">
-              {active.events.map((event) => <li className="camp-schedule__mobile-event" data-kind={event.kind} key={`${active.date}-${event.start}`}><button className="camp-schedule__event-button camp-schedule__mobile-button" type="button" data-event-key={`${active.date}-${event.start}`} aria-haspopup="dialog" aria-label={`查看第 ${activeDay + 1} 天 ${event.start} ${event.title}詳情`} onClick={(click) => openEvent(event, active, activeDay, click.currentTarget)}><EventContent event={event} /></button></li>)}
+              {active.events.map((event) => <li className="camp-schedule__mobile-event" data-kind={event.kind} key={`${active.date}-${event.start}`}><ScheduleEvent event={event} day={active} dayIndex={activeDay} onOpen={openEvent} mobile /></li>)}
             </ol>
           </div>
         </div>
