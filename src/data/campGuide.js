@@ -86,7 +86,7 @@ export const campFaqs = [
   {
     id: 'dates-venue',
     question: '2027 寒訓在哪裡、什麼時候舉辦？',
-    answer: `活動於 2027 年 1 月 21–24 日在臺中${winterCamp.venue}舉辦，為期四天。第一天「報到、開訓典禮」的時段為 ${campSchedule.days[0].events[0].start}–${campSchedule.days[0].events[0].end}，地點為${campSchedule.days[0].events[0].location}。`,
+    answer: `活動於 2027 年 1 月 21–24 日在${winterCamp.venue}舉辦，為期四天。第一天「報到、開訓典禮」的時段為 ${campSchedule.days[0].events[0].start}–${campSchedule.days[0].events[0].end}，地點為${campSchedule.days[0].events[0].location}。`,
     link: { label: '查看活動資訊', href: '#details' },
   },
   {

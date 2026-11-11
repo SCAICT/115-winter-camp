@@ -1,7 +1,7 @@
 // 2027 聯合寒訓已確認的資訊集中在這裡；未公布的欄位維持 null。
 export const winterCamp = {
   name: 'SCAICT 2027 聯合寒訓',
-  venue: '國立中興大學 資訊科學大樓',
+  venue: '國立中興大學',
   // 校園地址依國立中興大學資訊工程學系官網；實際報到教室見課表。
   venueAddress: {
     streetAddress: '南區興大路 145 號',
