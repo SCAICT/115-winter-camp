@@ -37,7 +37,7 @@ function Hero() {
       <div className="hero__layout wrap">
         <div className="hero__content">
           <p className="hero__eyebrow">SCAICT 中部高中電資社團聯合會議</p>
-          <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span><span className="hero__camp-type">屬於高中生的寒假資訊營隊</span></h1>
+          <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span><span className="hero__camp-type">屬於初學者的寒假資訊營隊</span></h1>
           <span className="hero__divider" aria-hidden="true" />
           <p className="hero__description">一起學習、實作與交流。<br />在這個冬天，寫下屬於我們的故事。</p>
           <a className="button" href="#ticket">查看盲鳥票 <span aria-hidden="true">↗</span></a>
@@ -75,7 +75,7 @@ function Ticket() {
   return (
     <section id="ticket" className="section ticket-section" aria-labelledby="ticket-title">
       <div className="wrap">
-        <h2 id="ticket-title" data-reveal>寒假營隊報名・盲鳥票</h2>
+        <h2 id="ticket-title" data-reveal>盲鳥票</h2>
         <p className="ticket-tagline" data-reveal>早起的鳥兒有蟲吃，更早的鳥兒...</p>
         <div className="ticket-prices" data-reveal="scale">
           <div>
