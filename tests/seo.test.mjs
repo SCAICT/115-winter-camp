@@ -26,7 +26,7 @@ test('built HTML includes one consistent title, description and canonical URL', 
 
 test('homepage content and useful search terms exist before JavaScript runs', () => {
   assert.equal([...main.matchAll(/<h1\b/g)].length, 1);
-  for (const text of ['2027', '寒假', '營隊', '冬日營', '高中生', '臺中', winterCamp.venue, '黑客松', '成果發表', '沒有程式基礎']) {
+  for (const text of ['2027', '寒假', '營隊', '高中生', '臺中', winterCamp.venue, '黑客松', '成果發表', '沒有程式基礎']) {
     assert.ok(main.includes(text), `Missing prerendered content: ${text}`);
   }
   for (const section of ['about', 'details', 'schedule', 'ticket', 'faq']) {
@@ -49,7 +49,10 @@ test('event JSON-LD matches the published schedule, venue and visible ticket pri
   assert.equal(event.name, winterCamp.name);
   assert.equal(event.url, siteSeo.url);
   assert.equal(event.location.name, winterCamp.venue);
-  assert.ok(main.includes(event.location.address.streetAddress));
+  assert.deepEqual(event.location.address, {
+    '@type': 'PostalAddress',
+    ...winterCamp.venueAddress,
+  });
   assert.equal(event.organizer['@id'], organization['@id']);
   assert.equal(event.offers.length, winterCamp.ticket.registrationPeriods.length);
   for (const [index, period] of winterCamp.ticket.registrationPeriods.entries()) {

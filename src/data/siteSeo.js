@@ -10,7 +10,7 @@ const organizer = organizations.find(({ label }) => label === '主辦單位').me
 export const siteSeo = {
   url: 'https://wc.scaict.org/',
   title: `${winterCamp.name}｜4 天 3 夜冬令營`,
-  description: `${winterCamp.name}是以高中生為主的寒假資訊營隊，${year} 年 ${Number(startsOn.slice(5, 7))} 月 ${Number(startsOn.slice(8, 10))}–${Number(endsOn.slice(8, 10))} 日於臺中${winterCamp.venue}舉辦。四天冬日營包含課程、講座、黑客松與成果發表，歡迎程式初學者參加。查看營隊課表、報名費用與住宿安排。`,
+  description: `${winterCamp.name}是以高中生為主的寒假資訊營隊，${year} 年 ${Number(startsOn.slice(5, 7))} 月 ${Number(startsOn.slice(8, 10))}–${Number(endsOn.slice(8, 10))} 日於臺中${winterCamp.venue}舉辦。四天營隊包含課程、講座、黑客松與成果發表，歡迎程式初學者參加。查看營隊課表、報名費用與住宿安排。`,
   image: 'https://wc.scaict.org/img/gallery-optimized/hero.webp',
   imageAlt: 'SCAICT 歷屆資訊營隊的學員交流與實作活動',
 };
