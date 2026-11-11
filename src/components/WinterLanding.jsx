@@ -37,9 +37,9 @@ function Hero() {
       <div className="hero__layout wrap">
         <div className="hero__content">
           <p className="hero__eyebrow">SCAICT 中部高中電資社團聯合會議</p>
-          <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span><span className="hero__camp-type">高中生寒假資訊營隊</span></h1>
+          <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span><span className="hero__camp-type">屬於高中生的寒假資訊營隊</span></h1>
           <span className="hero__divider" aria-hidden="true" />
-          <p className="hero__description">在臺中中興大學，一起學習、實作與交流。<br />四天冬日營，寫下屬於我們的故事。</p>
+          <p className="hero__description">一起學習、實作與交流。<br />在這個冬天，寫下屬於我們的故事。</p>
           <a className="button" href="#ticket">查看盲鳥票 <span aria-hidden="true">↗</span></a>
         </div>
         {startsOn && endsOn && (
@@ -139,10 +139,9 @@ function Details() {
       <div className="wrap">
         <div className="details-layout">
           <div className="details-intro">
-            <h2 id="details-title" data-reveal>冬日營活動資訊</h2>
+            <h2 id="details-title" data-reveal>活動資訊</h2>
             <dl className="details-list">
               <div data-reveal style={{ '--reveal-delay': '80ms' }}><dt>地點</dt><dd>{winterCamp.venue}</dd></div>
-              <div data-reveal><dt>地址</dt><dd>{winterCamp.venueAddress.addressLocality}{winterCamp.venueAddress.streetAddress}</dd></div>
               <div data-reveal style={{ '--reveal-delay': '160ms' }}><dt>日期</dt><dd>{winterCamp.dates ?? '待公布'}</dd></div>
               <div data-reveal style={{ '--reveal-delay': '240ms' }}><dt>住宿</dt><dd><a className="details-list__link" href="#stay">{winterCamp.accommodation.name} <span aria-hidden="true">↗</span></a></dd></div>
             </dl>
@@ -169,12 +168,7 @@ function About() {
             <h2 id="about-title">關於 SCAICT</h2>
             <p className="about__name" lang="en">Student Club&apos;s Association of Information in Central Taiwan</p>
           </div>
-          <div className="about__content">
-            <h3 className="about__lead" data-reveal>2027 寒假營隊：<br />和喜歡資訊的夥伴一起過寒假。</h3>
-            <p className="about__description" data-reveal>{winterCamp.name}是以高中生為主的寒假資訊營隊，在臺中{winterCamp.venue}舉辦。四天冬日營安排課程、講座、黑客松與成果發表，讓你一邊學習、一邊動手實作，也認識來自不同學校的夥伴。</p>
-            <p className="about__description" data-reveal>沒有程式基礎也歡迎參加。營隊提供電腦教室，票價包含{winterCamp.ticket.includes.join('、')}；你可以先<a className="guide-text-link" href="#schedule">查看四天課表</a>，再到<a className="guide-text-link" href="#ticket">報名區確認費用與時程</a>。課程主題與講者資訊將陸續公布。</p>
-            <h3 className="about__lead about__lead--organization" data-reveal>關於主辦單位</h3>
-            <p className="about__description" data-reveal>中部高中電資社團聯合會議（SCAICT），簡稱「中電會」。2021 年 12 月 7 日，在 AIS3 新型態資安實務主題課程中，臺灣科技大學資訊工程系鄭欣明教授與陽明交通大學資訊工程系黃俊穎教授，提出將中部所有資訊社團聯合起來，成為一個「大組織」的構想，發起「中部高中職電資聯合會議」。</p>
+          <div className="about__content"><p className="about__description" data-reveal>中部高中電資社團聯合會議（SCAICT），簡稱「中電會」。2021 年 12 月 7 日，在 AIS3 新型態資安實務主題課程中，臺灣科技大學資訊工程系鄭欣明教授與陽明交通大學資訊工程系黃俊穎教授，提出將中部所有資訊社團聯合起來，成為一個「大組織」的構想，發起「中部高中職電資聯合會議」。</p>
             <p className="about__description" data-reveal>以結合中區電資資源為起點，積極辦理資訊教育、活動與比賽，讓各校社團彼此交流、共同成長，並將經驗與資源持續傳承下去。</p>
           </div>
         </div>

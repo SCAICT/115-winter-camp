@@ -84,14 +84,8 @@ export const registrationSteps = [
 
 export const campFaqs = [
   {
-    id: 'winter-camp',
-    question: '想找寒假營隊或冬日營，SCAICT 聯合寒訓有哪些活動？',
-    answer: `${winterCamp.name}是以高中生為主的寒假資訊營隊。四天活動包含課程、講座、黑客松、成果發表與學員交流；課程主題與講者資訊將陸續公布。想在寒假接觸資訊、動手實作，或認識其他學校的夥伴，都歡迎參加。`,
-    link: { label: '查看四天營隊課表', href: '#schedule' },
-  },
-  {
     id: 'dates-venue',
-    question: '2027 寒假營隊在哪裡、什麼時候舉辦？',
+    question: '2027 寒訓在哪裡、什麼時候舉辦？',
     answer: `活動於 2027 年 1 月 21–24 日在臺中${winterCamp.venue}舉辦，為期四天。第一天「報到、開訓典禮」的時段為 ${campSchedule.days[0].events[0].start}–${campSchedule.days[0].events[0].end}，地點為${campSchedule.days[0].events[0].location}。`,
     link: { label: '查看活動資訊', href: '#details' },
   },
