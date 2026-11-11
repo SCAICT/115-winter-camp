@@ -5,8 +5,25 @@ export const winterCamp = {
   dates: '2027-01-21 ~ 2027-01-24',
   instagram: 'https://www.instagram.com/scaict.tw/',
   email: 'contact@scaict.org',
+  accommodation: {
+    name: '旅巷自在輕旅 Loosha Hostel',
+    website: 'https://loosha.com.tw/',
+    photos: [
+      // 官網首頁與公共設施頁照片，下載至 public/img。
+      { src: '/img/loosha-dorm.jpg', alt: '旅巷自在背包房，設有床簾的上下舖與置物櫃', label: '八床背包房', width: 800, height: 600 },
+      { src: '/img/loosha-four-bed.jpg', alt: '旅巷自在四床背包房，採光明亮並設有獨立床簾', label: '四床背包房', width: 800, height: 600 },
+      { src: '/img/loosha-female-dorm.jpg', alt: '旅巷自在女生背包房，設有上下舖與置物櫃', label: '女生背包房', width: 800, height: 600 },
+      { src: '/img/loosha-lounge.jpg', alt: '旅巷自在咖啡廳吧檯與座位區', label: '咖啡吧檯', width: 800, height: 533 },
+      { src: '/img/loosha-cafe.jpg', alt: '旅巷自在公共空間的窗邊長桌與座椅', label: '窗邊休憩區', width: 800, height: 533 },
+      { src: '/img/loosha-bathroom.jpg', alt: '旅巷自在共用衛浴的獨立淋浴間', label: '衛浴空間', width: 800, height: 1200 },
+    ],
+    mapQuery: '旅巷自在輕旅 Loosha Hostel 台中',
+    transfer: '會場與住宿地點之間由主辦單位安排計程車接送。',
+    roomDetails: null,
+  },
   ticket: {
     url: null,
+    includes: ['住宿', '餐食', '場地', '保險'],
     quantity: '不限',
     registrationPeriods: [
       { name: '盲鳥', startsOn: '2026-11-15', endsOn: '2026-11-30' },

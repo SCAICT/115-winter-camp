@@ -6,7 +6,6 @@ export default function CampMemories() {
     <section id="testimonials" className="section memories-section" aria-labelledby="testimonials-title">
       <div className="wrap memories-heading" data-reveal>
         <h2 id="testimonials-title">學員回饋</h2>
-        <p>歷屆營隊的課堂、交流與合影，還有學員留下的話。</p>
       </div>
       <div className="wrap memories-quotes">
         <div className="testimonials-grid">

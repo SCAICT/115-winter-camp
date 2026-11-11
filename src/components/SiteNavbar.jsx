@@ -1,11 +1,12 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-const compactQuery = '(max-width: 1023px)';
+const compactQuery = '(max-width: 1199px)';
 const navigation = [
   { label: '關於 SCAICT', href: '#about' },
   { label: '活動資訊', href: '#details' },
+  { label: '四天課表', href: '#schedule' },
   { label: '學員回饋', href: '#testimonials' },
-  { label: '主協辦單位', href: '#organizers' },
+  { label: '常見問題', href: '#faq' },
 ];
 
 export default function SiteNavbar({ progressRef }) {

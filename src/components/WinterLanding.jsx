@@ -5,6 +5,11 @@ import SiteFooter from './SiteFooter';
 import SiteNavbar from './SiteNavbar';
 import CountUp from './CountUp';
 import usePageMotion from '../hooks/usePageMotion';
+import useTaipeiDate from '../hooks/useTaipeiDate';
+import CampSchedule from './CampSchedule';
+import CampStay from './CampStay';
+import RegistrationFlow from './RegistrationFlow';
+import CampFaq from './CampFaq';
 
 const formatPrice = (value) => `$${value.toLocaleString('en-US')}`;
 const formatDate = (value) => value.replaceAll('-', '/');
@@ -58,7 +63,14 @@ function Ticket() {
   const blindBird = ticket.plans.find((plan) => plan.name === '盲鳥');
   const regularPrice = ticket.plans.find((plan) => plan.name === '單人').price;
   const savings = regularPrice - blindBird.price;
-  const blindBirdRegistration = ticket.registrationPeriods.find((period) => period.name === '盲鳥');
+  const today = useTaipeiDate();
+  const currentPeriod = ticket.registrationPeriods.find((period) => period.startsOn <= today && today <= period.endsOn);
+  const nextPeriod = ticket.registrationPeriods.find((period) => today < period.startsOn);
+  const registrationSummary = currentPeriod
+    ? `${currentPeriod.name}報名開放中，至 ${formatDate(currentPeriod.endsOn)} 截止。`
+    : nextPeriod
+      ? `${nextPeriod.name}報名將於 ${formatDate(nextPeriod.startsOn)} 開放。`
+      : '本次報名已結束。';
 
   return (
     <section id="ticket" className="section ticket-section" aria-labelledby="ticket-title">
@@ -67,7 +79,7 @@ function Ticket() {
         <div className="ticket-prices" data-reveal="scale">
           <div>
             <div className="ticket-price-main">
-              <p className="ticket-price-meta">含住宿、餐食、場地、保險 · 每位學員</p>
+              <p className="ticket-price-meta">含{ticket.includes.join('、')} · 每位學員</p>
               <p className="ticket-original-price">原價 <del>{formatPrice(regularPrice)}</del></p>
               <div className="ticket-price-row">
                 <span className="ticket-price-label">盲鳥價</span>
@@ -82,26 +94,37 @@ function Ticket() {
         </div>
         <p className="ticket-note"></p>
         {ticket.url ? (
-          <a className="button" href={ticket.url} target="_blank" rel="noopener noreferrer">前往售票頁面 <span aria-hidden="true">↗</span></a>
+          <a className="button" href={ticket.url} target="_blank" rel="noopener noreferrer">前往售票表單 <span aria-hidden="true">↗</span></a>
         ) : (
           <a className="button" href={instagram} target="_blank" rel="noopener noreferrer">追蹤開賣消息 <span aria-hidden="true">↗</span></a>
         )}
 
         <div className="rates registration-schedule" aria-labelledby="registration-title" data-reveal>
           <h3 id="registration-title">報名時程</h3>
+          <p role="status">{registrationSummary}</p>
           <table>
+            <caption>時程以台灣時間（UTC+8）為準，截止日當天 23:59 結束。</caption>
             <thead><tr><th scope="col">報名階段</th><th scope="col">報名期間</th></tr></thead>
             <tbody>
-              {ticket.registrationPeriods.map((period) => (
-                <tr key={period.name}>
-                  <th scope="row">{period.name}報名</th>
-                  <td><time dateTime={period.startsOn}>{formatDate(period.startsOn)}</time> ～ <time dateTime={period.endsOn}>{formatDate(period.endsOn)}</time></td>
-                </tr>
-              ))}
+              {ticket.registrationPeriods.map((period) => {
+                const isCurrent = period === currentPeriod;
+                const status = isCurrent ? 'current' : period.endsOn < today ? 'ended' : 'upcoming';
+                return (
+                  <tr key={period.name} className={isCurrent ? 'rates__highlight' : undefined} aria-current={isCurrent ? 'step' : undefined} data-registration-status={status}>
+                    <th scope="row">
+                      <span className="registration-schedule__phase">
+                        <span>{period.name}報名</span>
+                        <span className="registration-schedule__badge">{isCurrent ? '目前開放' : status === 'ended' ? '已結束' : '尚未開始'}</span>
+                      </span>
+                    </th>
+                    <td><time dateTime={period.startsOn}>{formatDate(period.startsOn)}</time> ～ <time dateTime={period.endsOn}>{formatDate(period.endsOn)}</time></td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
-
+        <RegistrationFlow />
       </div>
     </section>
   );
@@ -119,7 +142,7 @@ function Details() {
             <div data-reveal><dt>名稱</dt><dd>{winterCamp.name}</dd></div>
             <div data-reveal style={{ '--reveal-delay': '80ms' }}><dt>地點</dt><dd>{winterCamp.venue}</dd></div>
             <div data-reveal style={{ '--reveal-delay': '160ms' }}><dt>日期</dt><dd>{winterCamp.dates ?? '待公布'}</dd></div>
-            <div data-reveal style={{ '--reveal-delay': '240ms' }}><dt>住宿</dt><dd>旅巷自在輕旅 Loosha Hostel</dd></div>
+            <div data-reveal style={{ '--reveal-delay': '240ms' }}><dt>住宿</dt><dd><a className="details-list__link" href="#stay">{winterCamp.accommodation.name} <span aria-hidden="true">↗</span></a></dd></div>
           </dl>
           <div className="venue-map" data-reveal="scale">
             <div className="venue-map__frame">
@@ -127,6 +150,7 @@ function Details() {
             </div>
           </div>
         </div>
+        <CampStay />
       </div>
     </section>
   );
@@ -227,7 +251,7 @@ export default function WinterLanding() {
     <div id="top" ref={pageRef}>
       <a className="skip-link" href="#ticket">跳到盲鳥票資訊</a>
       <SiteNavbar progressRef={progressRef} />
-      <main><Hero /><About /><Details /><Ticket /><CampMemories /><Organizers /></main>
+      <main><Hero /><About /><Details /><CampSchedule /><Ticket /><CampMemories /><CampFaq /><Organizers /></main>
       <SiteFooter />
     </div>
   );

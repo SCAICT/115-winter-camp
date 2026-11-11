@@ -4,8 +4,17 @@ const navigation = [
   {
     title: '參與寒訓',
     links: [
-      { label: '活動資訊', href: '#details' },
       { label: '票價與報名時程', href: '#ticket' },
+      { label: '報名流程', href: '#registration' },
+      { label: '常見問題', href: '#faq' },
+    ],
+  },
+  {
+    title: '活動指南',
+    links: [
+      { label: '活動資訊', href: '#details' },
+      { label: '四天活動概覽', href: '#schedule' },
+      { label: '住宿與生活', href: '#stay' },
       { label: '學員回饋與營隊回憶', href: '#testimonials' },
     ],
   },
@@ -29,7 +38,7 @@ export default function SiteFooter() {
               <img src="/img/LOGO/white_logo_nobg.webp" alt="SCAICT" width="125" height="35" loading="lazy" />
             </a>
             <p>中部高中電資社團聯合會議</p>
-            <span>由學生串連的資訊社群。</span>
+            <span>由學生串連的資訊社群</span>
           </div>
 
           <nav className="site-footer__navigation" aria-label="頁尾導覽">
