@@ -3,33 +3,52 @@ import { winterCamp, organizations } from '../data/winterCamp';
 import CampMemories from './CampMemories';
 import SiteFooter from './SiteFooter';
 import SiteNavbar from './SiteNavbar';
+import CountUp from './CountUp';
+import usePageMotion from '../hooks/usePageMotion';
 
 const formatPrice = (value) => `$${value.toLocaleString('en-US')}`;
 const formatDate = (value) => value.replaceAll('-', '/');
 
 function Hero() {
   const [startsOn, endsOn] = winterCamp.dates?.split(' ~ ') ?? [];
+  const [visible, setVisible] = useState(true);
+  const heroRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
+    observer.observe(heroRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className="hero wrap" aria-labelledby="hero-title">
-      <div className="hero__content">
-        <p className="hero__eyebrow">SCAICT 中部高中電資社團聯合會議</p>
-        <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span></h1>
-        <span className="hero__divider" aria-hidden="true" />
-        <p className="hero__description">盲鳥票現正報名中</p>
-        <a className="button" href="#ticket">查看盲鳥票 <span aria-hidden="true">↗</span></a>
+    <section ref={heroRef} className="hero" aria-labelledby="hero-title" data-ambient-paused={!visible}>
+      <div className="hero__ambient" aria-hidden="true">
+        <div className="hero__glow" />
+        <div className="hero__orbit hero__orbit--outer"><span /></div>
+        <div className="hero__orbit hero__orbit--inner"><span /></div>
+        <div className="hero__cross hero__cross--one">+</div>
+        <div className="hero__cross hero__cross--two">+</div>
       </div>
-      {startsOn && endsOn && (
-        <div className="hero__dates" role="group" aria-label="活動日期">
-          <time dateTime={startsOn} aria-label={formatDate(startsOn)}>
-            <span className="hero__date-month">{Number(startsOn.split('-')[1])}</span><span className="hero__date-day">.{Number(startsOn.split('-')[2])}</span>
-          </time>
-          <span className="hero__date-separator" aria-hidden="true">−</span>
-          <time dateTime={endsOn} aria-label={formatDate(endsOn)}>
-            <span className="hero__date-month">{Number(endsOn.split('-')[1])}</span><span className="hero__date-day">.{Number(endsOn.split('-')[2])}</span>
-          </time>
+      <div className="hero__layout wrap">
+        <div className="hero__content">
+          <p className="hero__eyebrow">SCAICT 中部高中電資社團聯合會議</p>
+          <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span></h1>
+          <span className="hero__divider" aria-hidden="true" />
+          <p className="hero__description">盲鳥票現正報名中</p>
+          <a className="button" href="#ticket">查看盲鳥票 <span aria-hidden="true">↗</span></a>
         </div>
-      )}
+        {startsOn && endsOn && (
+          <div className="hero__dates" role="group" aria-label="活動日期">
+            <time dateTime={startsOn} aria-label={formatDate(startsOn)}>
+              <span className="hero__date-month">{Number(startsOn.split('-')[1])}</span><span className="hero__date-day">.{Number(startsOn.split('-')[2])}</span>
+            </time>
+            <span className="hero__date-separator" aria-hidden="true">−</span>
+            <time dateTime={endsOn} aria-label={formatDate(endsOn)}>
+              <span className="hero__date-month">{Number(endsOn.split('-')[1])}</span><span className="hero__date-day">.{Number(endsOn.split('-')[2])}</span>
+            </time>
+          </div>
+        )}
+      </div>
     </section>
   );
 }
@@ -44,8 +63,8 @@ function Ticket() {
   return (
     <section id="ticket" className="section ticket-section" aria-labelledby="ticket-title">
       <div className="wrap">
-        <h2 id="ticket-title">盲鳥票</h2>
-        <div className="ticket-prices">
+        <h2 id="ticket-title" data-reveal>盲鳥票</h2>
+        <div className="ticket-prices" data-reveal="scale">
           <div>
             <div className="ticket-price-main">
               <p className="ticket-price-meta">含住宿、餐食、場地、保險 · 每位學員</p>
@@ -68,7 +87,7 @@ function Ticket() {
           <a className="button" href={instagram} target="_blank" rel="noopener noreferrer">追蹤開賣消息 <span aria-hidden="true">↗</span></a>
         )}
 
-        <div className="rates registration-schedule" aria-labelledby="registration-title">
+        <div className="rates registration-schedule" aria-labelledby="registration-title" data-reveal>
           <h3 id="registration-title">報名時程</h3>
           <table>
             <thead><tr><th scope="col">報名階段</th><th scope="col">報名期間</th></tr></thead>
@@ -94,15 +113,15 @@ function Details() {
   return (
     <section id="details" className="section details-section" aria-labelledby="details-title">
       <div className="wrap">
-        <h2 id="details-title">活動資訊</h2>
+        <h2 id="details-title" data-reveal>活動資訊</h2>
         <div className="details-layout">
           <dl className="details-list">
-            <div><dt>名稱</dt><dd>{winterCamp.name}</dd></div>
-            <div><dt>地點</dt><dd>{winterCamp.venue}</dd></div>
-            <div><dt>日期</dt><dd>{winterCamp.dates ?? '待公布'}</dd></div>
-            <div><dt>住宿</dt><dd>旅巷自在輕旅 Loosha Hostel</dd></div>
+            <div data-reveal><dt>名稱</dt><dd>{winterCamp.name}</dd></div>
+            <div data-reveal style={{ '--reveal-delay': '80ms' }}><dt>地點</dt><dd>{winterCamp.venue}</dd></div>
+            <div data-reveal style={{ '--reveal-delay': '160ms' }}><dt>日期</dt><dd>{winterCamp.dates ?? '待公布'}</dd></div>
+            <div data-reveal style={{ '--reveal-delay': '240ms' }}><dt>住宿</dt><dd>旅巷自在輕旅 Loosha Hostel</dd></div>
           </dl>
-          <div className="venue-map">
+          <div className="venue-map" data-reveal="scale">
             <div className="venue-map__frame">
               <iframe src={`https://www.google.com/maps?q=${venueQuery}&hl=zh-TW&z=15&output=embed`} title={`${winterCamp.venue}位置地圖`} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" />
             </div>
@@ -118,21 +137,21 @@ function About() {
     <section id="about" className="section about-section" aria-labelledby="about-title">
       <div className="wrap">
         <div className="about__layout">
-          <div className="about__intro">
+          <div className="about__intro" data-reveal>
 
             <h2 id="about-title">關於 SCAICT</h2>
             <p className="about__name" lang="en">Student Club&apos;s Association of Information in Central Taiwan</p>
           </div>
           <div className="about__content">
-            <h3 className="about__lead">結合中部電資資源，<br />讓資訊教育持續傳承。</h3>
-            <p className="about__description">中部高中電資社團聯合會議（SCAICT），簡稱「中電會」。2021 年 12 月 7 日，在 AIS3 新型態資安實務主題課程中，臺灣科技大學資訊工程系鄭欣明教授與陽明交通大學資訊工程系黃俊穎教授，提出將中部所有資訊社團聯合起來，成為一個「大組織」的構想，發起「中部高中職電資聯合會議」。</p>
-            <p className="about__description">以結合中區電資資源為起點，積極辦理資訊教育、活動與比賽，讓各校社團彼此交流、共同成長，並將經驗與資源持續傳承下去。</p>
+            <h3 className="about__lead" data-reveal>結合中部電資資源，<br />讓資訊教育持續傳承。</h3>
+            <p className="about__description" data-reveal>中部高中電資社團聯合會議（SCAICT），簡稱「中電會」。2021 年 12 月 7 日，在 AIS3 新型態資安實務主題課程中，臺灣科技大學資訊工程系鄭欣明教授與陽明交通大學資訊工程系黃俊穎教授，提出將中部所有資訊社團聯合起來，成為一個「大組織」的構想，發起「中部高中職電資聯合會議」。</p>
+            <p className="about__description" data-reveal>以結合中區電資資源為起點，積極辦理資訊教育、活動與比賽，讓各校社團彼此交流、共同成長，並將經驗與資源持續傳承下去。</p>
           </div>
         </div>
         <dl className="about__stats">
-          <div><dt>深耕中部教育</dt><dd>5<span>+</span></dd></div>
-          <div><dt>聯合參與社團</dt><dd>23<span>+</span></dd></div>
-          <div><dt>熱愛資訊的夥伴</dt><dd>200<span>+</span></dd></div>
+          <div data-reveal><dt>深耕中部教育</dt><dd><CountUp value={5} /><span>+</span></dd></div>
+          <div data-reveal style={{ '--reveal-delay': '100ms' }}><dt>聯合參與社團</dt><dd><CountUp value={23} /><span>+</span></dd></div>
+          <div data-reveal style={{ '--reveal-delay': '200ms' }}><dt>熱愛資訊的夥伴</dt><dd><CountUp value={200} /><span>+</span></dd></div>
         </dl>
       </div>
     </section>
@@ -166,13 +185,13 @@ function Organizers() {
   return (
     <section id="organizers" className="section organizers-section" aria-labelledby="organizers-title">
       <div className="wrap">
-        <h2 id="organizers-title">主辦與協辦</h2>
+        <h2 id="organizers-title" data-reveal>主辦與協辦</h2>
         {organizations.map(({ label, members }) => (
           <div className="organizer-group" key={label}>
-            <h3 className="organizer-group__heading"><span>{label}</span></h3>
+            <h3 className="organizer-group__heading" data-reveal><span>{label}</span></h3>
             <ul>
-              {members.map((member) => (
-                <li key={member.shortName}>
+              {members.map((member, index) => (
+                <li key={member.shortName} data-reveal style={{ '--reveal-delay': `${(index % 3) * 90}ms` }}>
                   <button type="button" className="organizer-card" onClick={(event) => openModal(member, label, event.currentTarget)} aria-haspopup="dialog" aria-label={`查看${label} ${member.name}詳細資訊`}>
                     <span className="organizer-card__logo"><img src={member.logo} alt="" loading="lazy" /></span>
                     <strong>{member.name}</strong>
@@ -200,10 +219,14 @@ function Organizers() {
 }
 
 export default function WinterLanding() {
+  const pageRef = useRef(null);
+  const progressRef = useRef(null);
+  usePageMotion(pageRef, progressRef);
+
   return (
-    <div id="top">
+    <div id="top" ref={pageRef}>
       <a className="skip-link" href="#ticket">跳到盲鳥票資訊</a>
-      <SiteNavbar />
+      <SiteNavbar progressRef={progressRef} />
       <main><Hero /><About /><Details /><Ticket /><CampMemories /><Organizers /></main>
       <SiteFooter />
     </div>

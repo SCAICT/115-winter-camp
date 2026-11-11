@@ -66,6 +66,7 @@ function useSpotlight() {
 
 export default function PhotoWall() {
   const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
   const [visible, setVisible] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const scrollerRef = useRef(null);
@@ -85,7 +86,7 @@ export default function PhotoWall() {
   }, []);
 
   useEffect(() => {
-    if (hovered || reducedMotion || !visible) return undefined;
+    if (hovered || focused || reducedMotion || !visible) return undefined;
     const scroller = scrollerRef.current;
     let position = scroller.scrollLeft;
     let lastWritten = scroller.scrollLeft;
@@ -105,12 +106,14 @@ export default function PhotoWall() {
     };
     frame = requestAnimationFrame(step);
     return () => cancelAnimationFrame(frame);
-  }, [hovered, reducedMotion, visible]);
+  }, [hovered, focused, reducedMotion, visible]);
 
   return (
     <div className="memories-photos" id="photos">
+      <div className="wrap photo-wall__toolbar" data-reveal>
+      </div>
       <div className="photo-wall" onPointerOver={onPointerOver} onPointerEnter={(event) => { if (event.pointerType === 'mouse') setHovered(true); }} onPointerLeave={() => { setHovered(false); clear(); }}>
-        <div ref={scrollerRef} id="photo-wall-scroller" className="photo-wall__scroller" role="region" aria-label="歷屆營隊照片牆" tabIndex={0} onWheel={clear} onKeyDown={clear}>
+        <div ref={scrollerRef} id="photo-wall-scroller" className="photo-wall__scroller" role="region" aria-label="歷屆營隊照片牆" tabIndex={0} onWheel={clear} onKeyDown={clear} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}>
           <div className="photo-wall__track">
             {[0, 1].map((copy) => (
               <div ref={copy === 0 ? copyRef : undefined} className="photo-wall__copy" key={copy} aria-hidden={copy === 1 ? true : undefined}>
