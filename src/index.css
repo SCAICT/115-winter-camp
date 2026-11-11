@@ -225,7 +225,7 @@ section[id] { scroll-margin-top: 130px; }
 .site-footer__contact address { display: flex; flex-direction: column; align-items: flex-start; font-style: normal; }
 .site-footer__contact a { display: block; max-width: 100%; padding-block: 10px; }
 .site-footer__bottom { display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid var(--footer-line); padding-top: 24px; font-size: 14px; }
-.site-footer__bottom p { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 0; color: var(--footer-muted); line-height: 1.8; }
+.site-footer__bottom p { display: flex; min-width: 0; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 0; color: var(--footer-muted); line-height: 1.8; }
 .site-footer__back-top { display: inline-flex; min-height: 44px; flex-shrink: 0; align-items: center; gap: 12px; font-size: 15px; }
 .site-footer__back-top span { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid var(--footer-line); border-radius: 50%; font-size: 20px; transition: color .2s, background .2s; }
 .site-footer__back-top:hover span { color: var(--paper); background: var(--footer-ink); }
@@ -400,8 +400,7 @@ section[id] { scroll-margin-top: 130px; }
   .site-footer__navigation { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 20px; }
   .site-footer__contact { grid-column: 1 / -1; }
   .site-footer__contact address { flex-direction: row; flex-wrap: wrap; gap: 0 28px; }
-  .site-footer__bottom { align-items: flex-start; }
-  .site-footer__bottom p { flex-direction: column; gap: 2px; }
+  .site-footer__bottom p { flex-direction: column; align-items: flex-start; gap: 2px; }
 }
 
 @media (max-width: 479px) {
@@ -425,8 +424,7 @@ section[id] { scroll-margin-top: 130px; }
   .organizer-card { min-height: 210px; }
   .organizer-modal__content { padding: 52px 22px 22px; }
   .site-footer__cta { width: 100%; }
-  .site-footer__bottom { flex-direction: column-reverse; gap: 20px; }
-  .site-footer__back-top { align-self: flex-end; }
+  .site-footer__bottom { gap: 16px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

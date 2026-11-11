@@ -61,7 +61,7 @@ export default function SiteFooter() {
         </div>
 
         <div className="site-footer__bottom">
-          <p>© 2027 SCAICT<span>中部高中電資社團聯合會議</span></p>
+          <p><span>© 2027 SCAICT</span><span>中部高中電資社團聯合會議</span></p>
           <a className="site-footer__back-top" href="#top">回到頂端 <span aria-hidden="true">↑</span></a>
         </div>
       </div>
