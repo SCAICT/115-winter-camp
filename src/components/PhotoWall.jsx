@@ -111,8 +111,6 @@ export default function PhotoWall() {
 
   return (
     <div className="memories-photos" id="photos">
-      <div className="wrap photo-wall__toolbar" data-reveal>
-      </div>
       <div className="photo-wall" onPointerOver={onPointerOver} onPointerEnter={(event) => { if (event.pointerType === 'mouse') setHovered(true); }} onPointerLeave={() => { setHovered(false); clear(); }}>
         <div ref={scrollerRef} id="photo-wall-scroller" className="photo-wall__scroller" role="region" aria-label="歷屆營隊照片牆" tabIndex={0} onWheel={clear} onKeyDown={clear} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}>
           <div className="photo-wall__track">

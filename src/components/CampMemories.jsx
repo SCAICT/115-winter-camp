@@ -1,5 +1,4 @@
 import { testimonials } from '../data/campMemories';
-import PhotoWall from './PhotoWall';
 
 export default function CampMemories() {
   return (
@@ -18,7 +17,6 @@ export default function CampMemories() {
           ))}
         </div>
       </div>
-      <PhotoWall />
     </section>
   );
 }

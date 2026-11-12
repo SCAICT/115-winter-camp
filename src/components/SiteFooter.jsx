@@ -14,7 +14,7 @@ const navigation = [
     title: '活動指南',
     links: [
       { label: '活動資訊', href: '#details' },
-      { label: '四天課表', href: '#schedule' },
+      { label: '四天課表', href: '/topics/#schedule' },
       { label: '住宿與生活', href: '#stay' },
       { label: '營隊相簿', href: '#photos' },
     ],
@@ -22,7 +22,7 @@ const navigation = [
   {
     title: '認識我們',
     links: [
-      { label: '關於 SCAICT', href: '#about' },
+      { label: '關於我們', href: '#about' },
       { label: '學員回饋', href: '#testimonials' },
       { label: '主辦與協辦', href: '#organizers' },
       { label: 'SCAICT 官網', href: 'https://scaict.org/' },
@@ -30,7 +30,7 @@ const navigation = [
   },
 ];
 
-export default function SiteFooter() {
+export default function SiteFooter({ home = '' }) {
   return (
     <footer className="site-footer" aria-label="網站頁尾">
       <div className="wrap">
@@ -54,9 +54,10 @@ export default function SiteFooter() {
                 <ul>
                   {links.map(({ label, href }) => {
                     const external = href.startsWith('https://');
+                    const target = external || href.startsWith('/') ? href : `${home}${href}`;
                     return (
                       <li key={href}>
-                        <a href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>
+                        <a href={target} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>
                           {label}{external && <span aria-hidden="true"> ↗</span>}
                         </a>
                       </li>

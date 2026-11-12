@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { readFile, access } from 'node:fs/promises';
 import test from 'node:test';
-import { siteSeo } from '../src/data/siteSeo.js';
+import { siteSeo, topicsSeo, aboutSeo, subpages } from '../src/data/siteSeo.js';
+import { courseTopics } from '../src/data/campGuide.js';
 import { winterCamp } from '../src/data/winterCamp.js';
 import { campSchedule } from '../src/data/campGuide.js';
 
@@ -26,12 +27,13 @@ test('built HTML includes one consistent title, description and canonical URL', 
 
 test('homepage content and useful search terms exist before JavaScript runs', () => {
   assert.equal([...main.matchAll(/<h1\b/g)].length, 1);
-  for (const text of ['2027', '寒假', '營隊', '高中生', '臺中', winterCamp.venue, '黑客松', '成果發表', '沒有程式基礎']) {
+  for (const text of ['2027', '寒假', '營隊', '高中生', '臺中', winterCamp.venue, '攻防', '漏洞', '沒有程式基礎']) {
     assert.ok(main.includes(text), `Missing prerendered content: ${text}`);
   }
-  for (const section of ['about', 'details', 'schedule', 'ticket', 'faq']) {
+  for (const section of ['topics', 'about', 'details', 'ticket', 'faq']) {
     assert.ok(main.includes(`id="${section}"`), section);
   }
+  assert.ok(!main.includes('id="schedule"'), 'The full schedule belongs on the topics subpage');
   // Registration state is calculated in the browser, not frozen on the build date.
   assert.equal([...main.matchAll(/data-registration-status="scheduled"/g)].length, winterCamp.ticket.registrationPeriods.length);
   assert.ok(!main.includes('本次報名已結束。'));
@@ -79,4 +81,47 @@ test('sitemap, robots and the social preview image are present in the deployable
   const image = new URL(siteSeo.image);
   assert.equal(image.origin, new URL(siteSeo.url).origin);
   await access(new URL(`.${image.pathname}`, dist));
+});
+
+test('homepage links to each subpage, and every subpage is prerendered with its own metadata', async () => {
+  const sitemap = await readFile(new URL('sitemap.xml', dist), 'utf8');
+  for (const page of subpages) {
+    assert.ok(main.includes(`href="${page.path}"`), `Homepage should link to ${page.path}`);
+    const html = await readFile(new URL(`.${page.path}index.html`, dist), 'utf8');
+    assert.ok(html.includes(`<title>${page.title}</title>`));
+    assert.ok(html.includes(`name="description" content="${page.description}"`));
+    assert.ok(html.includes(`rel="canonical" href="${page.url}"`));
+    assert.ok(html.includes(`property="og:url" content="${page.url}"`));
+    assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
+    assert.ok(sitemap.includes(`<loc>${page.url}</loc>`));
+  }
+});
+
+test('subpages carry the detailed content that the homepage only summarises', async () => {
+  const topics = await readFile(new URL(`.${topicsSeo.path}index.html`, dist), 'utf8');
+  for (const { title, outcome } of courseTopics) {
+    assert.ok(topics.includes(title), `Missing topic title: ${title}`);
+    assert.ok(topics.includes(outcome), `Missing topic outcome: ${title}`);
+  }
+  const about = await readFile(new URL(`.${aboutSeo.path}index.html`, dist), 'utf8');
+  for (const text of ['中電會', '2021 年 12 月 7 日', '深耕中部教育', '聯合參與社團']) {
+    assert.ok(about.includes(text), `Missing about content: ${text}`);
+  }
+  assert.ok(!main.includes('深耕中部教育'), 'Detailed stats belong on the about subpage');
+});
+
+test('homepage sections follow the about, course topics, details order', () => {
+  const position = (id) => main.indexOf(`id="${id}"`);
+  assert.ok(position('about') < position('topics'));
+  assert.ok(position('topics') < position('details'));
+});
+
+test('the topics subpage carries the full four-day schedule, and links point to it', async () => {
+  const topics = await readFile(new URL(`.${topicsSeo.path}index.html`, dist), 'utf8');
+  assert.ok(topics.includes('id="schedule"'));
+  for (const day of campSchedule.days) {
+    for (const { title } of day.events) assert.ok(topics.includes(title), `Missing schedule event: ${title}`);
+  }
+  assert.ok(!main.includes('href="#schedule"'), 'Homepage must not link to the removed #schedule anchor');
+  assert.ok(main.includes(`href="${topicsSeo.path}#schedule"`));
 });

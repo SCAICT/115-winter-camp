@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { winterCamp, organizations } from '../data/winterCamp';
+import { aboutSeo } from '../data/siteSeo';
 import CampMemories from './CampMemories';
+import PhotoWall from './PhotoWall';
+import CampTopics from './CampTopics';
 import SiteFooter from './SiteFooter';
 import SiteNavbar from './SiteNavbar';
 import CountUp from './CountUp';
 import usePageMotion from '../hooks/usePageMotion';
 import useTaipeiDate from '../hooks/useTaipeiDate';
-import CampSchedule from './CampSchedule';
 import CampStay from './CampStay';
 import RegistrationFlow from './RegistrationFlow';
 import CampFaq from './CampFaq';
@@ -37,9 +39,9 @@ function Hero() {
       <div className="hero__layout wrap">
         <div className="hero__content">
           <p className="hero__eyebrow">SCAICT 中部高中電資社團聯合會議</p>
-          <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span><span className="hero__camp-type">屬於初學者的寒假資訊營隊</span></h1>
+          <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span></h1>
           <span className="hero__divider" aria-hidden="true" />
-          <p className="hero__description">一起學習、實作與交流。<br />在這個冬天，寫下屬於我們的故事。</p>
+          <p className="hero__description">四天學會怎麼找出漏洞、修好漏洞，<br />和隊友一起守住你的服務。</p>
           <a className="button" href="#ticket">查看盲鳥票 <span aria-hidden="true">↗</span></a>
         </div>
         {startsOn && endsOn && (
@@ -158,30 +160,25 @@ function Details() {
   );
 }
 
+// 首頁只放簡介，完整介紹與數據在 /about/ 子頁。
 function About() {
   return (
     <section id="about" className="section about-section" aria-labelledby="about-title">
-      <div className="wrap">
-        <div className="about__layout">
+      <div className="wrap about-home">
+        <div className="about-home__text">
           <div className="about__intro" data-reveal>
-
-            <h2 id="about-title">關於 SCAICT</h2>
-            <p className="about__name" lang="en">Student Club&apos;s Association of Information in Central Taiwan</p>
+            <h2 id="about-title">關於我們</h2>
           </div>
-          <div className="about__content"><p className="about__description" data-reveal>中部高中電資社團聯合會議（SCAICT），簡稱「中電會」。2021 年 12 月 7 日，在 AIS3 新型態資安實務主題課程中，臺灣科技大學資訊工程系鄭欣明教授與陽明交通大學資訊工程系黃俊穎教授，提出將中部所有資訊社團聯合起來，成為一個「大組織」的構想，發起「中部高中職電資聯合會議」。</p>
-            <p className="about__description" data-reveal>以結合中區電資資源為起點，積極辦理資訊教育、活動與比賽，讓各校社團彼此交流、共同成長，並將經驗與資源持續傳承下去。</p>
-          </div>
+          <p className="about-summary" data-reveal>中部高中電資社團聯合會議（SCAICT），簡稱「中電會」，2021 年發起，串連中部高中職資訊社團，持續辦理資訊教育、活動與比賽。</p>
+          <a className="button" href={aboutSeo.path} data-reveal>認識我們 <span aria-hidden="true">↗</span></a>
         </div>
-        <dl className="about__stats">
-          <div data-reveal><dt>深耕中部教育</dt><dd><CountUp value={5} /><span>+</span></dd></div>
-          <div data-reveal style={{ '--reveal-delay': '100ms' }}><dt>聯合參與社團</dt><dd><CountUp value={23} /><span>+</span></dd></div>
-          <div data-reveal style={{ '--reveal-delay': '200ms' }}><dt>熱愛資訊的夥伴</dt><dd><CountUp value={200} /><span>+</span></dd></div>
-        </dl>
+        <div className="about-home__logo" data-reveal="scale" style={{ '--reveal-delay': '120ms' }}>
+          <img src="/img/LOGO/white_logo_nobg.webp" alt="SCAICT 中部高中電資社團聯合會議標誌" width="1302" height="364" loading="lazy" decoding="async" />
+        </div>
       </div>
     </section>
   );
 }
-
 function Organizers() {
   const [selected, setSelected] = useState(null);
   const dialogRef = useRef(null);
@@ -251,7 +248,7 @@ export default function WinterLanding() {
     <div id="top" ref={pageRef}>
       <a className="skip-link" href="#ticket">跳到盲鳥票資訊</a>
       <SiteNavbar progressRef={progressRef} />
-      <main><Hero /><About /><Details /><CampSchedule /><Ticket /><CampMemories /><CampFaq /><Organizers /></main>
+      <main><Hero /><PhotoWall /><About /><CampTopics /><Details /><Ticket /><CampMemories /><CampFaq /><Organizers /></main>
       <SiteFooter />
     </div>
   );

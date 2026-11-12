@@ -70,13 +70,12 @@ export default function CampSchedule() {
   };
 
   return (
-    <section id="schedule" className="section camp-schedule" aria-labelledby="schedule-title">
-      <div className="wrap">
-        <div className="guide-heading" data-reveal>
-          <div><h2 id="schedule-title">四天活動概覽</h2></div>
-        </div>
+    <section id="schedule" className="camp-schedule guide-subsection" aria-labelledby="schedule-title">
+      <div className="guide-heading" data-reveal>
+        <div><h3 id="schedule-title">四天課表</h3></div>
+      </div>
         <ul className="camp-schedule__legend" aria-label="活動分類" data-reveal>
-          <li data-kind="learning">課程與講座</li><li data-kind="activity">活動與交流</li><li data-kind="meal">用餐</li><li data-kind="project">黑客松與成果</li><li data-kind="logistics">交通與生活</li>
+          <li data-kind="learning">課程與講座</li><li data-kind="activity">活動與交流</li><li data-kind="meal">用餐</li><li data-kind="project">攻防競賽與成果</li><li data-kind="logistics">交通與生活</li>
         </ul>
 
         <div className="camp-schedule__desktop" data-reveal style={{ '--schedule-minutes': minutes }}>
@@ -117,7 +116,6 @@ export default function CampSchedule() {
             </ol>
           </div>
         </div>
-      </div>
       {selectedEvent && <ScheduleEventDialog event={selectedEvent} onClose={closeEvent} />}
     </section>
   );

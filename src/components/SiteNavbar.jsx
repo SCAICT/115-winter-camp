@@ -1,17 +1,20 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 const compactQuery = '(max-width: 1199px)';
+// 沿用 115-summer-camp 的導覽方式：項目都是首頁區塊的捲動連結，並依捲動位置高亮目前區塊。
+// 完整內容（/about/、/topics/）由各區塊內的按鈕進入。
 const navigation = [
-  { label: '關於 SCAICT', href: '#about' },
-  { label: '活動資訊', href: '#details' },
-  { label: '四天課表', href: '#schedule' },
-  { label: '學員回饋', href: '#testimonials' },
-  { label: '常見問題', href: '#faq' },
+  { label: '關於我們', href: '#about' },
+  { label: '課程主題', href: '#topics' },
 ];
+const sectionIds = navigation.map(({ href }) => href.slice(1));
 
-export default function SiteNavbar({ progressRef }) {
+// home 為子頁使用：錨點連結需帶回首頁路徑（例如 "/#about"）。
+export default function SiteNavbar({ progressRef, home = '' }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [compact, setCompact] = useState(false);
+  const [activeSection, setActiveSection] = useState(null);
+  const [logoPulse, setLogoPulse] = useState(false);
   const headerRef = useRef(null);
   const navRef = useRef(null);
   const progressPathRef = useRef(null);
@@ -59,6 +62,41 @@ export default function SiteNavbar({ progressRef }) {
     return () => media.removeEventListener('change', onChange);
   }, []);
 
+  // Scroll-spy：只在首頁（home 為空）追蹤目前所在的區塊，子頁不高亮。
+  useEffect(() => {
+    if (home) return undefined;
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
+    if (!sections.length) return undefined;
+
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+          break;
+        }
+      }
+    }, { threshold: 0, rootMargin: '-80px 0px -60% 0px' });
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [home]);
+
+  useEffect(() => {
+    if (!logoPulse) return undefined;
+    const timer = window.setTimeout(() => setLogoPulse(false), 420);
+    return () => window.clearTimeout(timer);
+  }, [logoPulse]);
+
+  const onLogoClick = (event) => {
+    setMenuOpen(false);
+    setLogoPulse(true);
+    // 在首頁平滑捲回頂端；在子頁則照一般連結回首頁。
+    if (!home) {
+      event.preventDefault();
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   useEffect(() => {
     if (!menuOpen) return undefined;
     const onKeyDown = (event) => {
@@ -89,7 +127,7 @@ export default function SiteNavbar({ progressRef }) {
         <svg ref={progressRef} className="site-header__progress" aria-hidden="true" focusable="false">
           <path ref={progressPathRef} pathLength="1" />
         </svg>
-        <a className="site-header__brand" href="#top" aria-label="SCAICT 2027 聯合寒訓，回到頂端" onClick={() => setMenuOpen(false)}>
+        <a className={`site-header__brand${logoPulse ? ' is-pulse' : ''}`} href={home || '#top'} aria-label="SCAICT 2027 聯合寒訓，回到頂端" onClick={onLogoClick}>
           <img src="/img/LOGO/white_logo_nobg.webp" alt="SCAICT" width="125" height="35" />
           <span className="site-header__event"><span>2027</span>聯合寒訓</span>
         </a>
@@ -100,10 +138,10 @@ export default function SiteNavbar({ progressRef }) {
           <div className="site-header__menu-content">
             <ul className="site-header__links">
               {navigation.map(({ label, href }) => (
-                <li key={href}><a href={href} onClick={() => setMenuOpen(false)}>{label}</a></li>
+                <li key={href}><a href={`${home}${href}`} aria-current={activeSection === href.slice(1) ? 'location' : undefined} onClick={() => setMenuOpen(false)}>{label}</a></li>
               ))}
             </ul>
-            <a className="site-header__cta" href="#ticket" onClick={() => setMenuOpen(false)}>查看盲鳥票 <span aria-hidden="true">↗</span></a>
+            <a className="site-header__cta" href={`${home}#ticket`} onClick={() => setMenuOpen(false)}>查看盲鳥票 <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </nav>
