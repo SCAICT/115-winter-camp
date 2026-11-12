@@ -19,7 +19,7 @@ export default function AboutPage() {
           <dl className="about__stats">
             <div data-reveal><dt>深耕中部教育</dt><dd><CountUp value={5} /><span>年</span><span>+</span></dd></div>
             <div data-reveal style={{ '--reveal-delay': '100ms' }}><dt>聯合參與社團</dt><dd><CountUp value={23} /><span>個</span><span>+</span></dd></div>
-            <div data-reveal style={{ '--reveal-delay': '200ms' }}><dt>熱愛資訊的夥伴</dt><dd><CountUp value={6000} /><span>人</span><span>+</span></dd></div>
+            <div data-reveal style={{ '--reveal-delay': '200ms' }}><dt>熱愛資訊的夥伴</dt><dd><CountUp value={2000} /><span>人</span><span>+</span></dd></div>
           </dl>
           <div className="topics-actions" data-reveal>
             <a className="button" href="https://scaict.org/" target="_blank" rel="noopener noreferrer">前往 SCAICT 官網 <span aria-hidden="true">↗</span></a>

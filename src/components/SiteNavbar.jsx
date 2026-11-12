@@ -6,6 +6,10 @@ const compactQuery = '(max-width: 1199px)';
 const navigation = [
   { label: '關於我們', href: '#about' },
   { label: '課程主題', href: '#topics' },
+  { label: '活動資訊', href: '#details' },
+  { label: '學員回饋', href: '#testimonials' },
+  { label: '常見問題', href: '#faq' },
+  { label: '主辦單位', href: '#organizers' },
 ];
 const sectionIds = navigation.map(({ href }) => href.slice(1));
 
@@ -65,16 +69,18 @@ export default function SiteNavbar({ progressRef, home = '' }) {
   // Scroll-spy：只在首頁（home 為空）追蹤目前所在的區塊，子頁不高亮。
   useEffect(() => {
     if (home) return undefined;
-    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean)
+      .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
     if (!sections.length) return undefined;
 
+    // 同時命中多個區塊時（上一區塊尾端與下一區塊開頭），取文件順序最後一個；都沒命中（例如 Hero）則不高亮。
+    const visible = new Set();
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-          break;
-        }
+        if (entry.isIntersecting) visible.add(entry.target.id);
+        else visible.delete(entry.target.id);
       }
+      setActiveSection(sections.findLast((section) => visible.has(section.id))?.id ?? null);
     }, { threshold: 0, rootMargin: '-80px 0px -60% 0px' });
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();

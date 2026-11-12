@@ -58,6 +58,7 @@ export const organizations = [
   {
     label: '協辦單位',
     members: [
+      { shortName: 'NCHU AMATH', name: '國立中興大學應用數學系', href: 'https://www.amath.nchu.edu.tw/', logo: '/img/LOGO/nchu.webp', desc: '國內第一個應用數學系，民國 50 年由國立中興大學設立。以扎實的數學基礎結合統計、計算與資料科學，培養邏輯思考與問題分析能力，出借場地給本次聯合寒訓使用。' },
       { shortName: 'SCINT', name: '北臺灣學生資訊社群', href: 'https://scint.org/', logo: '/img/LOGO/scint.webp', desc: '匯聚北台灣各高中資訊社群，串連人才、共享資源，與 SCAICT 攜手推動學生技術交流。' },
       { shortName: 'SCIST', name: '南臺灣學生資訊社群', href: 'https://scist.org/', logo: '/img/LOGO/scist.webp', desc: '深耕南台灣資訊教育，涵蓋演算法、資安與程式競賽，與 SCAICT 共同縮短南北技術資源差距。' },
       { shortName: 'NCSE', name: 'NCSE Network', href: 'https://ncse.tw/', logo: 'https://cdn-file.ncse.tw/image/Logo_NCSE_Network_Banner.svg', desc: '提供網路與技術支援，協助推動本營隊的數位化運作。' },
