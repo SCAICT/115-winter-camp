@@ -134,7 +134,8 @@ export default function SiteNavbar({ progressRef, home = '' }) {
           <path ref={progressPathRef} pathLength="1" />
         </svg>
         <a className={`site-header__brand${logoPulse ? ' is-pulse' : ''}`} href={home || '#top'} aria-label="SCAICT 2027 聯合寒訓，回到頂端" onClick={onLogoClick}>
-          <img src="/img/LOGO/white_logo_nobg.webp" alt="SCAICT" width="125" height="35" />
+          {/* 首屏最先出現的圖片（常被判定為 LCP），要求瀏覽器優先下載，不要排在字型與腳本後面。 */}
+          <img src="/img/LOGO/white_logo_nobg.webp" alt="SCAICT" width="125" height="35" fetchPriority="high" />
           <span className="site-header__event"><span>2027</span>聯合寒訓</span>
         </a>
         <button ref={toggleRef} className="site-header__toggle" type="button" aria-label={menuOpen ? '關閉選單' : '開啟選單'} aria-expanded={menuOpen} aria-controls="site-navigation" onClick={() => setMenuOpen((open) => !open)}>

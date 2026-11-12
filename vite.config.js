@@ -8,8 +8,13 @@ const socialMeta = (property, content) => ({ tag: 'meta', attrs: { property, con
 export default defineConfig({
   plugins: [react(), {
     name: 'camp-seo',
-    transformIndexHtml() {
-      return [
+    transformIndexHtml(_html, context) {
+      // 字型檔名含雜湊，只能在建置時由打包結果取得；preload 讓字型與 CSS 同時下載，不用等 CSS 解析完才開始。
+      const fontPreloads = Object.keys(context.bundle ?? {})
+        .filter((file) => file.endsWith('.woff2'))
+        .map((file) => ({ tag: 'link', attrs: { rel: 'preload', href: `/${file}`, as: 'font', type: 'font/woff2', crossorigin: '' }, injectTo: 'head' }));
+      // 一律附加在 head 後面，避免擠在 <meta charset> 前面（charset 需在檔案前 1024 位元組內宣告）。
+      const seoTags = [
         { tag: 'title', children: siteSeo.title },
         meta('description', siteSeo.description),
         { tag: 'link', attrs: { rel: 'canonical', href: siteSeo.url } },
@@ -32,6 +37,7 @@ export default defineConfig({
           children: JSON.stringify(structuredData).replaceAll('<', '\\u003c'),
         },
       ];
+      return [...fontPreloads, ...seoTags.map((tag) => ({ ...tag, injectTo: 'head' }))];
     },
   }],
   build: {

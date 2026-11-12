@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { wallPhotos } from '../data/campMemories';
+import useIdleReady from '../hooks/useIdleReady';
+
+// 圖片真正載入前先放 1×1 的透明圖，避免瀏覽器把 alt 文字畫在格子裡。
+const blank = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
 // Three-row bento modules, following the SITCON photo wall's large, wide and tall rhythm.
 const placements = [
@@ -7,6 +11,18 @@ const placements = [
   ['1 / 2 / 3 / 4', '1 / 1 / 2 / 2', '2 / 1 / 3 / 2', '3 / 1 / 4 / 2', '3 / 2 / 4 / 4'],
   ['1 / 1 / 2 / 3', '1 / 3 / 3 / 4', '2 / 1 / 4 / 2', '2 / 2 / 3 / 3', '3 / 2 / 4 / 4'],
 ];
+// 每個格子實際顯示多大，決定瀏覽器該挑哪一張縮圖。牆高 540（手機 360）、模組為 3×3 的正方形、
+// 間距 10（手機 8）；object-fit: cover 需要的寬度，是「格子寬」與「格子高 × 4/3」中較大的那個。
+const tileSizes = (area) => {
+  const [rowStart, columnStart, rowEnd, columnEnd] = area.split(' / ').map(Number);
+  const needed = (wall, gap) => {
+    const cell = (wall - 2 * gap) / 3;
+    const width = (columnEnd - columnStart) * cell + (columnEnd - columnStart - 1) * gap;
+    const height = (rowEnd - rowStart) * cell + (rowEnd - rowStart - 1) * gap;
+    return Math.round(Math.max(width, height * 4 / 3));
+  };
+  return `(max-width: 767px) ${needed(360, 8)}px, ${needed(540, 10)}px`;
+};
 const modules = Array.from({ length: Math.ceil(wallPhotos.length / 5) }, (_, index) =>
   wallPhotos.slice(index * 5, index * 5 + 5).map((photo, tile) => ({
     ...photo,
@@ -72,6 +88,7 @@ export default function PhotoWall() {
   const scrollerRef = useRef(null);
   const copyRef = useRef(null);
   const { layerRef, onPointerOver, clear } = useSpotlight();
+  const imagesReady = useIdleReady();
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -118,9 +135,9 @@ export default function PhotoWall() {
               <div ref={copy === 0 ? copyRef : undefined} className="photo-wall__copy" key={copy} aria-hidden={copy === 1 ? true : undefined}>
                 {modules.map((photos, moduleIndex) => (
                   <div className="photo-wall__module" key={moduleIndex}>
-                    {photos.map(({ id, src, caption, area }) => (
+                    {photos.map(({ id, src, srcSet, caption, area }) => (
                       <figure className="photo-wall__tile" style={{ gridArea: area }} key={id}>
-                        <img src={src} alt={copy === 0 ? caption : ''} width="1200" height="900" loading="lazy" decoding="async" draggable="false" />
+                        <img src={imagesReady ? src : blank} srcSet={imagesReady ? srcSet : undefined} sizes={tileSizes(area)} alt={copy === 0 ? caption : ''} width="1200" height="900" loading="lazy" decoding="async" draggable="false" />
                         <figcaption>{caption}</figcaption>
                       </figure>
                     ))}

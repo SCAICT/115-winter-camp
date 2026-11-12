@@ -37,10 +37,22 @@ export const photoArchives = [
     `/img/photos-optimized/${year}/${String(index + 1).padStart(2, '0')}.webp`),
 }));
 
+// 照片牆的格子最大約 360px：用 360／720px 兩種寬度的縮圖（由 npm run images 從上面的原圖產生，
+// PhotoWall 以 srcset 讓瀏覽器依格子大小挑選）；原圖保留給 og:image 等用途。
+const wallImage = (src) => {
+  const base = src
+    .replace('/img/gallery-optimized/', '/img/wall/gallery/')
+    .replace('/img/photos-optimized/', '/img/wall/photos/')
+    .replace(/\.webp$/, '');
+  return { src: `${base}-720.webp`, srcSet: `${base}-360.webp 360w, ${base}-720.webp 720w` };
+};
+
+// caption 同時是圖片的替代文字（alt）與滑過時顯示的說明。
 export const wallPhotos = [
-  ...galleryPhotos,
+  ...galleryPhotos.map((photo) => ({ ...photo, caption: '歷屆聯合寒訓活動照片' })),
   ...photoArchives.flatMap(({ year, title, photos }) => photos.map((src, index) => ({
     id: `${year}-${index + 1}`,
     src,
+    caption: `${title}活動照片`,
   }))),
-];
+].map(({ src, ...photo }) => ({ ...photo, ...wallImage(src) }));

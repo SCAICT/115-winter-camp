@@ -7,24 +7,14 @@
     <meta name="robots" content="index, follow" />
     <meta name="author" content="SCAICT" />
 
-    <!-- 標題、摘要、社群分享與結構化資料由 vite.config.js 讀取 siteSeo.js 產生。 -->
+    <!-- 標題、摘要、社群分享與結構化資料由 vite.config.js 讀取 siteSeo.js 產生；字型 preload 也由它加入（檔名含雜湊）。 -->
     <link rel="icon" href="/favicon.ico?v=9b7c5a9c" type="image/x-icon" sizes="16x16 32x32 48x48" />
 
     <style>
       html, body { background: #0b0b0b; }
-      #root { visibility: hidden; opacity: 0; transition: opacity .6s ease; }
-      #font-loading {
-        position: fixed;
-        inset: 0;
-        display: grid;
-        place-items: center;
-        color: #aaa;
-        background: #0b0b0b;
-        font: 12px system-ui, sans-serif;
-        letter-spacing: .12em;
-      }
+      /* 字型載入完成（或等待逾時）前先隱藏，避免字型替換造成畫面跳動；由 body 結尾的內嵌腳本解除。 */
+      #root { visibility: hidden; opacity: 0; transition: opacity .4s ease; }
       html.fonts-ready #root { visibility: visible; opacity: 1; }
-      html.fonts-ready #font-loading { display: none; }
       @media (prefers-reduced-motion: reduce) {
         #root { transition: none; }
       }
@@ -39,6 +29,30 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- 不等 JavaScript 套件下載：字型一載入就顯示預先渲染好的內容，最多等 1 秒；逾時就先用系統字型顯示，字型到了再替換。 -->
+    <script>
+      (function () {
+        var html = document.documentElement;
+        // 帶著錨點進入時，在顯示前（字型已套用、版面穩定後）直接定位到該區塊；重新整理與上一頁／下一頁交給瀏覽器還原。
+        var restoreHashPosition = function () {
+          var hash = location.hash;
+          var nav = performance.getEntriesByType('navigation')[0];
+          if (hash.length < 2 || hash.indexOf('#/') === 0 || (nav && nav.type && nav.type !== 'navigate')) return;
+          try {
+            var target = document.getElementById(decodeURIComponent(hash.slice(1)));
+            if (target) target.scrollIntoView({ behavior: 'instant', block: 'start' });
+          } catch (error) { /* 無效的錨點不處理 */ }
+        };
+        var reveal = function () { restoreHashPosition(); html.classList.add('fonts-ready'); };
+        var timer = setTimeout(reveal, 1000);
+        var done = function () { clearTimeout(timer); reveal(); };
+        if (!document.fonts || !document.fonts.load) return done();
+        Promise.all([
+          document.fonts.load('400 16px "LINE Seed TW"', '2027'),
+          document.fonts.load('700 16px "LINE Seed TW"', '2027'),
+        ]).then(done, done);
+      })();
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

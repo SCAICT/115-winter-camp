@@ -91,53 +91,94 @@ export const campSchedule = {
   })),
 };
 
-export const topicFlow = ['看懂服務', '驗證問題', '找到證據', '修改程式', '測試部署'];
+// 營隊核心學習目標：五個階段。首頁只顯示名稱，/topics/ 另顯示說明。
+export const topicFlow = [
+  { key: 'Develop', title: '開發服務', description: '理解 Web 架構，學習使用 Python、Flask 與 SQLite 建立 Web 服務。' },
+  { key: 'Analyze', title: '分析問題', description: '透過 HTTP 請求、封包及系統 Log，理解服務運作並找出潛在漏洞。' },
+  { key: 'Exploit', title: '驗證漏洞', description: '在授權的實驗環境中重現漏洞，理解攻擊原理與可能造成的影響。' },
+  { key: 'Secure', title: '修補與部署', description: '修改程式、執行安全測試，並透過 Git 與 Docker 管理及部署服務。' },
+  { key: 'Compete', title: '團隊攻防', description: '參與 A&D 競賽，實際進行攻擊、防守、維運及團隊協作。' },
+];
 
+// summary 給首頁卡片（一句話）；description / items / outcome 給 /topics/ 完整介紹。
 export const courseTopics = [
   {
-    day: 'DAY 1', title: 'Linux 與服務環境',
-    description: '先學會在主機上「找東西」：服務程式放在哪、設定在哪、錯誤訊息去哪裡看。',
-    outcome: '登入自己的練習環境，找到服務檔案、查看 Log，並重啟指定服務。',
-    tags: ['檔案與權限', '程序與服務', 'Log'],
+    day: 'DAY 1', title: 'Linux 與系統服務管理',
+    summary: '從 Linux 操作開始，學會管理主機上的檔案、程序與服務。',
+    description: '從 Linux 操作開始，認識 Web 服務運作所需的基本環境，學習如何管理主機上的檔案、程序與服務。',
+    items: ['Linux 常用指令與檔案系統', '檔案權限與目錄管理', 'Process 與 Service 管理', '系統 Log 與錯誤訊息判讀', '服務啟動、停止及重啟'],
+    outcome: '能夠登入自己的練習環境，找到服務程式、查看系統紀錄並完成基本維運操作。',
   },
   {
-    day: 'DAY 1', title: 'HTTP 與請求分析',
-    description: '網站的每個動作都是一筆請求。看懂請求與回應，就能知道後端到底做了什麼。',
-    outcome: '指出一筆請求的路徑、方法、Cookie 與參數，用 curl 或 Burp 重送並對應到後端路由。',
-    tags: ['IP / Port / DNS', 'Cookie', 'DevTools', 'curl', 'Burp'],
+    day: 'DAY 1', title: '網路通訊與 HTTP 請求分析',
+    summary: '網站的每次操作都是一筆請求，學會追蹤瀏覽器與後端之間的資料交換。',
+    description: '網站上的每一次操作，背後都是一筆網路請求。透過理解 HTTP 通訊流程，學習追蹤瀏覽器與後端服務之間的資料交換。',
+    items: ['IP、Port、DNS 與網路基礎', 'HTTP Request / Response', 'HTTP Method、Header 與 Cookie', 'Session 與登入驗證', 'Chrome DevTools Network', 'curl 與 Burp Suite Repeater'],
+    outcome: '能夠觀察、重送及分析 HTTP 請求，並找出請求對應的後端處理流程。',
   },
   {
-    day: 'DAY 1–2', title: 'Web 漏洞驗證與修補',
-    description: '聚焦兩種最常見的問題：存取控制錯誤（越權）與 SQL Injection，在授權靶場親手重現、再親手修好。',
-    outcome: '說明資料如何被不當取得，提交修補並證明攻擊失效、正常功能仍可用。',
-    tags: ['IDOR', 'SQL Injection', '參數化查詢'],
+    day: 'DAY 1–2', title: 'Web 後端開發與服務建置',
+    summary: '從開發者角度理解 Web 服務，用 Python、Flask 與 SQLite 讀懂並修改後端程式。',
+    description: '從開發者的角度理解 Web 服務，學習後端程式如何接收使用者請求、處理資料及與資料庫互動，建立後續安全分析與攻防競賽所需的開發基礎。',
+    items: ['Python 基礎與後端程式結構', 'Flask Web Framework', 'Routing 與 HTTP 請求處理', 'SQLite 資料庫操作', '使用者登入與資料存取', 'Web 服務功能與資料流程'],
+    outcome: '理解一套 Web 服務的基本架構，能夠閱讀及修改後端程式，掌握使用者請求、資料庫與服務回應之間的關係。',
   },
   {
-    day: 'DAY 2', title: '封包與 Log 事件還原',
-    description: '攻擊發生之後，還原現場。從封包與應用程式 Log 排出時間線，分清楚事實與推測。',
-    outcome: '指出事件的時間、路徑、證據與影響，並寫出一份有憑有據的事件紀錄。',
-    tags: ['Wireshark', 'HTTP Log', '時間線'],
+    day: 'DAY 1–2', title: 'Web 漏洞分析與安全修補',
+    summary: '重現 IDOR 與 SQL Injection 等常見漏洞，分析成因並完成修補。',
+    description: '從實際 Web 服務出發，認識常見的安全問題，學習如何重現漏洞、分析程式中的弱點，並透過修改程式碼完成安全修補。',
+    items: ['Web 存取控制與權限管理', 'IDOR（Insecure Direct Object Reference）', 'SQL Injection', 'SQL 參數化查詢', '使用者身分與物件授權驗證', '漏洞重現、分析與修補', '修補前後的功能測試'],
+    outcome: '能夠在授權靶場中重現指定漏洞，理解漏洞成因，並提出能保留正常功能的修補方式。',
   },
   {
-    day: 'DAY 2', title: 'Git、測試與部署',
-    description: '修補不只是改程式。學會留下可讀的差異、跑回歸測試，讓隊友能接手，也能在出錯時退回上一版。',
-    outcome: '用 Git 交接修補，並用 Docker Compose 啟動、更新與復原自己的服務。',
-    tags: ['Git', '回歸測試', 'Docker Compose', 'Python 腳本'],
+    day: 'DAY 2', title: '封包分析與數位鑑識',
+    summary: '攻擊發生後，從封包與 Log 還原過程、建立事件時間線。',
+    description: '當攻擊事件發生時，如何還原過程並找出證據？透過網路封包與應用程式紀錄，學習追蹤攻擊行為及建立事件時間線。',
+    items: ['Wireshark 操作與封包分析', 'PCAP 封包檔案判讀', 'HTTP Log 分析', '異常請求與攻擊行為追蹤', '事件時間線建立', '證據整理與影響判斷'],
+    outcome: '能夠從提供的封包與 Log 中找出關鍵資訊，還原事件發生順序，並區分已確認的證據與推測。',
   },
   {
-    day: 'DAY 3–4', title: '團隊攻防競賽',
-    description: '把前兩天學的全部用上。每隊接手同一套 Web 服務，攻擊其他隊伍、修補自己的服務，並讓正常使用者繼續操作。',
-    outcome: '在角色輪替中走完分析、修補、維運與紀錄，留下可重現的攻防紀錄與 Write-up。',
-    tags: ['Attack / Defense', '動態 Flag', '角色輪替'],
+    day: 'DAY 2', title: 'Git 版本管理與服務部署',
+    summary: '用 Git、Docker 與回歸測試讓修補後的服務穩定部署，必要時能復原。',
+    description: '安全修補不只是修改程式碼，更需要確保服務能夠正常運作。學習透過版本管理、容器化與測試流程，讓修改後的服務能夠穩定部署及復原。',
+    items: ['Git Diff、Commit 與版本管理', '團隊程式碼修改與交接', 'Docker 與 Docker Compose', 'Web 服務部署與更新', 'Regression Testing（回歸測試）', 'Health Check（健康檢查）', '服務故障排除與版本復原'],
+    outcome: '能夠部署及更新自己的服務，檢查修補是否有效，並在部署失敗時恢復至先前版本。',
+  },
+  {
+    day: 'DAY 3–4', title: 'Attack & Defense 團隊攻防競賽',
+    summary: '每隊接手自己的 Web 服務，在隔離環境中攻擊其他隊伍取得 Flag，同時修補自身漏洞、維持服務運作。',
+    description: '將前兩天所學的開發、漏洞分析與安全修補技術整合，進入真正的團隊攻防環境。每隊接手自己的 Web 服務，在主辦方提供的隔離環境中，透過攻擊其他隊伍的服務取得 Flag，同時分析並修補自身服務的漏洞，維持服務正常運作。',
+    items: ['Attack & Defense 競賽機制', '動態 Flag 與 Checker', 'Web 漏洞利用與攻擊分析', '自有服務漏洞修補', '服務可用性與維運', '攻防策略與團隊協作', '角色輪替與任務交接'],
+    outcome: '將開發、攻擊、防守及維運能力整合運用，在競賽過程中完成團隊攻防任務。',
     featured: true,
   },
+  {
+    day: 'DAY 3–4', title: '技術成果整理與團隊協作',
+    summary: '整理攻防紀錄、修補差異與 Write-up，向其他隊伍說明自己的成果。',
+    description: '除了競賽成績，也重視學員能否清楚說明自己的技術成果。透過紀錄、整理與成果發表，培養團隊合作及技術溝通能力。',
+    items: ['攻防過程與操作紀錄', 'Patch 修補差異與測試結果', '事件分析與時間線報告', 'Technical Write-up 撰寫', '團隊成果分享與技術發表', 'AI 工具輔助分析與開發'],
+    outcome: '完成可重現的攻防紀錄、修補成果與事件分析，並能向其他隊伍說明自己的解題過程。',
+  },
+];
+
+export const learningOutcomes = [
+  '操作 Linux 環境並進行基本服務管理。',
+  '理解 HTTP 通訊及 Web 後端服務的運作方式。',
+  '使用 Python、Flask 與 SQLite 理解及修改 Web 服務。',
+  '辨識並驗證 IDOR、SQL Injection 等常見 Web 漏洞。',
+  '使用 Wireshark 與 Log 分析網路事件。',
+  '使用 Git、Docker 管理程式版本與服務部署。',
+  '參與 A&D 團隊攻防，完成攻擊、防守及漏洞修補任務。',
+  '整理技術紀錄、撰寫 Write-up 並分享團隊成果。',
 ];
 
 export const teachingPoints = [
-  { title: '操作優先', description: '每個單元以短講、示範、實作、同伴說明進行，上機操作至少占一半時間。' },
-  { title: '新手友善', description: '練習分為保底任務與延伸任務，保底任務提供分階段提示，進階隊伍有額外挑戰。' },
-  { title: '每人都動手', description: '全班共用同一套服務與語言，並提供行前教材與指令小抄，助教巡迴協助。' },
+  { title: '從開發到資安，建立完整技術視野', description: '不將資安侷限於工具操作，而是從 Web 開發開始，理解系統如何運作、漏洞如何產生，以及如何從程式碼根本解決問題。' },
+  { title: '從課堂到實戰，真正動手完成任務', description: '前兩天建立技術基礎，後兩天透過 A&D 競賽整合所學，讓學員親自面對實際服務中的攻防挑戰。' },
+  { title: '從個人學習到團隊合作', description: '透過角色輪替、技術交接與成果分享，讓每位學員都有機會參與不同工作，而非只由少數有經驗的成員完成所有任務。' },
+  { title: '允許 AI 協作，重視實際理解', description: '鼓勵使用 AI 與各種開發工具輔助程式閱讀、漏洞分析及修補，但所有成果都必須經過實際操作、測試與個人說明。' },
 ];
+
 export const registrationSteps = [
   { title: '確認票種與時程', description: '先查看票價、費用包含項目與報名期間，選擇適合自己的報名階段。' },
   { title: '填寫報名資料', description: '售票表單開放後，依頁面指示填寫聯絡方式與相關資料，送出前再次確認。' },

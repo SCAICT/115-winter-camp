@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'LINE Seed TW';
-  src: url('./fonts/LINESeedTW_OTF_Rg.woff2') format('woff2');
+  src: url('./fonts/subset/LINESeedTW-Rg.woff2') format('woff2');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: 'LINE Seed TW';
-  src: url('./fonts/LINESeedTW_OTF_Bd.woff2') format('woff2');
+  src: url('./fonts/subset/LINESeedTW-Bd.woff2') format('woff2');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
@@ -98,45 +98,94 @@ section[id] { scroll-margin-top: 130px; }
 .topics-flow li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; font-size: 17px; font-weight: 700; text-align: center; }
 .topics-flow__number { display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid #f9f5ef59; border-radius: 50%; background: #0b0b0b; font-size: 16px; font-variant-numeric: tabular-nums; }
 .topics-flow li:last-child .topics-flow__number { border-color: var(--paper); color: #101312; background: var(--paper); }
+.topics-flow__label { display: flex; min-width: 0; flex-direction: column; align-items: center; gap: 2px; }
+.topics-flow__label small { color: var(--muted); font-size: 13px; font-weight: 400; letter-spacing: .14em; }
+.topics-flow__desc { display: block; max-width: 250px; margin-top: 10px; padding-inline: 8px; color: var(--muted); font-size: 15px; font-weight: 400; line-height: 1.8; }
+.topics-section .topics-subheading { margin: 80px 0 0; font-size: clamp(26px, 3vw, 38px); font-weight: 700; line-height: 1.4; letter-spacing: -.03em; }
+.topics-subheading + :is(.topics-flow, .topics-grid, .topics-outcomes, .topics-method) { margin-top: 32px; }
 .topics-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
 .topic-card { position: relative; display: flex; min-width: 0; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: 28px; padding: 28px; background: #f9f5ef05; transition: border-color .3s, background .3s; }
 .topic-card__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 28px; }
 .topic-card__number { color: transparent; font-size: 64px; font-weight: 700; letter-spacing: -.06em; line-height: .9; -webkit-text-stroke: 1px #f9f5ef80; font-variant-numeric: tabular-nums; }
 .topic-card__day { flex-shrink: 0; border: 1px solid var(--line); border-radius: 999px; padding: 5px 14px; color: var(--muted); font-size: 14px; letter-spacing: .12em; }
-.topics-grid .topic-card h2 { margin: 0 0 12px; font-size: 26px; font-weight: 700; line-height: 1.45; letter-spacing: -.02em; }
-.topic-card__description { margin: 0; color: #f9f5efdb; font-size: 17px; line-height: 1.9; }
-.topic-card__outcome { margin: 20px 0 24px; border-top: 1px solid var(--line); padding-top: 18px; color: var(--muted); font-size: 16px; line-height: 1.85; }
-.topic-card__outcome > span { display: block; margin-bottom: 4px; color: var(--paper); font-size: 14px; font-weight: 700; letter-spacing: .14em; }
-.topic-card__tags { display: flex; flex-wrap: wrap; gap: 8px; margin: auto 0 0; padding: 0; list-style: none; }
-.topic-card__tags li { border-radius: 8px; padding: 4px 10px; color: var(--muted); background: #f9f5ef14; font-size: 14px; line-height: 1.6; }
+.topics-grid .topic-card h3 { margin: 0 0 12px; font-size: 24px; font-weight: 700; line-height: 1.45; letter-spacing: -.02em; }
+.topic-card__description { margin: 0; color: #f9f5efdb; font-size: 16px; line-height: 1.9; }
+.topic-card__content, .topic-card__outcome { border-top: 1px solid var(--line); padding-top: 18px; color: var(--muted); font-size: 16px; line-height: 1.85; }
+.topic-card__more { display: flex; flex: 1; flex-direction: column; }
+.topic-card__toggle { display: none; }
+.topic-card__content { margin: 20px 0; }
+.topic-card__outcome { margin: auto 0 0; }
+.topic-card__content > span, .topic-card__outcome > span { display: block; margin-bottom: 6px; color: var(--paper); font-size: 14px; font-weight: 700; letter-spacing: .14em; }
+.topic-card__items { margin: 0; padding: 0; list-style: none; }
+.topic-card__items li { position: relative; break-inside: avoid; padding-left: 16px; font-size: 15px; line-height: 1.8; }
+.topic-card__items li + li { margin-top: 2px; }
+.topic-card__items li::before { position: absolute; top: .95em; left: 0; width: 8px; height: 1px; background: currentColor; opacity: .6; content: ''; }
 .topic-card--featured { border-color: var(--paper); color: #101312; background: var(--paper); }
-.topic-card--featured .topic-card__number { -webkit-text-stroke-color: #10131299; }
+.topic-card--featured .topic-card__number { -webkit-text-stroke-color: #10131999; }
 .topic-card--featured .topic-card__day { border-color: #10131966; color: #101312; }
-.topic-card--featured :is(.topic-card__description, .topic-card__outcome, .topic-card__outcome > span) { color: #101312; }
+.topic-card--featured :is(.topic-card__description, .topic-card__content, .topic-card__outcome, .topic-card__content > span, .topic-card__outcome > span) { color: #101312; }
 .topic-card--featured .topic-card__description { opacity: .88; }
-.topic-card--featured .topic-card__outcome { border-top-color: #10131933; }
-.topic-card--featured .topic-card__tags li { color: #101312; background: #1013121a; }
-.topics-method { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 40px 0 0; padding: 0; list-style: none; }
+.topic-card--featured :is(.topic-card__content, .topic-card__outcome) { border-top-color: #10131933; }
+.topics-outcomes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; margin: 0; padding: 0; list-style: none; counter-reset: outcome; }
+.topics-outcomes li { display: flex; align-items: baseline; gap: 18px; border-top: 1px solid var(--line); padding: 18px 0; font-size: 17px; line-height: 1.8; counter-increment: outcome; }
+.topics-outcomes li::before { flex-shrink: 0; min-width: 2ch; color: #f9f5ef80; font-size: 15px; font-variant-numeric: tabular-nums; letter-spacing: .06em; content: counter(outcome, decimal-leading-zero); }
+.topics-method { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 40px; margin: 40px 0 0; padding: 0; list-style: none; }
 .topics-method li { display: flex; flex-direction: column; gap: 8px; border-left: 2px solid #f9f5ef4d; padding: 4px 0 4px 20px; }
 .topics-method strong { font-size: 18px; }
 .topics-method span { color: var(--muted); font-size: 16px; line-height: 1.85; }
 @media (hover: hover) { .topic-card:not(.topic-card--featured):hover { border-color: #f9f5ef66; background: #1b1b1b; } }
+@media (min-width: 1024px) {
+  .topic-card--featured { grid-column: span 2; }
+  .topic-card--featured .topic-card__items { columns: 2; column-gap: 32px; }
+}
 @media (max-width: 1023px) {
   .topics-intro { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .topics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-  .topics-method { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .topics-method { gap: 20px; }
+  .topics-section .topics-subheading { margin-top: 64px; }
 }
 @media (max-width: 767px) {
   .topics-intro__text p { font-size: 16px; }
   .topics-flow { margin: 32px 0 24px; }
   .topics-flow::before { top: 16px; right: 10%; left: 10%; }
   .topics-flow li { gap: 10px; font-size: 13px; letter-spacing: 0; }
+  .topics-flow__label small { font-size: 10px; letter-spacing: 0; }
   .topics-flow__number { width: 32px; height: 32px; font-size: 14px; }
+  /* 子頁的五階段含說明文字，手機改成直式時間軸。 */
+  .topics-flow--detailed { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .topics-flow--detailed::before { top: 16px; right: auto; bottom: 16px; left: 15px; width: 1px; height: auto; background: linear-gradient(to bottom, #f9f5ef59 60%, transparent 0) 0 / 1px 10px repeat-y; }
+  .topics-flow--detailed li { flex-direction: row; align-items: flex-start; gap: 16px; font-size: 17px; text-align: left; }
+  .topics-flow--detailed .topics-flow__label { align-items: flex-start; }
+  .topics-flow--detailed .topics-flow__label small { font-size: 13px; letter-spacing: .14em; }
+  .topics-flow--detailed .topics-flow__desc { max-width: none; margin-top: 4px; padding-inline: 0; font-size: 14px; line-height: 1.7; }
+  .topics-section .topics-subheading { margin-top: 52px; }
+  .topics-subheading + :is(.topics-flow, .topics-grid, .topics-outcomes, .topics-method) { margin-top: 24px; }
   .topics-grid { grid-template-columns: minmax(0, 1fr); }
-  .topic-card { padding: 24px; border-radius: 22px; }
-  .topic-card__number { font-size: 52px; }
-  .topics-grid .topic-card h2 { font-size: 23px; }
-  .topics-method { margin-top: 32px; }
+  .topics-grid { gap: 12px; }
+  .topic-card { padding: 20px 20px 0; border-radius: 20px; }
+  .topic-card__top { align-items: center; margin-bottom: 12px; }
+  .topic-card__number { font-size: 40px; }
+  .topic-card__day { padding: 3px 12px; font-size: 13px; }
+  .topics-grid .topic-card h3 { margin-bottom: 8px; font-size: 20px; }
+  .topic-card__description { font-size: 15px; line-height: 1.8; }
+  /* 手機預設收合課程內容與實作目標，點開才展開。 */
+  .topic-card:not(.is-expanded) .topic-card__more { display: none; }
+  .topic-card__content { margin: 16px 0; }
+  .topic-card__outcome { margin: 0 0 16px; }
+  .topic-card__toggle { display: flex; width: 100%; min-height: 52px; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; border: 0; border-top: 1px solid var(--line); padding: 0; color: var(--paper); background: transparent; font-size: 15px; font-weight: 700; text-align: left; cursor: pointer; }
+  .topic-card:not(.is-expanded) .topic-card__toggle { margin-top: 16px; }
+  .topic-card__toggle-icon { position: relative; width: 18px; height: 18px; flex-shrink: 0; }
+  .topic-card__toggle-icon::before, .topic-card__toggle-icon::after { position: absolute; top: 50%; left: 50%; width: 14px; height: 2px; margin: -1px 0 0 -7px; border-radius: 1px; background: currentColor; transition: transform .25s; content: ''; }
+  .topic-card__toggle-icon::after { transform: rotate(90deg); }
+  .topic-card.is-expanded .topic-card__toggle-icon::after { transform: rotate(0); }
+  .topic-card--featured .topic-card__toggle { border-top-color: #10131933; color: #101312; }
+  .topic-card__toggle:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
+  .topics-outcomes { grid-template-columns: minmax(0, 1fr); }
+  .topics-outcomes li { gap: 14px; padding: 11px 0; font-size: 15px; line-height: 1.7; }
+  .topics-method { gap: 16px; margin-top: 32px; }
+  .topics-method li { gap: 4px; }
+  .topics-method strong { font-size: 16px; line-height: 1.5; }
+  .topics-method span { font-size: 15px; line-height: 1.75; }
 }
 /* 首頁「四天地圖」：四欄對應四天，每個主題依實際天數跨欄；團隊攻防競賽橫跨 DAY 3–4 並拉高。 */
 .topics-map { margin-top: 8px; }
@@ -184,16 +233,24 @@ section[id] { scroll-margin-top: 130px; }
   .topics-map__item--featured, .topics-map__item--wide, .topics-map__more { grid-column: 1 / -1; }
 }
 @media (max-width: 767px) {
-  .topics-map__list { grid-template-columns: minmax(0, 1fr); gap: 12px; }
-  .topics-map__item { padding: 18px 20px 20px; border-radius: 18px; }
-  .topics-map__top { margin-bottom: 10px; }
-  .topics-map__number { font-size: 28px; }
-  .topics-map__item h3 { margin-bottom: 0; font-size: 18px; }
+  /* 手機精簡：每個主題縮成單行（編號＋標題），完整說明在 /topics/。 */
+  .topics-intro__detail { display: none; }
+  .topics-map__list { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .topics-map__item { padding: 14px 18px; border-radius: 16px; }
+  .topics-map__item:not(.topics-map__item--featured) { flex-direction: row; align-items: center; gap: 14px; }
+  .topics-map__top { margin: 0; }
+  .topics-map__number { min-width: 2ch; font-size: 24px; }
+  .topics-map__item h3 { margin: 0; font-size: 16px; line-height: 1.5; }
   .topics-map__item:not(.topics-map__item--featured) p { display: none; }
-  .topics-map__item--featured h3 { margin-bottom: 8px; font-size: 22px; }
-  .topics-map__more > a { padding: 18px 20px; gap: 16px; border-radius: 18px; }
-  .topics-map__more strong { font-size: 18px; }
-  .topics-map__more-arrow { width: 40px; height: 40px; font-size: 20px; }
+  .topics-map__item--featured { padding: 18px 20px; }
+  .topics-map__item--featured .topics-map__top { margin-bottom: 8px; }
+  .topics-map__item--featured h3 { margin-bottom: 6px; font-size: 20px; }
+  .topics-map__item--featured p { font-size: 15px; line-height: 1.75; }
+  .topics-map__item--featured :is(.topics-map__outcome, .topics-map__tags) { display: none; }
+  .topics-map__more > a { padding: 14px 18px; gap: 16px; border-radius: 16px; }
+  .topics-map__more strong { margin-bottom: 0; font-size: 16px; }
+  .topics-map__more-desc { display: none; }
+  .topics-map__more-arrow { width: 36px; height: 36px; font-size: 18px; }
   .subpage-section { padding-top: 24px; }
 }
 .about__layout { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 40px; }
@@ -218,6 +275,16 @@ section[id] { scroll-margin-top: 130px; }
 .about-home__logo img { display: block; width: 100%; height: auto; max-width: 480px; }
 @media (max-width: 1023px) {
   .about-home { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 767px) {
+  .about-home { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 20px 16px; }
+  .about-home__text { display: contents; }
+  .about-home__text .about__intro { grid-area: 1 / 1; }
+  .about-home__text .about__intro h2 { margin-bottom: 0; }
+  .about-home__logo { grid-area: 1 / 2; justify-items: end; }
+  .about-home__logo img { max-width: 104px; }
+  .about-home__text .about-summary { grid-area: 2 / 1 / 3 / 3; margin-bottom: 0; }
+  .about-home__text .button { grid-area: 3 / 1 / 4 / 3; justify-self: start; }
 }
 .about__link { display: inline-flex; min-height: 48px; align-items: center; gap: 20px; border: 1px solid var(--line); border-radius: 999px; padding: 10px 22px; font-size: 16px; transition: background .2s, border-color .2s; }
 .about__content .about__link { margin-top: 28px; }
@@ -270,6 +337,8 @@ section[id] { scroll-margin-top: 130px; }
 .venue-map { display: flex; min-width: 0; min-height: 400px; }
 .venue-map__frame { position: relative; flex: 1; min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 24px; background: #f9f5ef0a; }
 .venue-map iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
+.venue-map__fallback { position: absolute; inset: 0; display: grid; padding: 24px; place-items: center; color: var(--muted); font-size: 16px; text-align: center; transition: color .2s; }
+.venue-map__fallback:hover { color: var(--paper); text-decoration: underline; text-underline-offset: 5px; }
 @media (min-width: 1024px) {
   .details-layout > .venue-map { margin-top: -12px; }
 }
@@ -447,6 +516,8 @@ section[id] { scroll-margin-top: 130px; }
 .organizer-card:hover { border-color: #f9f5ef80; box-shadow: inset 0 1px 0 #f9f5ef14; }
 .organizer-card__logo { display: flex; width: min(100%, 280px); height: 100px; flex-shrink: 0; align-items: center; justify-content: center; }
 .organizer-card__logo img { display: block; max-width: min(100%, 240px); max-height: 80px; width: auto; height: auto; object-fit: contain; transition: transform .25s; }
+/* 深色標誌（例如 AIS3）放在深色卡片上看不清楚：反轉明暗但保留色相。 */
+.organizer-card__logo img.is-dark-logo, .organizer-modal__logo img.is-dark-logo { filter: invert(1) hue-rotate(180deg); }
 .organizer-card:hover img, .organizer-card:focus-visible img { transform: scale(1.06); }
 .organizer-card strong { max-width: 100%; font-size: clamp(18px, 1.9vw, 22px); font-weight: 700; line-height: 1.5; overflow-wrap: anywhere; text-wrap: balance; }
 

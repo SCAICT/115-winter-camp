@@ -133,6 +133,33 @@ function Ticket() {
   );
 }
 
+// Google 地圖內嵌約需 470KB 的第三方資源，卻位在頁面中段。等地圖快捲到畫面時才載入 iframe；
+// 載入前（以及停用 JavaScript 時）顯示可點的連結。
+function VenueMap({ query, name }) {
+  const frameRef = useRef(null);
+  const [near, setNear] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setNear(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: '400px 0px' });
+    observer.observe(frameRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className="venue-map__frame" ref={frameRef}>
+      <a className="venue-map__fallback" href={`https://www.google.com/maps/search/?api=1&query=${query}`} target="_blank" rel="noopener noreferrer">
+        在 Google 地圖查看{name} <span aria-hidden="true">↗</span>
+      </a>
+      {near && <iframe src={`https://www.google.com/maps?q=${query}&hl=zh-TW&z=15&output=embed`} title={`${name}位置地圖`} allowFullScreen referrerPolicy="no-referrer-when-downgrade" />}
+    </div>
+  );
+}
+
 function Details() {
   const venueQuery = encodeURIComponent(winterCamp.venue);
 
@@ -149,9 +176,7 @@ function Details() {
             </dl>
           </div>
           <div className="venue-map" data-reveal="scale">
-            <div className="venue-map__frame">
-              <iframe src={`https://www.google.com/maps?q=${venueQuery}&hl=zh-TW&z=15&output=embed`} title={`${winterCamp.venue}位置地圖`} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" />
-            </div>
+            <VenueMap query={venueQuery} name={winterCamp.venue} />
           </div>
         </div>
         <CampStay />
@@ -214,7 +239,7 @@ function Organizers() {
               {members.map((member, index) => (
                 <li key={member.shortName} data-reveal style={{ '--reveal-delay': `${(index % 3) * 90}ms` }}>
                   <button type="button" className="organizer-card" onClick={(event) => openModal(member, label, event.currentTarget)} aria-haspopup="dialog" aria-label={`查看${label} ${member.name}詳細資訊`}>
-                    <span className="organizer-card__logo"><img src={member.logo} alt="" loading="lazy" /></span>
+                    <span className="organizer-card__logo"><img src={member.logo} alt="" loading="lazy" className={member.logoOnDark ? 'is-dark-logo' : undefined} /></span>
                     <strong>{member.name}</strong>
                   </button>
                 </li>
@@ -227,7 +252,7 @@ function Organizers() {
         <dialog ref={dialogRef} className="organizer-modal" aria-labelledby="organizer-modal-title" aria-describedby="organizer-modal-description" onClose={() => { setSelected(null); triggerRef.current?.focus(); }} onClick={(event) => { if (event.target === event.currentTarget) closeModal(); }}>
           <div className="organizer-modal__content">
             <button type="button" className="organizer-modal__close" aria-label="關閉單位介紹" onClick={closeModal}>×</button>
-            <div className="organizer-modal__logo"><img src={selected.logo} alt="" /></div>
+            <div className="organizer-modal__logo"><img src={selected.logo} alt="" className={selected.logoOnDark ? 'is-dark-logo' : undefined} /></div>
             <p className="organizer-modal__label">{selected.label} · {selected.shortName}</p>
             <h3 id="organizer-modal-title">{selected.name}</h3>
             <p id="organizer-modal-description" className="organizer-modal__details">{selected.desc}</p>

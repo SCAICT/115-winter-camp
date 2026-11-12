@@ -13,6 +13,12 @@ npm run dev
 
 建置後可執行 `npm run check:seo`，檢查實際產物的標題、摘要、可索引正文、活動結構化資料與 sitemap。
 
+## 效能：字型與圖片
+
+- **字型**：`src/fonts/` 的 LINE Seed TW 完整字型各約 3.4MB，不直接上線。`npm run build` 會先執行 `scripts/subset-fonts.mjs`，依 `src/` 與 `index.html` 實際用到的文字產生約 250KB 的子集（輸出到 `src/fonts/subset/`，`@font-face` 使用這兩個檔案，建置時自動加上 `preload`）。改文案不需要手動處理；沒收錄的字會退回系統字型。測試會檢查預先渲染出來的每個字都在子集裡。若在本機開發時新增了大量新字，可執行 `npm run fonts` 重新產生。
+- **圖片**：`npm run images`（`scripts/optimize-images.mjs`，需要 sharp）會從 `public/img/gallery-optimized/`、`public/img/photos-optimized/` 的原圖產生照片牆用的 360／720px 縮圖到 `public/img/wall/`，把民宿 JPG 轉成 WebP，並縮小過大的 Logo（Logo 會直接覆蓋原檔，原始高解析檔請另存在 `assets-src/`）。新增或更換照片後執行一次並提交產物；原圖保留，`og:image` 仍使用它。
+- **載入順序**：預先渲染的內容在字型就緒（最多等 1 秒）時就顯示，不等 JavaScript 套件；照片牆圖片等頁面載入完成且瀏覽器閒下來之後才載入；Google 地圖快捲到畫面時才載入。
+
 ## 更新活動與售票資訊
 
 在 `src/data/winterCamp.js` 編輯活動日期、地點與票券資料。6 種票價已列於 `ticket.plans`，所有票種皆含住宿，`price` 金額以新臺幣每位學員計；盲鳥主卡會讀取其中的盲鳥票價。三階段報名日期集中在 `ticket.registrationPeriods`，`startsOn` 與 `endsOn` 使用 `YYYY-MM-DD` 格式；盲鳥主卡的報名期間也會讀取這裡的日期。尚未確定的欄位保持 `null`，網站會顯示「待公布」；售票網址 `ticket.url` 設定後，盲鳥票區塊才會顯示購票入口，名額可填入要直接顯示的文字。

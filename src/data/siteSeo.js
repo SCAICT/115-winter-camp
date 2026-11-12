@@ -20,7 +20,7 @@ export const topicsSeo = {
   path: '/topics/',
   url: `${siteSeo.url}topics/`,
   title: `課程主題｜${winterCamp.name}`,
-  description: `${winterCamp.name}的 Web 攻防課程主題：Linux 與 HTTP、越權與 SQL Injection 漏洞驗證、封包與 Log 事件還原、Git 測試部署，以及兩天的團隊攻防競賽。了解每個單元的學習目標與實作成果。`,
+  description: `${winterCamp.name}的 Web 攻防課程主題：Linux 系統服務、HTTP 請求分析、Python 與 Flask 後端開發、IDOR 與 SQL Injection 漏洞分析與修補、封包與 Log 數位鑑識、Git 與 Docker 部署，以及兩天的團隊攻防競賽。了解每個單元的課程內容與實作目標。`,
 };
 export const aboutSeo = {
   path: '/about/',

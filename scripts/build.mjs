@@ -13,7 +13,8 @@ function withPageSeo(html, { title, description, url }) {
     if (!pattern.test(html)) throw new Error(`Cannot find ${pattern} in the built template.`);
     html = html.replace(pattern, (_match, before = '', after = '') => `${before}${replacement}${after}`);
   };
-  replaceOnce(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`);
+  // 每個正規式都要有「前、後」兩個擷取群組：沒有群組時 replace 回呼收到的是（位置, 整份字串），會把整份 HTML 複製進去。
+  replaceOnce(/(<title>)[\s\S]*?(<\/title>)/, title);
   replaceOnce(/(<meta name="description" content=")[^"]*(")/, escapeAttribute(description));
   replaceOnce(/(<link rel="canonical" href=")[^"]*(")/, url);
   replaceOnce(/(<meta property="og:url" content=")[^"]*(")/, url);

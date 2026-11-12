@@ -1,5 +1,6 @@
-import { campSchedule, courseTopics, topicFlow } from '../data/campGuide';
+import { campSchedule, courseTopics } from '../data/campGuide';
 import { topicsSeo } from '../data/siteSeo';
+import TopicFlow from './TopicFlow';
 
 const weekday = new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei', weekday: 'short' });
 const dateLabel = (date) => `${Number(date.slice(5, 7))}/${Number(date.slice(8, 10))}`;
@@ -10,7 +11,7 @@ const dayRange = (label) => {
   return { start, span: end - start + 1 };
 };
 
-// 首頁只放大概：攻防循環與「四天地圖」（每個主題落在哪幾天），完整主題介紹與四天課表在 /topics/ 子頁。
+// 首頁只放大概：五個學習階段與「四天地圖」（每個主題落在哪幾天），完整主題介紹與四天課表在 /topics/ 子頁。
 export default function CampTopics() {
   return (
     <section id="topics" className="section topics-section" aria-labelledby="topics-title">
@@ -20,16 +21,12 @@ export default function CampTopics() {
             <h2 id="topics-title">課程主題</h2>
           </div>
           <div className="topics-intro__text" data-reveal style={{ '--reveal-delay': '100ms' }}>
-            <p className="topics-lead">四天，走完一次從發現問題到修好它的完整循環。</p>
-            <p>這個寒假營隊聚焦 Web 攻防：前兩天以實作課學會看懂服務、驗證漏洞與修補部署，後兩天和隊友接手同一套 Web 服務，攻擊其他隊伍、守住自己的服務。不用先會駭客技術，有基本電腦操作就能上手。</p>
+            <p className="topics-lead">四天，走完一次從開發服務、發現問題到修復漏洞的完整循環。</p>
+            <p>這個寒假營隊以 Web 開發與資訊安全為核心，結合程式開發、漏洞分析、數位鑑識及團隊攻防競賽。<span className="topics-intro__detail">前兩天從 Linux、網路通訊與 Web 後端開發開始，逐步學習漏洞驗證、安全修補與服務部署；第三、四天進入 Attack &amp; Defense 團隊攻防競賽，把課堂所學用在實際競賽環境。</span>不用先會駭客技術，有基本電腦操作就能上手。</p>
           </div>
         </div>
 
-        <ol className="topics-flow" aria-label="攻防循環" data-reveal>
-          {topicFlow.map((step, index) => (
-            <li key={step}><span className="topics-flow__number" aria-hidden="true">{index + 1}</span><span>{step}</span></li>
-          ))}
-        </ol>
+        <TopicFlow />
 
         <div className="topics-map">
           <div className="topics-map__days" aria-hidden="true" data-reveal>
@@ -42,7 +39,7 @@ export default function CampTopics() {
           </div>
 
           <ol className="topics-map__list">
-            {courseTopics.map(({ day, title, description, outcome, tags, featured }, index) => {
+            {courseTopics.map(({ day, title, summary, outcome, items, featured }, index) => {
               const { start, span } = dayRange(day);
               return (
                 <li
@@ -53,15 +50,14 @@ export default function CampTopics() {
                 >
                   <div className="topics-map__top">
                     <span className="topics-map__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                    <span className="topics-map__day-tag">{day}</span>
                   </div>
                   <h3>{title}</h3>
-                  <p>{description}</p>
+                  <p>{summary}</p>
                   {featured && (
                     <>
-                      <p className="topics-map__outcome"><span>你會做到</span>{outcome}</p>
-                      <ul className="topics-map__tags" aria-label="涵蓋工具與概念">
-                        {tags.map((tag) => <li key={tag}>{tag}</li>)}
+                      <p className="topics-map__outcome"><span>實作目標</span>{outcome}</p>
+                      <ul className="topics-map__tags" aria-label="競賽內容">
+                        {items.slice(0, 5).map((item) => <li key={item}>{item}</li>)}
                       </ul>
                     </>
                   )}
@@ -70,7 +66,7 @@ export default function CampTopics() {
             })}
             <li className="topics-map__more" data-reveal style={{ '--col-start': 3, '--col-span': 2, '--reveal-delay': '180ms' }}>
               <a href={topicsSeo.path}>
-                <span><strong>課程主題詳細介紹與四天課表</strong>每個單元的學習成果、涵蓋工具，以及逐時段的課表。</span>
+                <span><strong>課程主題詳細介紹與四天課表</strong><span className="topics-map__more-desc">每個單元的課程內容與實作目標、學習成果，以及逐時段的課表。</span></span>
                 <span className="topics-map__more-arrow" aria-hidden="true">↗</span>
               </a>
             </li>
