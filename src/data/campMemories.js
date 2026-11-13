@@ -49,10 +49,9 @@ const wallImage = (src) => {
 
 // caption 同時是圖片的替代文字（alt）與滑過時顯示的說明。
 export const wallPhotos = [
-  ...galleryPhotos.map((photo) => ({ ...photo, caption: '歷屆聯合寒訓活動照片' })),
+  ...galleryPhotos.map((photo) => ({ ...photo})),
   ...photoArchives.flatMap(({ year, title, photos }) => photos.map((src, index) => ({
     id: `${year}-${index + 1}`,
     src,
-    caption: `${title}活動照片`,
   }))),
 ].map(({ src, ...photo }) => ({ ...photo, ...wallImage(src) }));
