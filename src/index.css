@@ -340,7 +340,7 @@ section[id] { scroll-margin-top: 130px; }
 .calendar-menu__button:hover, .calendar-menu__button[aria-expanded="true"] { background-color: #f9f5ef26; }
 .calendar-menu__button > span { font-size: 14px; transition: transform .25s ease; }
 .calendar-menu__button[aria-expanded="true"] > span { transform: rotate(180deg); }
-.calendar-menu__list { position: absolute; z-index: 5; top: calc(100% + 8px); right: 0; width: 240px; margin: 0; border: 1px solid #f9f5ef33; border-radius: var(--radius); padding: 6px; background: #161616; box-shadow: 0 16px 40px #0008; list-style: none; }
+.calendar-menu__list { position: absolute; z-index: 5; top: calc(100% + 8px); right: 0; width: min(240px, calc(100vw - 40px)); margin: 0; border: 1px solid #f9f5ef33; border-radius: var(--radius); padding: 6px; background: #161616; box-shadow: 0 16px 40px #0008; list-style: none; }
 .calendar-menu__list { visibility: hidden; opacity: 0; transform: translateY(-8px) scale(.97); transform-origin: top right; transition: opacity .2s ease, transform .25s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .25s; }
 .calendar-menu__list[data-open="true"] { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
 .calendar-menu__list li { opacity: 0; transform: translateY(-4px); transition: opacity .2s ease, transform .25s ease; }
@@ -841,8 +841,6 @@ section[id] { scroll-margin-top: 130px; }
 }
 
 @media (max-width: 767px) {
-  .registration-schedule__head { flex-wrap: wrap; }
-  .calendar-menu__list { right: auto; left: 0; transform-origin: top left; }
 }
 
 /* 認識籌備團隊 */
