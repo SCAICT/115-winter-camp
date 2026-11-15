@@ -127,6 +127,17 @@ function Ticket() {
             </tbody>
           </table>
         </div>
+        <ul className="ticket-resources" aria-label="報名相關文件" data-reveal>
+          {ticket.resources.map(({ label, url }) => (
+            <li key={label}>
+              {url ? (
+                <a href={url} target="_blank" rel="noopener noreferrer">{label} <span aria-hidden="true">↗</span></a>
+              ) : (
+                <span className="ticket-resources__pending">{label}<small>準備中</small></span>
+              )}
+            </li>
+          ))}
+        </ul>
         <RegistrationFlow />
       </div>
     </section>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App.jsx';
+import initAnalytics from './analytics.js';
 import './index.css';
 
 const root = document.getElementById('root');
@@ -15,6 +16,8 @@ if (root.hasChildNodes()) {
 } else {
   createRoot(root).render(app);
 }
+
+initAnalytics();
 
 // 帶著錨點進入頁面時，要在顯示頁面之前直接定位到該區塊，避免先看到頂端再滑動；
 // 重新整理與上一頁／下一頁交給瀏覽器還原原本的捲動位置。

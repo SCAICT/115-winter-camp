@@ -9,7 +9,8 @@
     "check:seo": "node --test tests/seo.test.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "fonts": "node scripts/subset-fonts.mjs",
-    "images": "node scripts/optimize-images.mjs"
+    "images": "node scripts/optimize-images.mjs",
+    "icons": "node scripts/make-icons.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.4",

@@ -4,11 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0b0b0b" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large" />
+    <meta name="format-detection" content="telephone=no" />
     <meta name="author" content="SCAICT" />
 
     <!-- 標題、摘要、社群分享與結構化資料由 vite.config.js 讀取 siteSeo.js 產生；字型 preload 也由它加入（檔名含雜湊）。 -->
+    <!-- 網站圖示：PNG 與 apple-touch-icon 由 npm run icons 從品牌圖產生。Google 要求圖示為 48px 的倍數。 -->
     <link rel="icon" href="/favicon.ico?v=9b7c5a9c" type="image/x-icon" sizes="16x16 32x32 48x48" />
+    <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-48x48.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
 
     <style>
       html, body { background: #0b0b0b; }

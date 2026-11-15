@@ -331,6 +331,14 @@ section[id] { scroll-margin-top: 130px; }
 .registration-schedule__badge { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; color: var(--muted); font-size: 14px; font-weight: 400; line-height: 1.6; white-space: nowrap; }
 .rates__highlight .registration-schedule__badge { border-color: #101312; color: var(--paper); background: #101312; font-weight: 700; }
 .registration-schedule tr[data-registration-status="ended"] { color: #f9f5ef80; }
+.ticket-resources { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 0; padding: 0; list-style: none; }
+.ticket-resources a, .ticket-resources__pending { display: inline-flex; min-height: 44px; align-items: center; gap: 10px; border: 1px solid #f9f5ef4d; border-radius: 999px; padding: 8px 20px; font-size: 16px; line-height: 1.6; }
+.ticket-resources a { transition: background-color .2s; }
+.ticket-resources a:is(:hover, :focus-visible) { background-color: #f9f5ef14; }
+.ticket-resources a > span { display: inline-block; transition: transform .3s ease; }
+.ticket-resources a:is(:hover, :focus-visible) > span { transform: translate(3px, -3px); }
+.ticket-resources__pending { border-style: dashed; border-color: var(--line); color: var(--muted); }
+.ticket-resources__pending small { font-size: 14px; }
 
 .details-section h2 { margin-bottom: 40px; }
 .details-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); align-items: start; gap: clamp(40px, 5vw, 80px); }

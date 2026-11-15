@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { readFile, readdir, stat, access } from 'node:fs/promises';
 import test from 'node:test';
+import sharp from 'sharp';
 import { siteSeo, topicsSeo, aboutSeo, subpages } from '../src/data/siteSeo.js';
-import { courseTopics, learningOutcomes, teachingPoints } from '../src/data/campGuide.js';
+import { campFaqs, courseTopics, learningOutcomes, teachingPoints } from '../src/data/campGuide.js';
 import { winterCamp } from '../src/data/winterCamp.js';
 import { collectCharset } from '../scripts/subset-fonts.mjs';
 import { campSchedule } from '../src/data/campGuide.js';
@@ -181,5 +182,73 @@ test('the document declares its charset first, before any long head content', as
     const pageHtml = await readFile(new URL(`.${page.path}index.html`, dist), 'utf8');
     const position = pageHtml.indexOf('<meta charset');
     assert.ok(position > -1 && position < 1024, `${page.path}: <meta charset> at byte ${position}, expected within the first 1024`);
+  }
+});
+
+test('search result snippets stay short enough to avoid truncation, and subpages carry breadcrumbs', async () => {
+  // 中文字佔兩個半形字寬；Google 約顯示 600px 標題（約 60 半形字寬）與 160 半形字寬的摘要。
+  const width = (text) => [...text].reduce((sum, char) => sum + (/[\u2e80-\u9fff\uff00-\uffef]/.test(char) ? 2 : 1), 0);
+  for (const page of [siteSeo, ...subpages]) {
+    assert.ok(width(page.title) <= 64, `${page.title}: title is too long (${width(page.title)})`);
+    assert.ok(width(page.description) <= 170, `${page.description}: description is too long (${width(page.description)})`);
+  }
+  for (const page of subpages) {
+    const pageHtml = await readFile(new URL(`.${page.path}index.html`, dist), 'utf8');
+    const graph = JSON.parse(pageHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
+    const breadcrumb = graph.find((item) => item['@type'] === 'BreadcrumbList');
+    assert.deepEqual(breadcrumb.itemListElement.map(({ item }) => item), [siteSeo.url, page.url]);
+    assert.ok(graph.some((item) => item['@type'] === 'EducationEvent'), `${page.path}: keeps the event data`);
+  }
+});
+
+test('Chinese text is separated from numbers by a space on every prerendered page', async () => {
+  for (const page of [{ path: '/' }, ...subpages]) {
+    const pageHtml = await readFile(new URL(`.${page.path}index.html`, dist), 'utf8');
+    const text = pageHtml
+      .replace(/<style[\s\S]*?<\/style>/g, '')
+      .replace(/<script(?! type="application\/ld\+json")[\s\S]*?<\/script>/g, '');
+    const missing = [...text.matchAll(/.{0,10}(?:[\u4e00-\u9fff][0-9]|[0-9][\u4e00-\u9fff]).{0,10}/g)].map(([match]) => match);
+    assert.deepEqual(missing, [], `${page.path}: missing a space between Chinese and numbers`);
+  }
+});
+
+test('the social preview image matches the declared type and size, and its meta tags are present', async () => {
+  const file = new URL(`.${new URL(siteSeo.image).pathname}`, dist);
+  const { width, height, format } = await sharp(await readFile(file)).metadata();
+  assert.equal(width, siteSeo.imageWidth, 'og:image width');
+  assert.equal(height, siteSeo.imageHeight, 'og:image height');
+  assert.equal(`image/${format}`, siteSeo.imageType);
+  for (const [key, value] of [['og:image:type', siteSeo.imageType], ['og:image:width', siteSeo.imageWidth], ['og:image:height', siteSeo.imageHeight]]) {
+    assert.ok(html.includes(`<meta property="${key}" content="${value}">`), key);
+  }
+  assert.ok((await stat(file)).size < 600 * 1024, 'The preview image should stay under 600KB so chat apps do not skip it');
+});
+
+test('icons, robots directives and structured data are complete for search results', async () => {
+  assert.ok(html.includes('max-image-preview:large'));
+  for (const [file, size] of [['favicon-16x16.png', 16], ['favicon-32x32.png', 32], ['favicon-48x48.png', 48], ['apple-touch-icon.png', 180]]) {
+    assert.ok(html.includes(`href="/${file}"`), `Missing icon link: ${file}`);
+    const metadata = await sharp(await readFile(new URL(file, dist))).metadata();
+    assert.deepEqual([metadata.width, metadata.height], [size, size], file);
+  }
+  const graph = JSON.parse(jsonLd[0][1])['@graph'];
+  const faq = graph.find((item) => item['@type'] === 'FAQPage');
+  assert.deepEqual(faq.mainEntity.map(({ name }) => name), campFaqs.map(({ question }) => question));
+  for (const { name } of faq.mainEntity) assert.ok(main.includes(name), `FAQ question is not visible on the page: ${name}`);
+  const event = graph.find((item) => item['@type'] === 'EducationEvent');
+  assert.equal(event.typicalAgeRange, '15-18');
+  assert.ok(event.offers.every((offer) => offer.availability === 'https://schema.org/InStock'));
+  assert.ok(graph.find((item) => item['@type'] === 'Organization').logo.endsWith('/apple-touch-icon.png'));
+  for (const page of subpages) {
+    const pageHtml = await readFile(new URL(`.${page.path}index.html`, dist), 'utf8');
+    assert.ok(!pageHtml.includes('FAQPage'), `${page.path}: FAQPage belongs on the homepage only`);
+  }
+});
+
+test('registration documents and the calendar keep a visible entry, linked once a URL is set', () => {
+  for (const { label, url } of winterCamp.ticket.resources) {
+    assert.ok(main.includes(label), `Missing entry: ${label}`);
+    if (url) assert.ok(main.includes(`href="${url}"`), `${label} should link to ${url}`);
+    else assert.ok(main.includes(`${label}<small>準備中</small>`), `${label} should show it is not ready yet`);
   }
 });

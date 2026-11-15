@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { build, createServer } from 'vite';
-import { subpages } from '../src/data/siteSeo.js';
+import { breadcrumbData, subpages } from '../src/data/siteSeo.js';
 
 await build();
 
@@ -8,7 +8,8 @@ const escapeAttribute = (value) => value.replaceAll('&', '&amp;').replaceAll('"'
 const placeholder = '<div id="root"></div>';
 
 // 子頁沿用同一份建置後的範本，只替換標題、摘要、canonical 與社群分享資訊。
-function withPageSeo(html, { title, description, url }) {
+function withPageSeo(html, page) {
+  const { title, description, url } = page;
   const replaceOnce = (pattern, replacement) => {
     if (!pattern.test(html)) throw new Error(`Cannot find ${pattern} in the built template.`);
     html = html.replace(pattern, (_match, before = '', after = '') => `${before}${replacement}${after}`);
@@ -24,6 +25,13 @@ function withPageSeo(html, { title, description, url }) {
   ]) {
     replaceOnce(new RegExp(`(<meta ${attribute}="${key}" content=")[^"]*(")`), escapeAttribute(value));
   }
+  // 結構化資料沿用首頁那份（組織、網站、活動），再加上這一頁的麵包屑；頁面上仍只有一個 JSON-LD。
+  const jsonLdPattern = /(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/;
+  const data = JSON.parse(html.match(jsonLdPattern)[2]);
+  // FAQPage 必須和頁面上看得到的內容一致，常見問題只在首頁，子頁不帶。
+  data['@graph'] = data['@graph'].filter((item) => item['@type'] !== 'FAQPage');
+  data['@graph'].push(breadcrumbData(page));
+  html = html.replace(jsonLdPattern, (_match, before, _body, after) => `${before}${JSON.stringify(data).replaceAll('<', '\\u003c')}${after}`);
   return html;
 }
 

@@ -10,6 +10,8 @@ export const winterCamp = {
   },
   dates: '2027-01-21 ~ 2027-01-24',
   instagram: 'https://www.instagram.com/scaict.tw/',
+  // GA4 測量 ID；留空（null）就完全不載入分析腳本。
+  analytics: { ga4: 'G-KL6BM9TCR3' },
   email: 'contact@scaict.org',
   accommodation: {
     name: '旅巷自在輕旅 Loosha Hostel',
@@ -44,6 +46,14 @@ export const winterCamp = {
       { name: '雙人', price: 4399 },
       { name: '三人', price: 4199 },
       { name: '四人', price: 4099 },
+    ],
+    // 報名相關文件與行事曆入口：url 填入後會顯示成連結；維持 null 時顯示為「準備中」。
+    // 盲鳥階段沒有團報優惠，所以 plans 裡的雙人、三人、四人價格先不顯示在頁面上。
+    resources: [
+      { label: '報名簡章', url: null },
+      { label: '退費說明', url: null },
+      { label: '補助辦法', url: null },
+      { label: '加入行事曆', url: null },
     ],
   },
 };
