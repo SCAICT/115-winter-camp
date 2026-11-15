@@ -47,14 +47,13 @@ export const photosSeo = {
   description: `SCAICT 歷屆聯合寒訓的完整照片，收錄課堂實作、團隊討論與學員交流的現場紀錄。`,
 };
 
-// 籌備團隊介紹：內容還沒公布，先標成 noindex 且不放進 sitemap；補上內容後把 noindex 拿掉。
+// 認識籌備團隊：依組別列出籌辦營隊的工作人員。若頁面內容還沒準備好，可加上 noindex: true（build 會輸出 noindex 的 robots 標籤，且不用放進 sitemap）。
 export const teamSeo = {
   path: '/team/',
   url: `${siteSeo.url}team/`,
   name: '認識籌備團隊',
   title: `認識籌備團隊｜${winterCamp.name}`,
-  description: `認識籌辦${winterCamp.name}的籌備團隊夥伴。`,
-  noindex: true,
+  description: `認識籌辦${winterCamp.name}的工作人員：總召、行政、課程、活動、紀錄、資訊、設計與隊輔各組夥伴。`,
 };
 
 // 預先輸出的子頁清單：build 與 App 路由都由此讀取。

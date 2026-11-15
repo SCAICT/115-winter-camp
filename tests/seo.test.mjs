@@ -3,6 +3,7 @@ import { readFile, readdir, stat, access } from 'node:fs/promises';
 import test from 'node:test';
 import sharp from 'sharp';
 import { siteSeo, topicsSeo, aboutSeo, subpages } from '../src/data/siteSeo.js';
+import { teamGroupOrder, teamMembers } from '../src/data/teamMembers.js';
 import { campFaqs, courseTopics, learningOutcomes, teachingPoints } from '../src/data/campGuide.js';
 import { winterCamp, calendarPath } from '../src/data/winterCamp.js';
 import { collectCharset } from '../scripts/subset-fonts.mjs';
@@ -277,4 +278,22 @@ test('the calendar file lists the camp and every registration deadline in valid 
     assert.ok(main.includes(`href="${href}"`), `Homepage should link to ${href}`);
     assert.equal(main.includes(`href="${href}" download`), Boolean(download), `${label} download attribute`);
   }
+});
+
+test('the team page lists every member under their groups, with optimized avatars', async () => {
+  const page = await readFile(new URL('./team/index.html', dist), 'utf8');
+  for (const { name, groups, avatar, website } of teamMembers) {
+    assert.ok(groups.every((group) => teamGroupOrder.includes(group)), `${name}: unknown group`);
+    assert.ok(page.includes(`>${name}`), `Missing member: ${name}`);
+    const { size } = await stat(new URL(`.${avatar}`, dist));
+    assert.ok(size < 30 * 1024, `${avatar} is ${Math.round(size / 1024)}KB; resize avatars instead of shipping originals`);
+    if (website) assert.ok(page.includes(`href="${website}"`), `${name}: website link`);
+    assert.ok(!website || /^https?:\/\//.test(website), `${name}: website needs a protocol`);
+  }
+  // 沒有成員的組別不顯示；有成員的組別一定要有標題。
+  for (const group of teamGroupOrder) {
+    const hasMembers = teamMembers.some(({ groups }) => groups.includes(group));
+    assert.equal(page.includes(`id="team-${group}"`), hasMembers, `Group heading: ${group}`);
+  }
+  assert.ok(main.includes('href="/team/"'), 'The homepage should link to the team page');
 });
