@@ -23,11 +23,25 @@ const tileSizes = (area) => {
   };
   return `(max-width: 767px) ${needed(360, 8)}px, ${needed(540, 10)}px`;
 };
-const modules = Array.from({ length: Math.ceil(wallPhotos.length / 5) }, (_, index) =>
-  wallPhotos.slice(index * 5, index * 5 + 5).map((photo, tile) => ({
-    ...photo,
-    area: placements[index % placements.length][tile],
-  })));
+// 每隔幾個模組，把其中一格最小的 1×1 圖換成按鈕，連到完整相簿頁；其餘模組維持 5 張照片。
+// linkSlots 是按鈕在該版型中所在的格子（只有有按鈕的版型需要列出）。
+const linkEvery = 3;
+const linkSlots = { 1: 2 };
+const modules = [];
+for (let used = 0, index = 0; used < wallPhotos.length; index += 1) {
+  const placement = placements[index % placements.length];
+  const hasLink = index % linkEvery === 1;
+  const capacity = hasLink ? 4 : 5;
+  const photos = wallPhotos.slice(used, used + capacity);
+  used += photos.length;
+  // 最後一個模組不足時，從頭補幾張，避免輪播接縫處留下空格。
+  photos.push(...wallPhotos.slice(0, capacity - photos.length).map((photo) => ({ ...photo, id: `${photo.id}-repeat` })));
+  const slot = linkSlots[index % placements.length];
+  const tiles = hasLink
+    ? [...photos.slice(0, slot), { id: `album-link-${index}`, link: true }, ...photos.slice(slot)]
+    : photos;
+  modules.push(tiles.map((tile, position) => ({ ...tile, area: placement[position] })));
+}
 
 function useSpotlight() {
   const layerRef = useRef(null);
@@ -135,7 +149,12 @@ export default function PhotoWall() {
               <div ref={copy === 0 ? copyRef : undefined} className="photo-wall__copy" key={copy} aria-hidden={copy === 1 ? true : undefined}>
                 {modules.map((photos, moduleIndex) => (
                   <div className="photo-wall__module" key={moduleIndex}>
-                    {photos.map(({ id, src, srcSet, caption, area }) => (
+                    {photos.map(({ id, src, srcSet, caption, area, link }) => link ? (
+                      <a className="photo-wall__tile photo-wall__tile--link" href="/photos/" style={{ gridArea: area }} tabIndex={copy === 1 ? -1 : undefined} key={id}>
+                        <span>看完整相簿</span>
+                        <span className="photo-wall__arrow" aria-hidden="true">↗</span>
+                      </a>
+                    ) : (
                       <figure className="photo-wall__tile" style={{ gridArea: area }} key={id}>
                         <img src={imagesReady ? src : blank} srcSet={imagesReady ? srcSet : undefined} sizes={tileSizes(area)} alt={copy === 0 ? caption : ''} width="1200" height="900" loading="lazy" decoding="async" draggable="false" />
                         <figcaption>{caption}</figcaption>

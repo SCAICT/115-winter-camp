@@ -41,7 +41,7 @@ function Hero() {
           <p className="hero__eyebrow">SCAICT 中部高中電資社團聯合會議</p>
           <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span></h1>
           <span className="hero__divider" aria-hidden="true" />
-          <p className="hero__description">四天學會怎麼找出漏洞、修好漏洞，<br />和隊友一起守住你的服務。</p>
+  <p className="hero__description">四天內從找漏洞、修漏洞，<br />到和隊友一起防守自己的服務。</p>
           <a className="button" href="#ticket">查看盲鳥票 <span aria-hidden="true">↗</span></a>
         </div>
         {startsOn && endsOn && (

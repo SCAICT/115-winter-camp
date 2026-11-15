@@ -1,8 +1,9 @@
 import { useLayoutEffect } from 'react';
 import AboutPage from './components/AboutPage';
+import PhotosPage from './components/PhotosPage';
 import TopicsPage from './components/TopicsPage';
 import WinterLanding from './components/WinterLanding';
-import { aboutSeo, topicsSeo } from './data/siteSeo';
+import { aboutSeo, photosSeo, topicsSeo } from './data/siteSeo';
 
 const legacySections = {
   '報名': '#ticket',
@@ -53,5 +54,6 @@ export default function App({ path }) {
   const current = `${(path ?? window.location.pathname).replace(/\/+$/, '')}/`;
   if (current === topicsSeo.path) return <TopicsPage />;
   if (current === aboutSeo.path) return <AboutPage />;
+  if (current === photosSeo.path) return <PhotosPage />;
   return <WinterLanding />;
 }

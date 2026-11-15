@@ -29,8 +29,15 @@ export const aboutSeo = {
   description: `認識主辦單位中部高中電資社團聯合會議（SCAICT，簡稱中電會）：2021 年發起，串連中部高中職資訊社團，持續辦理資訊教育、活動與比賽，並主辦${winterCamp.name}。`,
 };
 
+export const photosSeo = {
+  path: '/photos/',
+  url: `${siteSeo.url}photos/`,
+  title: `歷屆營隊相簿｜${winterCamp.name}`,
+  description: `收錄 SCAICT 歷屆聯合寒訓的完整照片，包含課堂實作、團隊討論與學員交流的現場紀錄，看看${winterCamp.name}可能會是什麼樣子。`,
+};
+
 // 預先輸出的子頁清單：build 與 App 路由都由此讀取。
-export const subpages = [topicsSeo, aboutSeo];
+export const subpages = [topicsSeo, aboutSeo, photosSeo];
 export const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [

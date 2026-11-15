@@ -22,7 +22,7 @@ export default function CampTopics() {
           </div>
           <div className="topics-intro__text" data-reveal style={{ '--reveal-delay': '100ms' }}>
             <p className="topics-lead">四天，走完一次從開發服務、發現問題到修復漏洞的完整循環。</p>
-            <p>這個寒假營隊以 Web 開發與資訊安全為核心，結合程式開發、漏洞分析、數位鑑識及團隊攻防競賽。<span className="topics-intro__detail">前兩天從 Linux、網路通訊與 Web 後端開發開始，逐步學習漏洞驗證、安全修補與服務部署；第三、四天進入 Attack &amp; Defense 團隊攻防競賽，把課堂所學用在實際競賽環境。</span>不用先會駭客技術，有基本電腦操作就能上手。</p>
+            <p>這個寒假我們將以 Web 開發與資訊安全為核心。<span className="topics-intro__detail">前兩天從 Linux、網路通訊與 Web 後端開發開始，逐步學習漏洞驗證、安全修補與服務部署；第三、四天進入 Attack &amp; Defense 團隊攻防競賽，把課堂所學用在實際競賽環境。</span>課程之外還有講座、破冰、晚會與社群攤位。不用先會繁雜技術，有基本電腦操作就能上手。</p>
           </div>
         </div>
 
