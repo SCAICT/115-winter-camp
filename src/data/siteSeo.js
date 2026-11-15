@@ -47,8 +47,18 @@ export const photosSeo = {
   description: `SCAICT 歷屆聯合寒訓的完整照片，收錄課堂實作、團隊討論與學員交流的現場紀錄。`,
 };
 
+// 籌備團隊介紹：內容還沒公布，先標成 noindex 且不放進 sitemap；補上內容後把 noindex 拿掉。
+export const teamSeo = {
+  path: '/team/',
+  url: `${siteSeo.url}team/`,
+  name: '認識籌備團隊',
+  title: `認識籌備團隊｜${winterCamp.name}`,
+  description: `認識籌辦${winterCamp.name}的籌備團隊夥伴。`,
+  noindex: true,
+};
+
 // 預先輸出的子頁清單：build 與 App 路由都由此讀取。
-export const subpages = [topicsSeo, aboutSeo, photosSeo];
+export const subpages = [topicsSeo, aboutSeo, photosSeo, teamSeo];
 
 // 子頁的麵包屑結構化資料：讓搜尋結果的網址顯示成「首頁 › 課程主題」而不是一長串路徑。
 export const breadcrumbData = ({ name, url }) => ({

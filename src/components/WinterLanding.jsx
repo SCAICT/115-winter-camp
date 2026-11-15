@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { winterCamp, organizations } from '../data/winterCamp';
-import { aboutSeo } from '../data/siteSeo';
+import { aboutSeo, teamSeo } from '../data/siteSeo';
 import CampMemories from './CampMemories';
 import PhotoWall from './PhotoWall';
 import CampTopics from './CampTopics';
@@ -12,6 +12,7 @@ import useTaipeiDate from '../hooks/useTaipeiDate';
 import CampStay from './CampStay';
 import RegistrationFlow from './RegistrationFlow';
 import CampFaq from './CampFaq';
+import CalendarMenu from './CalendarMenu';
 
 const formatPrice = (value) => `$${value.toLocaleString('en-US')}`;
 const formatDate = (value) => value.replaceAll('-', '/');
@@ -96,14 +97,24 @@ function Ticket() {
           </div>
         </div>
         <p className="ticket-note"></p>
-        {ticket.url ? (
-          <a className="button" href={ticket.url} target="_blank" rel="noopener noreferrer">前往報名表單 <span aria-hidden="true">↗</span></a>
-        ) : (
-          <a className="button" href={instagram} target="_blank" rel="noopener noreferrer">追蹤開賣消息 <span aria-hidden="true">↗</span></a>
-        )}
+        <div className="ticket-actions">
+          {ticket.url ? (
+            <a className="button" href={ticket.url} target="_blank" rel="noopener noreferrer">前往報名表單 <span aria-hidden="true">↗</span></a>
+          ) : (
+            <a className="button" href={instagram} target="_blank" rel="noopener noreferrer">追蹤開賣消息 <span aria-hidden="true">↗</span></a>
+          )}
+          {ticket.resources.map(({ label, url }) => url ? (
+            <a className="button ticket-actions__secondary" href={url} target="_blank" rel="noopener noreferrer" key={label}>{label} <span aria-hidden="true">↗</span></a>
+          ) : (
+            <span className="ticket-actions__pending" key={label}><strong>{label}</strong><small>準備中</small></span>
+          ))}
+        </div>
 
         <div className="rates registration-schedule" aria-labelledby="registration-title" data-reveal>
-          <h3 id="registration-title">報名時程</h3>
+          <div className="registration-schedule__head">
+            <h3 id="registration-title">報名時程</h3>
+            <CalendarMenu links={ticket.calendar} />
+          </div>
           <p role="status">{registrationSummary}</p>
           <table>
             <caption>時程以台灣時間（UTC+8）為準，截止日當天 23:59 結束。</caption>
@@ -127,17 +138,6 @@ function Ticket() {
             </tbody>
           </table>
         </div>
-        <ul className="ticket-resources" aria-label="報名相關文件" data-reveal>
-          {ticket.resources.map(({ label, url }) => (
-            <li key={label}>
-              {url ? (
-                <a href={url} target="_blank" rel="noopener noreferrer">{label} <span aria-hidden="true">↗</span></a>
-              ) : (
-                <span className="ticket-resources__pending">{label}<small>準備中</small></span>
-              )}
-            </li>
-          ))}
-        </ul>
         <RegistrationFlow />
       </div>
     </section>
@@ -206,7 +206,10 @@ function About() {
             <h2 id="about-title">關於我們</h2>
           </div>
           <p className="about-summary" data-reveal>中部高中電資社團聯合會議（SCAICT），簡稱「中電會」，2021 年發起，串連中部高中職資訊社團，持續辦理資訊教育、活動與比賽。</p>
-          <a className="button" href={aboutSeo.path} data-reveal>認識我們 <span aria-hidden="true">↗</span></a>
+          <div className="about-home__actions" data-reveal>
+            <a className="button" href={aboutSeo.path}>認識我們 <span aria-hidden="true">↗</span></a>
+            <a className="button topics-actions__secondary" href={teamSeo.path}>認識籌備團隊 <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
         <div className="about-home__logo" data-reveal="scale" style={{ '--reveal-delay': '120ms' }}>
           <img src="/img/LOGO/white_logo_nobg.webp" alt="SCAICT 中部高中電資社團聯合會議標誌" width="1302" height="364" loading="lazy" decoding="async" />

@@ -1,15 +1,20 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { build, createServer } from 'vite';
+import { buildCalendar, calendarPath } from '../src/data/calendar.js';
 import { breadcrumbData, subpages } from '../src/data/siteSeo.js';
 
 await build();
+await writeFile(new URL(`../dist${calendarPath}`, import.meta.url), buildCalendar());
+console.log(`Generated dist${calendarPath}.`);
 
 const escapeAttribute = (value) => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;');
 const placeholder = '<div id="root"></div>';
 
 // 子頁沿用同一份建置後的範本，只替換標題、摘要、canonical 與社群分享資訊。
 function withPageSeo(html, page) {
-  const { title, description, url } = page;
+  const { title, description, url, noindex } = page;
+  // 內容尚未公布的頁面：不讓搜尋引擎收錄，但仍讓它跟著連結走。
+  if (noindex) html = html.replace(/(<meta name="(?:robots|googlebot)" content=")[^"]*(")/g, (_match, before, after) => `${before}noindex, follow${after}`);
   const replaceOnce = (pattern, replacement) => {
     if (!pattern.test(html)) throw new Error(`Cannot find ${pattern} in the built template.`);
     html = html.replace(pattern, (_match, before = '', after = '') => `${before}${replacement}${after}`);

@@ -4,7 +4,7 @@ import test from 'node:test';
 import sharp from 'sharp';
 import { siteSeo, topicsSeo, aboutSeo, subpages } from '../src/data/siteSeo.js';
 import { campFaqs, courseTopics, learningOutcomes, teachingPoints } from '../src/data/campGuide.js';
-import { winterCamp } from '../src/data/winterCamp.js';
+import { winterCamp, calendarPath } from '../src/data/winterCamp.js';
 import { collectCharset } from '../scripts/subset-fonts.mjs';
 import { campSchedule } from '../src/data/campGuide.js';
 
@@ -95,7 +95,9 @@ test('homepage links to each subpage, and every subpage is prerendered with its 
     assert.ok(html.includes(`rel="canonical" href="${page.url}"`));
     assert.ok(html.includes(`property="og:url" content="${page.url}"`));
     assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
-    assert.ok(sitemap.includes(`<loc>${page.url}</loc>`));
+    // 內容還沒公布的頁面（noindex）：不收錄、不進 sitemap；其餘頁面一定要在 sitemap 裡。
+    assert.equal(sitemap.includes(`<loc>${page.url}</loc>`), !page.noindex, `${page.path}: sitemap entry`);
+    assert.equal(/<meta name="robots" content="noindex, follow"/.test(html), Boolean(page.noindex), `${page.path}: robots meta`);
   }
 });
 
@@ -249,6 +251,30 @@ test('registration documents and the calendar keep a visible entry, linked once 
   for (const { label, url } of winterCamp.ticket.resources) {
     assert.ok(main.includes(label), `Missing entry: ${label}`);
     if (url) assert.ok(main.includes(`href="${url}"`), `${label} should link to ${url}`);
-    else assert.ok(main.includes(`${label}<small>準備中</small>`), `${label} should show it is not ready yet`);
+    else assert.ok(main.includes(`<strong>${label}</strong><small>準備中</small>`), `${label} should show it is not ready yet`);
+  }
+});
+
+test('the calendar file lists the camp and every registration deadline in valid iCalendar format', async () => {
+  const ics = await readFile(new URL(`.${calendarPath}`, dist), 'utf8');
+  assert.ok(ics.startsWith('BEGIN:VCALENDAR\r\n') && ics.endsWith('END:VCALENDAR\r\n'));
+  assert.ok(!/(^|[^\r])\n/.test(ics), 'Lines must end with CRLF');
+  for (const line of ics.split('\r\n')) assert.ok(Buffer.byteLength(line) <= 75, `Line is longer than 75 bytes: ${line}`);
+  const unfolded = ics.replaceAll('\r\n ', '');
+  const [start, end] = winterCamp.dates.split(' ~ ');
+  const nextDay = (date) => new Date(Date.parse(`${date}T00:00:00Z`) + 86400000).toISOString().slice(0, 10).replaceAll('-', '');
+  assert.ok(unfolded.includes(`DTSTART;VALUE=DATE:${start.replaceAll('-', '')}\r\nDTEND;VALUE=DATE:${nextDay(end)}`));
+  for (const period of winterCamp.ticket.registrationPeriods) {
+    assert.ok(unfolded.includes(`DTSTART;VALUE=DATE:${period.endsOn.replaceAll('-', '')}`), `Missing deadline: ${period.name}`);
+    assert.ok(unfolded.includes(`${period.name}報名截止`));
+  }
+  assert.equal([...unfolded.matchAll(/BEGIN:VEVENT/g)].length, 1 + winterCamp.ticket.registrationPeriods.length);
+  // 三種加入方式：Google 訂閱、Apple（webcal）、iCal 下載。
+  assert.deepEqual(winterCamp.ticket.calendar.map(({ label }) => label), ['Google Calendar', 'Apple Calendar', 'iCal']);
+  for (const { label, href, download } of winterCamp.ticket.calendar) {
+    assert.ok(main.includes(`<strong>${label}</strong>`), `Missing calendar entry: ${label}`);
+    assert.ok(href.includes(calendarPath), `${label} should point at the calendar file`);
+    assert.ok(main.includes(`href="${href}"`), `Homepage should link to ${href}`);
+    assert.equal(main.includes(`href="${href}" download`), Boolean(download), `${label} download attribute`);
   }
 });

@@ -1,3 +1,7 @@
+// 「加入行事曆」下載的 .ics 網址；檔案內容由 src/data/calendar.js 產生，建置時輸出到 dist。
+export const calendarPath = '/scaict-2027-winter-camp.ics';
+const siteHost = 'wc.scaict.org';
+
 // 2027 聯合寒訓已確認的資訊集中在這裡；未公布的欄位維持 null。
 export const winterCamp = {
   name: 'SCAICT 2027 聯合寒訓',
@@ -50,10 +54,14 @@ export const winterCamp = {
     // 報名相關文件與行事曆入口：url 填入後會顯示成連結；維持 null 時顯示為「準備中」。
     // 盲鳥階段沒有團報優惠，所以 plans 裡的雙人、三人、四人價格先不顯示在頁面上。
     resources: [
-      { label: '報名簡章', url: null },
+      { label: '報名簡章', url: 'https://drive.google.com/file/d/1eTk-HUbdCLYNvRrqo8hoDZ26gb-aesXu/view?usp=drive_link' },
       { label: '退費說明', url: null },
-      { label: '補助辦法', url: null },
-      { label: '加入行事曆', url: null },
+    ],
+    // 加入行事曆：Google 用訂閱連結，Apple 用 webcal 開啟「日曆」App，iCal 直接下載 .ics。
+    calendar: [
+      { label: 'Google Calendar', href: `https://calendar.google.com/calendar/r?cid=webcal://${siteHost}${calendarPath}` },
+      { label: 'Apple Calendar', href: `webcal://${siteHost}${calendarPath}` },
+      { label: 'iCal', href: calendarPath, download: true },
     ],
   },
 };
