@@ -54,8 +54,8 @@ export const winterCamp = {
     // 報名相關文件與行事曆入口：url 填入後會顯示成連結；維持 null 時顯示為「準備中」。
     // 盲鳥階段沒有團報優惠，所以 plans 裡的雙人、三人、四人價格先不顯示在頁面上。
     resources: [
-      { label: '報名簡章', url: 'https://drive.google.com/file/d/1eTk-HUbdCLYNvRrqo8hoDZ26gb-aesXu/view?usp=drive_link' },
-      { label: '退費說明', url: 'https://drive.google.com/file/d/1sqgkQGSwaWOWfry0KJp0o1dQkTD4QDvc/view?usp=sharing' },
+      { label: '報名簡章', type: 'PDF', url: 'https://drive.google.com/file/d/1eTk-HUbdCLYNvRrqo8hoDZ26gb-aesXu/view?usp=drive_link' },
+      { label: '退費說明', type: 'PDF', url: 'https://drive.google.com/file/d/1sqgkQGSwaWOWfry0KJp0o1dQkTD4QDvc/view?usp=sharing' },
     ],
     // 加入行事曆：Google 用訂閱連結，Apple 用 webcal 開啟「日曆」App，iCal 直接下載 .ics。
     calendar: [

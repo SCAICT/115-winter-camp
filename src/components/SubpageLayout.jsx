@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import usePageMotion from '../hooks/usePageMotion';
 import SiteFooter from './SiteFooter';
 import SiteNavbar from './SiteNavbar';
+import StickyRegisterBar from './StickyRegisterBar';
 
 // 子頁共用外框：導覽列與頁尾的錨點連結都帶回首頁（"/#..."）。
 export default function SubpageLayout({ skipTo, skipLabel, children }) {
@@ -13,6 +14,7 @@ export default function SubpageLayout({ skipTo, skipLabel, children }) {
     <div id="top" ref={pageRef}>
       <a className="skip-link" href={skipTo}>{skipLabel}</a>
       <SiteNavbar progressRef={progressRef} home="/" />
+      <StickyRegisterBar home="/" />
       <main>{children}</main>
       <SiteFooter home="/" />
     </div>

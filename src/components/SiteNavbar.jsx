@@ -1,9 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-import { winterCamp } from '../data/winterCamp';
+import { registerLink } from '../hooks/useRegistrationStatus';
 
 const compactQuery = '(max-width: 1199px)';
-const formUrl = winterCamp.ticket.url;
 // 沿用 115-summer-camp 的導覽方式：項目都是首頁區塊的捲動連結，並依捲動位置高亮目前區塊。
 // 完整內容（/about/、/topics/）由各區塊內的按鈕進入。
 const navigation = [
@@ -151,12 +150,7 @@ export default function SiteNavbar({ progressRef, home = '' }) {
                 <li key={href}><a href={`${home}${href}`} aria-current={activeSection === href.slice(1) ? 'location' : undefined} onClick={() => setMenuOpen(false)}>{label}</a></li>
               ))}
             </ul>
-            <a
-              className="site-header__cta"
-              href={formUrl || `${home}#ticket`}
-              {...(formUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-              onClick={() => setMenuOpen(false)}
-            >前往報名 <span aria-hidden="true">↗</span></a>
+            <a className="site-header__cta" {...registerLink(home)} onClick={() => setMenuOpen(false)}>前往報名 <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </nav>

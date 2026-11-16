@@ -871,3 +871,24 @@ a.team-card:is(:hover, :focus-visible) { background-color: #f9f5ef1a; }
   .team-group__grid { grid-template-columns: 1fr; }
   .team-card { gap: 14px; padding: 18px; }
 }
+
+/* 報名體驗：hero 報名狀態、票價區說明、手機底部報名列 */
+.hero__status { min-height: 1.6em; margin: 16px 0 0; font-size: 16px; line-height: 1.6; }
+.hero__status a { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; color: var(--muted); transition: color .2s; }
+.hero__status a:is(:hover, :focus-visible) { color: var(--paper); }
+.ticket-help { margin: 20px 0 0; color: var(--muted); font-size: 16px; line-height: 1.8; }
+.ticket-help a { color: var(--paper); text-decoration: underline; text-underline-offset: 4px; }
+.register-bar { display: none; }
+@media (max-width: 1199px) {
+  .register-bar { position: fixed; z-index: 20; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px max(20px, env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); border-top: 1px solid #f9f5ef33; background: #121212f2; box-shadow: 0 -12px 32px #0008; transform: translateY(100%); visibility: hidden; transition: transform .3s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .3s; }
+  .register-bar[data-visible="true"] { transform: none; visibility: visible; transition-delay: 0s; }
+  .register-bar__text { display: flex; min-width: 0; flex-direction: column; margin: 0; font-size: 14px; line-height: 1.5; }
+  .register-bar__text strong { font-size: 17px; }
+  .register-bar__text span { color: var(--muted); }
+  .register-bar__cta { display: inline-flex; min-height: 48px; flex-shrink: 0; align-items: center; justify-content: center; gap: 12px; border-radius: 999px; padding: 10px 22px; color: #101312; background: var(--paper); font-size: 17px; font-weight: 700; white-space: nowrap; }
+  .register-bar__cta:hover { background: #dfddd8; }
+  .site-footer { padding-bottom: calc(24px + 72px + env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .register-bar { transition: none; }
+}

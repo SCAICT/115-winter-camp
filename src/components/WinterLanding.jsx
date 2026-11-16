@@ -8,7 +8,8 @@ import SiteFooter from './SiteFooter';
 import SiteNavbar from './SiteNavbar';
 import CountUp from './CountUp';
 import usePageMotion from '../hooks/usePageMotion';
-import useTaipeiDate from '../hooks/useTaipeiDate';
+import useRegistrationStatus, { registerLink } from '../hooks/useRegistrationStatus';
+import StickyRegisterBar from './StickyRegisterBar';
 import CampStay from './CampStay';
 import RegistrationFlow from './RegistrationFlow';
 import CampFaq from './CampFaq';
@@ -21,6 +22,7 @@ function Hero() {
   const [startsOn, endsOn] = winterCamp.dates?.split(' ~ ') ?? [];
   const [visible, setVisible] = useState(true);
   const heroRef = useRef(null);
+  const status = useRegistrationStatus();
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
@@ -43,7 +45,10 @@ function Hero() {
           <h1 id="hero-title"><span className="hero__year">2027</span><span>聯合寒訓</span></h1>
           <span className="hero__divider" aria-hidden="true" />
   <p className="hero__description">四天內從找漏洞、修漏洞，<br />到和隊友一起防守自己的服務。</p>
-          <a className="button" href="#ticket">查看盲鳥票 <span aria-hidden="true">↗</span></a>
+          <a className="button" {...registerLink()}>前往報名 <span aria-hidden="true">↗</span></a>
+          <p className="hero__status" data-ready={Boolean(status.label)}>
+            {status.label && <a href="#ticket">{status.price ? `$${status.price.toLocaleString('en-US')} · ` : ''}{status.label} <span aria-hidden="true">→</span></a>}
+          </p>
         </div>
         {startsOn && endsOn && (
           <div className="hero__dates" role="group" aria-label="活動日期">
@@ -66,11 +71,9 @@ function Ticket() {
   const blindBird = ticket.plans.find((plan) => plan.name === '盲鳥');
   const regularPrice = ticket.plans.find((plan) => plan.name === '單人').price;
   const savings = regularPrice - blindBird.price;
-  const today = useTaipeiDate();
-  const currentPeriod = today && ticket.registrationPeriods.find((period) => period.startsOn <= today && today <= period.endsOn);
-  const nextPeriod = today && ticket.registrationPeriods.find((period) => today < period.startsOn);
+  const { today, currentPeriod, nextPeriod, daysText } = useRegistrationStatus();
   const registrationSummary = currentPeriod
-    ? `${currentPeriod.name}報名開放中，至 ${formatDate(currentPeriod.endsOn)} 截止。`
+    ? `${currentPeriod.name}報名開放中，至 ${formatDate(currentPeriod.endsOn)} 截止（${daysText}）。`
     : nextPeriod
       ? `${nextPeriod.name}報名將於 ${formatDate(nextPeriod.startsOn)} 開放。`
       : today ? '本次報名已結束。' : '各階段報名日期如下，請依時程填寫報名表單。';
@@ -99,16 +102,17 @@ function Ticket() {
         <p className="ticket-note"></p>
         <div className="ticket-actions">
           {ticket.url ? (
-            <a className="button" href={ticket.url} target="_blank" rel="noopener noreferrer">前往報名表單 <span aria-hidden="true">↗</span></a>
+            <a className="button" {...registerLink()}>前往報名 <span aria-hidden="true">↗</span></a>
           ) : (
             <a className="button" href={instagram} target="_blank" rel="noopener noreferrer">追蹤開賣消息 <span aria-hidden="true">↗</span></a>
           )}
-          {ticket.resources.map(({ label, url }) => url ? (
-            <a className="button ticket-actions__secondary" href={url} target="_blank" rel="noopener noreferrer" key={label}>{label} <span aria-hidden="true">↗</span></a>
+          {ticket.resources.map(({ label, url, type }) => url ? (
+            <a className="button ticket-actions__secondary" href={url} target="_blank" rel="noopener noreferrer" key={label}>{label}{type ? `（${type}）` : ''} <span aria-hidden="true">↗</span></a>
           ) : (
             <span className="ticket-actions__pending" key={label}><strong>{label}</strong><small>準備中</small></span>
           ))}
         </div>
+        <p className="ticket-help">報名前有疑問？先看<a href="#faq">常見問題</a>，或直接<a href={`mailto:${winterCamp.email}`}>寫信給我們</a>。</p>
 
         <div className="rates registration-schedule" aria-labelledby="registration-title" data-reveal>
           <div className="registration-schedule__head">
@@ -287,6 +291,7 @@ export default function WinterLanding() {
     <div id="top" ref={pageRef}>
       <a className="skip-link" href="#ticket">跳到盲鳥票資訊</a>
       <SiteNavbar progressRef={progressRef} />
+      <StickyRegisterBar />
       <main><Hero /><PhotoWall /><About /><CampTopics /><Details /><Ticket /><CampMemories /><CampFaq /><Organizers /></main>
       <SiteFooter />
     </div>

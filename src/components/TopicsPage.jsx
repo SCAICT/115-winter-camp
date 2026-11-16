@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { courseTopics, learningOutcomes, teachingPoints } from '../data/campGuide';
+import { registerLink } from '../hooks/useRegistrationStatus';
 import CampSchedule from './CampSchedule';
 import SubpageLayout from './SubpageLayout';
 import TopicFlow from './TopicFlow';
@@ -76,7 +77,7 @@ export default function TopicsPage() {
             <CampSchedule />
 
             <div className="topics-actions" data-reveal>
-              <a className="button" href="/#ticket">查看盲鳥票 <span aria-hidden="true">↗</span></a>
+              <a className="button" {...registerLink('/')}>前往報名 <span aria-hidden="true">↗</span></a>
               <a className="button topics-actions__secondary" href="/#faq">常見問題 <span aria-hidden="true">↗</span></a>
             </div>
           </div>
