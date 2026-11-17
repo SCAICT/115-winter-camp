@@ -44,12 +44,12 @@ export const winterCamp = {
     ],
     // 所有票種皆含住宿；金額單位：新臺幣／每位學員。
     plans: [
-      { name: '單人', price: 4599 },
+      { name: '單人', price: 4999 },
       { name: '盲鳥', price: 3999 },
       { name: '早鳥', price: 4399 },
-      { name: '雙人', price: 4399 },
-      { name: '三人', price: 4199 },
-      { name: '四人', price: 4099 },
+      { name: '雙人', price: 4799 },
+      { name: '三人', price: 4599 },
+      { name: '四人', price: 4399 },
     ],
     // 報名相關文件與行事曆入口：url 填入後會顯示成連結；維持 null 時顯示為「準備中」。
     // 盲鳥階段沒有團報優惠，所以 plans 裡的雙人、三人、四人價格先不顯示在頁面上。
