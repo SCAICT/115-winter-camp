@@ -1,6 +1,7 @@
 import { campSchedule, courseTopics } from '../data/campGuide';
 import { topicsSeo } from '../data/siteSeo';
 import TopicFlow from './TopicFlow';
+import TopicReasons from './TopicReasons';
 
 const weekday = new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei', weekday: 'short' });
 const dateLabel = (date) => `${Number(date.slice(5, 7))}/${Number(date.slice(8, 10))}`;
@@ -25,6 +26,8 @@ export default function CampTopics() {
             <p>這個寒假我們將以 Web 開發與資訊安全為核心。<span className="topics-intro__detail">前兩天從 Linux、網路通訊與 Web 後端開發開始，逐步學習漏洞驗證、安全修補與服務部署；第三、四天進入 Attack &amp; Defense 團隊攻防競賽，把課堂所學用在實際競賽環境。</span>課程之外還有講座、破冰、晚會與社群攤位。不用先會繁雜技術，有基本電腦操作就能上手。</p>
           </div>
         </div>
+
+        <TopicReasons />
 
         <TopicFlow />
 

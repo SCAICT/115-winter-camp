@@ -4,6 +4,7 @@ import { registerLink } from '../hooks/useRegistrationStatus';
 import CampSchedule from './CampSchedule';
 import SubpageLayout from './SubpageLayout';
 import TopicFlow from './TopicFlow';
+import TopicReasons from './TopicReasons';
 
 // 單元卡：桌機／平板一律完整顯示；手機預設只顯示標題與描述，課程內容與實作目標點開才展開（以 CSS 控制，預先渲染的內容不變）。
 function TopicCard({ topic: { day, title, description, items, outcome, featured }, index }) {
@@ -53,6 +54,8 @@ export default function TopicsPage() {
                 <p>不用先會繁雜技術，只要有基本電腦操作就能上手。具備變數、條件判斷與函式概念會更容易銜接，我們會提供行前教材。</p>
               </div>
             </div>
+
+            <TopicReasons />
 
             <h2 className="topics-subheading" data-reveal>核心學習目標</h2>
             <TopicFlow detailed />

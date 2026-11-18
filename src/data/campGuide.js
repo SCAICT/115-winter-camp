@@ -100,6 +100,25 @@ export const topicFlow = [
   { key: 'Compete', title: '團隊攻防', description: '參與 A&D 競賽，實際進行攻擊、防守、維運及團隊協作。' },
 ];
 
+// 給家長與學員的「為什麼非來不可」：只寫課表與簡章已確認的事實。
+export const topicReasons = [
+  { title: '不是聽課，是做出來', description: '四天都在電腦教室動手：從建立服務、找出漏洞到修補部署，最後上台說明自己的成果。' },
+  { title: '學會攻，更要學會守', description: '不只找漏洞，還要修好、部署並維持服務運作。這套完整流程，光看影片或讀書很難練到。' },
+  { title: '真正的團隊實戰', description: '10 隊同場進行 Attack & Defense 攻防競賽，靠角色輪替，每個人都有任務，不會只有高手在做。' },
+  { title: '零基礎能跟上，過程有人把關', description: '有基本電腦操作就能上手，並提供行前教材。攻擊限於主辦提供的隔離環境與公告範圍，住宿、餐食、保險都包含在內。' },
+];
+
+// 家長最常見的疑問：AI 都能寫程式了，為什麼還要學？營隊允許 AI 協作，所以重點放在「看得懂、判斷、負責」。
+export const aiReason = {
+  question: '有 AI 了，為什麼還要學？',
+  answer: 'AI 能幫你寫，但不能替你負責。',
+  points: [
+    { title: '要有人看得懂 AI 寫得對不對', description: 'AI 產生的程式也可能留下 IDOR、SQL Injection 這類漏洞。沒有基礎，就分辨不出來。' },
+    { title: '出事時要有人判斷與決定', description: '看 Log、還原事件、決定怎麼修、修完驗證、壞了復原。AI 可以給建議，決定與驗證仍是人的事。' },
+    { title: '我們鼓勵用 AI，但要能說明', description: '營隊允許 AI 協作，但所有成果都要親自操作、測試並說明，不能只交出 AI 的答案。' },
+  ],
+};
+
 // summary 給首頁卡片（一句話）；description / items / outcome 給 /topics/ 完整介紹。
 export const courseTopics = [
   {
