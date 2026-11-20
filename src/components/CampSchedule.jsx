@@ -23,7 +23,7 @@ function ScheduleEvent({ event, day, dayIndex, onOpen, mobile = false }) {
   if (!hasDetails) return <div className={className}>{content}</div>;
 
   return (
-    <button className={`${className} camp-schedule__event-button`} type="button" data-event-key={`${day.date}-${event.start}`} aria-haspopup="dialog" aria-label={`查看第 ${dayIndex + 1} 天 ${event.start} 至 ${event.end} ${event.title}詳情`} onClick={(click) => onOpen(event, day, dayIndex, click.currentTarget)}>
+    <button className={`${className} camp-schedule__event-button`} type="button" data-event-key={`${day.date}-${event.start}`} aria-haspopup="dialog" aria-label={`查看第 ${dayIndex + 1} 天 ${event.start} 至 ${event.end} ${event.title} 詳情`} onClick={(click) => onOpen(event, day, dayIndex, click.currentTarget)}>
       {content}
     </button>
   );

@@ -229,6 +229,7 @@ section[id] { scroll-margin-top: 130px; }
 .topics-map__day-tag { border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; color: var(--muted); font-size: 13px; letter-spacing: .1em; white-space: nowrap; }
 .topics-map__item h3 { margin: 0 0 8px; font-size: 20px; font-weight: 700; line-height: 1.5; letter-spacing: -.02em; }
 .topics-map__item p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.85; }
+.topics-map__item--tall { grid-row: span 2; }
 .topics-map__item--featured { grid-row: span 2; border-color: var(--paper); color: #101312; background: var(--paper); }
 .topics-map__item--featured .topics-map__number { -webkit-text-stroke-color: #10131999; }
 .topics-map__item--featured .topics-map__day-tag { border-color: #10131966; color: #101312; }

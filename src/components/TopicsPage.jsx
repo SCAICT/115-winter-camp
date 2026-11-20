@@ -50,7 +50,7 @@ export default function TopicsPage() {
               <div className="topics-intro__text" data-reveal style={{ '--reveal-delay': '100ms' }}>
                 <p className="topics-lead">四天，走完一次從開發服務、發現問題到修復漏洞的完整循環。</p>
                 <p>本次營隊以 <strong>Web 開發與資訊安全</strong>為核心，結合程式開發、漏洞分析、數位鑑識及團隊攻防競賽，讓學員不只學習如何尋找網站漏洞，更能理解 Web 服務的運作原理，親手建立、分析、修補並維護一套完整的服務。</p>
-                <p>課程循序漸進：前兩天以技術教學與實作為主，從 Linux、網路通訊及 Web 後端開發開始，逐步學習漏洞驗證、安全修補與服務部署；第三、四天進入 Attack &amp; Defense（A&amp;D）團隊攻防競賽，將課堂所學應用於實際競賽環境。</p>
+                <p>課程循序漸進：前兩天以技術教學與實作為主，從 Linux 與 Attack &amp; Defense（A&amp;D）介紹開始，逐步學習 Web Security、DevOps 與 Network；第三天補上開發與 Log 鑑識，下午進入 A&amp;D 團隊攻防競賽，第四天進行最終回與成果發表，將課堂所學應用於實際競賽環境。</p>
                 <p>不用先會繁雜技術，只要有基本電腦操作就能上手。具備變數、條件判斷與函式概念會更容易銜接，我們會提供行前教材。</p>
               </div>
             </div>

@@ -23,7 +23,7 @@ export default function CampTopics() {
           </div>
           <div className="topics-intro__text" data-reveal style={{ '--reveal-delay': '100ms' }}>
             <p className="topics-lead">四天，走完一次從開發服務、發現問題到修復漏洞的完整循環。</p>
-            <p>這個寒假我們將以 Web 開發與資訊安全為核心。<span className="topics-intro__detail">前兩天從 Linux、網路通訊與 Web 後端開發開始，逐步學習漏洞驗證、安全修補與服務部署；第三、四天進入 Attack &amp; Defense 團隊攻防競賽，把課堂所學用在實際競賽環境。</span>課程之外還有講座、破冰、晚會與社群攤位。不用先會繁雜技術，有基本電腦操作就能上手。</p>
+            <p>這個寒假我們將以 Web 開發與資訊安全為核心。<span className="topics-intro__detail">前兩天從 Linux 與 Attack &amp; Defense 介紹開始，逐步學習 Web Security、DevOps 與 Network；第三天補上開發與 Log 鑑識，下午進入 Attack &amp; Defense 團隊攻防競賽，第四天進行最終回與成果發表，把課堂所學用在實際競賽環境。</span>課程之外還有講座、破冰、晚會與社群攤位。不用先會繁雜技術，有基本電腦操作就能上手。</p>
           </div>
         </div>
 
@@ -42,11 +42,12 @@ export default function CampTopics() {
           </div>
 
           <ol className="topics-map__list">
-            {courseTopics.map(({ day, title, summary, outcome, items, featured }, index) => {
+            {courseTopics.map(({ day, title, summary, outcome, items, featured, tall }, index) => {
               const { start, span } = dayRange(day);
+              const itemClass = featured ? ' topics-map__item--featured' : tall ? ' topics-map__item--tall' : span > 1 ? ' topics-map__item--wide' : '';
               return (
                 <li
-                  className={`topics-map__item${featured ? ' topics-map__item--featured' : span > 1 ? ' topics-map__item--wide' : ''}`}
+                  className={`topics-map__item${itemClass}`}
                   key={title}
                   data-reveal
                   style={{ '--col-start': start, '--col-span': span, '--reveal-delay': `${(index % 3) * 90}ms` }}
@@ -67,7 +68,7 @@ export default function CampTopics() {
                 </li>
               );
             })}
-            <li className="topics-map__more" data-reveal style={{ '--col-start': 3, '--col-span': 2, '--reveal-delay': '180ms' }}>
+            <li className="topics-map__more" data-reveal style={{ '--col-start': 1, '--col-span': 2, '--reveal-delay': '180ms' }}>
               <a href={topicsSeo.path}>
                 <span><strong>課程主題詳細介紹與四天課表</strong><span className="topics-map__more-desc">每個單元的課程內容與實作目標、學習成果，以及逐時段的課表。</span></span>
                 <span className="topics-map__more-arrow" aria-hidden="true">↗</span>
